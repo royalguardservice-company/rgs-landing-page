@@ -1,0 +1,124 @@
+---
+/**
+ * TechShowcase - Main component showcasing phone apps
+ * Displays a zig-zag layout of phone mockups with feature descriptions
+ */
+import type { PhoneApp } from './tech-showcase/types';
+import PhoneMockup from './tech-showcase/PhoneMockup.astro';
+import CommandCenter from './tech-showcase/CommandCenter.astro';
+import TechShowcaseCard from './tech-showcase/TechShowcaseCard.astro';
+
+// Tech showcase data for phone mockups
+const phoneApps: PhoneApp[] = [
+	{
+		id: 'attendance',
+		title: 'Manage Time Attendance',
+		thaiTitle: 'ลงเวลาเข้า-ออกงานด้วย GPS',
+		subtitle: 'โปร่งใส ตรวจสอบได้ 100% ป้องกันปัญหาการลงเวลาเท็จ หรือ รปภ. ผี ด้วยการระบุพิกัดผ่านดาวเทียม',
+		stage: 'เริ่มงาน',
+		icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
+		headerColor: 'bg-blue-600',
+		glowColor: 'from-blue-500/20 to-blue-500/5',
+		targetName: 'เดอะมอลล์ บางกะปิ',
+		actionButtons: ['เข้างาน', 'ออกงาน'],
+		lastEntry: { in: '22:10', out: '22:10' }
+	},
+	{
+		id: 'patrol',
+		title: 'ตรวจจุด',
+		thaiTitle: 'ระบบตรวจจุดผ่าน QR Code (Real-time Patrol)',
+		subtitle: 'มั่นใจทุกจุดเสี่ยงได้รับการดูแล ตรวจสอบสถานะการเดินตรวจได้ทันที พร้อมแจ้งเตือนหากจุดใดถูกละเลย',
+		stage: 'ปฏิบัติหน้าที่',
+		icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
+		headerColor: 'bg-blue-600',
+		glowColor: 'from-blue-500/20 to-blue-500/5',
+		targetName: 'Night Shift Route A',
+		schedule: '22:00 - 06:00',
+		progressPercent: '60',
+		stops: [
+			{ id: 1, name: 'จุดที่ 1 ป้อมหน้า', time: '10:00', status: 'completed' },
+			{ id: 2, name: 'จุดที่ 2 ลานจอดรถ A', time: '10:15', status: 'completed' },
+			{ id: 3, name: 'จุดที่ 3 ห้องไฟฟ้า', time: '10:30', status: 'current' },
+			{ id: 4, name: 'จุดที่ 4 หลังอาคาร', time: '--:--', status: 'pending' },
+			{ id: 5, name: 'จุดที่ 5 ดาดฟ้า', time: '--:--', status: 'pending' },
+		],
+		actionButtons: ['สแกน QR', 'บันทึกผล'],
+		lastEntry: { in: '08:00', out: '12:30' }
+	},
+	{
+		id: 'visitor',
+		title: 'Digital Visitor Log',
+		thaiTitle: 'บันทึกผู้มาติดต่อแบบดิจิทัล (Visitor Management)',
+		subtitle: 'ยกระดับความปลอดภัย บันทึกภาพถ่ายและทะเบียนรถผู้มาติดต่อเข้าระบบ Cloud ค้นหาง่าย แม่นยำกว่าสมุดจด',
+		stage: 'การบริการ',
+		icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
+		headerColor: 'bg-blue-600',
+		glowColor: 'from-blue-500/20 to-blue-500/5',
+		targetName: 'ผู้เยี่ยมชม: คุณสมชาย',
+		actionButtons: ['ลงทะเบียน', 'ออกจากหน่วยงาน'],
+		lastEntry: { in: '09:15', out: '-' }
+	},
+	{
+		id: 'admin',
+		title: 'Command Center',
+		thaiTitle: 'ศูนย์ควบคุมข้อมูลอัจฉริยะ (Command Center)',
+		subtitle: 'ควบคุมทุกความปลอดภัยผ่านศูนย์กลางข้อมูลอัจฉริยะ ติดตามสถานะการทำงาน ตรวจสอบผู้มาติดต่อ และดูรายงานสรุปได้แบบ Real-time ผ่าน Dashboard สำหรับผู้บริหาร',
+		stage: 'ศูนย์ควบคุม',
+		icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
+		headerColor: 'bg-blue-600',
+		glowColor: 'from-blue-500/20 to-indigo-500/5',
+		isCommandCenter: true,
+		data: [
+			{ plate: '1กข 4589', name: 'Somchai M.', type: 'Contractor', time: '08:45', status: 'in' },
+			{ plate: '3ขท 1221', name: 'Kerry Exp.', type: 'Delivery', time: '09:12', status: 'out' },
+			{ plate: '9กม 9999', name: 'Vichai K.', type: 'VIP', time: '09:30', status: 'in' },
+			{ plate: '7ฮว 5678', name: 'Grab Food', type: 'Service', time: '10:05', status: 'in' },
+		]
+	}
+];
+
+// Helper function to get app-specific colors
+const getAppColors = (index: number) => {
+	const colors = [
+		{ badge: 'bg-blue-500/20 text-blue-400', title: 'text-blue-400' },
+		{ badge: 'bg-emerald-500/20 text-emerald-400', title: 'text-emerald-400' },
+		{ badge: 'bg-blue-500/20 text-blue-400', title: 'text-blue-400' },
+		{ badge: 'bg-orange-500/20 text-orange-400', title: 'text-orange-400' }
+	];
+	return colors[index] || colors[0];
+};
+---
+
+<!-- Tech Showcase Section - Zig Zag Layout -->
+<div class="relative">
+	<!-- Connecting Line (Background) -->
+	<div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/30 via-emerald-500/30 via-blue-500/30 to-orange-500/30 -translate-x-1/2 hidden lg:block"></div>
+
+	{phoneApps.map((app, index) => {
+		const colors = getAppColors(index);
+		const isEven = index % 2 === 0;
+
+		return (
+			<div class="relative py-16 lg:py-20" id={`phone-${app.id}`}>
+				<div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+
+					<!-- Phone Column -->
+					{app.isCommandCenter ? (
+						<CommandCenter data={app.data!} isEven={isEven} />
+					) : (
+						<div class={isEven ? 'order-2 lg:order-2' : 'order-2 lg:order-1'}>
+							<PhoneMockup {app} {colors} />
+						</div>
+					)}
+
+					<!-- Text Column -->
+					<div class={isEven ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}>
+						<TechShowcaseCard {app} {index} {colors} />
+					</div>
+
+				</div>
+			</div>
+		);
+	})}
+
+</div>

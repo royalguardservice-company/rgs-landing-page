@@ -1,46 +1,27 @@
 ---
 import { Image } from 'astro:assets';
-import aomsinLogo from '../assets/images/aomsinLogo.jpg';
-
+import egatImage from '../assets/images/EGAT.jpg';
+import commonAreaMaintenance from '../assets/images/commonAreaMaintenance.jpg';
+import royalSecurity from '../assets/images/904.jpg'
+import specificAreaMaintenance from '../assets/images/specificAreaMaintenance.jpg';
+import thainaokaCompany from '../assets/images/thainaoka.jpg';
+import practiceImage from '../assets/images/practice.jpg';
 const portfolioItems = [
-	{
-		category: 'security',
-		categoryLabel: 'รักษาความปลอดภัย',
-		title: 'หมู่บ้านนาราสิริ สาทร',
-		location: 'Narasiri Sathorn Village',
-		image: aomsinLogo,
-		tall: true
-	},
-	{
-		category: 'cleaning',
-		categoryLabel: 'ทำความสะอาด',
-		title: 'การฝึกอบรมดับเพลิง',
-		location: 'Fire Drill Training',
-		image: aomsinLogo,
-		tall: false
-	},
+
 	{
 		category: 'security',
 		categoryLabel: 'รักษาความปลอดภัย',
 		title: 'กฟผ. การไฟฟ้าฝ่ายผลิต',
 		location: 'EGAT Headquarters',
-		image: aomsinLogo,
+		image: egatImage,
 		tall: false
-	},
-	{
-		category: 'cleaning',
-		categoryLabel: 'ทำความสะอาด',
-		title: 'Big Cleaning อาคารสำนักงาน',
-		location: 'Office Building Cleaning',
-		image: aomsinLogo,
-		tall: true
 	},
 	{
 		category: 'security',
 		categoryLabel: 'รักษาความปลอดภัย',
-		title: 'สำนักงานทรัพย์สินพระมหากษัตริย์',
+		title: 'ที่พักข้าราชบริการในส่วนพระองค์ 904',
 		location: 'CPB Office',
-		image: aomsinLogo,
+		image: royalSecurity,
 		tall: false
 	},
 	{
@@ -48,31 +29,32 @@ const portfolioItems = [
 		categoryLabel: 'ทำความสะอาด',
 		title: 'ดูแลรักษาพื้นที่ส่วนกลาง',
 		location: 'Common Area Maintenance',
-		image: aomsinLogo,
+		image: commonAreaMaintenance,
 		tall: false
 	},
-	{
-		category: 'security',
-		categoryLabel: 'รักษาความปลอดภัย',
-		title: 'ระบบ Easy Pass & CCTV',
-		location: 'Smart Security System',
-		image: aomsinLogo,
-		tall: true
-	},
+
 	{
 		category: 'cleaning',
 		categoryLabel: 'ทำความสะอาด',
-		title: 'โครงการพรีเมียมเพลส',
-		location: 'Premium Place Project',
-		image: aomsinLogo,
+		title: 'ดูแลเฉพาะจุด',
+		location: 'Specific Area Maintenance',
+		image: specificAreaMaintenance,
 		tall: false
 	},
 	{
 		category: 'security',
 		categoryLabel: 'รักษาความปลอดภัย',
-		title: 'การปฐมพยาบาลฉุกเฉิน',
-		location: 'Emergency First Aid',
-		image: aomsinLogo,
+		title: 'บริษัทไทยนาโอกะ ฟาร์มาซูติคอล จำกัด',
+		location: 'Thainaoka phamaceutical co. ltd',
+		image: thainaokaCompany,
+		tall: false
+	},
+	{
+		category: 'practice',
+		categoryLabel: 'ฝึกซ้อม',
+		title: 'อบรมและฝึกซ้อมการปฏิบัติงาน',
+		location: 'Practice',
+		image: practiceImage,
 		tall: false
 	}
 ];

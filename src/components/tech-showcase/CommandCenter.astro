@@ -1,0 +1,335 @@
+---
+/**
+ * CommandCenter - Laptop + Phone + Floating Card layout
+ * Displays the admin dashboard with mobile guard app
+ */
+import type { CommandCenterProps } from './types';
+
+interface Props extends CommandCenterProps {
+	isEven?: boolean;
+}
+
+const { data, isEven = true } = Astro.props;
+---
+
+<div class={`relative flex justify-center ${isEven ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} w-full`}>
+	<div class="relative w-full max-w-4xl">
+		<!-- Background Decor -->
+		<div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-50/80 to-transparent pointer-events-none rounded-3xl" />
+		<div class="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl" />
+		<div class="absolute top-20 right-20 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl" />
+
+		<!-- LAYER 1: LAPTOP MOCKUP (BACKGROUND/ADMIN DASHBOARD) -->
+		<div class="relative mx-auto w-full max-w-3xl transform transition-transform duration-700 hover:rotate-1 z-10">
+			<!-- Laptop Body -->
+			<div class="bg-slate-800 rounded-t-2xl p-2 pb-0 shadow-2xl shadow-slate-900/20 ring-1 ring-slate-700">
+				<!-- Screen Bezel -->
+				<div class="bg-slate-950 rounded-t-xl p-1 relative ring-1 ring-white/10">
+					<!-- Webcam -->
+					<div class="absolute top-2 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
+						<div class="w-1.5 h-1.5 bg-slate-800 rounded-full" />
+						<div class="w-1.5 h-1.5 bg-blue-900/30 rounded-full" />
+					</div>
+
+					<!-- Screen Content (The Admin Panel) -->
+					<div class="bg-slate-50 w-full aspect-[16/10] rounded-lg overflow-hidden flex flex-col font-sans relative">
+						<!-- Fake Browser UI -->
+						<div class="h-9 bg-slate-100 border-b flex items-center px-4 justify-between select-none">
+							<div class="flex gap-2">
+								<div class="w-3 h-3 rounded-full bg-rose-400/80"></div>
+								<div class="w-3 h-3 rounded-full bg-amber-400/80"></div>
+								<div class="w-3 h-3 rounded-full bg-emerald-400/80"></div>
+							</div>
+							<div class="flex-1 text-center">
+								<div class="inline-flex items-center gap-2 px-3 py-1 bg-white rounded-md shadow-sm border border-slate-200 text-[10px] text-slate-400 w-48 sm:w-64 justify-center">
+									<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+									</svg>
+									<span>secure.rgs-guard.com/dashboard</span>
+								</div>
+							</div>
+							<div class="w-10"></div>
+						</div>
+
+						<!-- Dashboard Content -->
+						<div class="flex-1 flex overflow-hidden">
+							<!-- Sidebar -->
+							<div class="w-14 sm:w-16 bg-slate-900 flex flex-col items-center py-4 sm:py-6 gap-4 sm:gap-6 z-20">
+								<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-[10px] sm:text-xs mb-1 sm:mb-2 shadow-lg shadow-blue-500/30">RGS</div>
+								<div class="p-2 sm:p-2.5 bg-slate-800/50 text-blue-400 rounded-xl border border-slate-700">
+									<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+									</svg>
+								</div>
+								<div class="p-2 sm:p-2.5 text-slate-500 hover:text-slate-300 transition-colors">
+									<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+									</svg>
+								</div>
+								<div class="p-2 sm:p-2.5 text-slate-500 hover:text-slate-300 transition-colors">
+									<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+									</svg>
+								</div>
+								<div class="mt-auto p-2 sm:p-2.5 text-slate-500 hover:text-red-400 transition-colors">
+									<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+									</svg>
+								</div>
+							</div>
+
+							<!-- Main Area -->
+							<div class="flex-1 flex flex-col bg-slate-50 relative">
+								<!-- Dashboard Header -->
+								<div class="h-14 sm:h-16 bg-white border-b flex items-center justify-between px-4 sm:px-8">
+									<div>
+										<h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
+											Dashboard
+											<span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[9px] sm:text-[10px] font-bold border border-green-200 flex items-center gap-1">
+												<span class="w-1 h-1 rounded-full bg-green-500 animate-pulse"></span>
+												LIVE
+											</span>
+										</h3>
+										<p class="text-[9px] sm:text-[10px] text-slate-400">Welcome back, Admin Manager</p>
+									</div>
+									<div class="flex items-center gap-2 sm:gap-4">
+										<div class="relative hidden sm:block">
+											<svg class="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+											</svg>
+											<input type="text" placeholder="Search logs..." class="pl-9 pr-3 py-1.5 text-xs bg-slate-100 rounded-md border-none w-32 sm:w-40" />
+										</div>
+										<div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gradient-to-tr from-blue-500 to-indigo-600 shadow-md"></div>
+									</div>
+								</div>
+
+								<!-- Data Table Area -->
+								<div class="p-3 sm:p-6 overflow-hidden flex flex-col h-full">
+									<div class="flex justify-between items-end mb-3 sm:mb-4">
+										<div>
+											<h4 class="font-bold text-slate-700 text-xs sm:text-sm">Visitor Logs</h4>
+											<p class="text-[9px] sm:text-[10px] text-slate-400">Real-time entry/exit data</p>
+										</div>
+										<div class="flex gap-1.5 sm:gap-2">
+											<button class="p-1 sm:p-1.5 rounded bg-white border hover:bg-slate-50 text-slate-500">
+												<svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+												</svg>
+											</button>
+											<button class="p-1 sm:p-1.5 rounded bg-white border hover:bg-slate-50 text-slate-500">
+												<svg class="w-3 h-3 sm:w-3.5 sm:h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+													<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+												</svg>
+											</button>
+										</div>
+									</div>
+
+									<div class="bg-white rounded-xl border shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] overflow-hidden flex-1 relative">
+										<table class="w-full text-left">
+											<thead class="bg-slate-50/50 border-b text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-400 font-semibold">
+												<tr>
+													<th class="px-2 sm:px-4 py-2 sm:py-3">Vehicle / Photo</th>
+													<th class="px-2 sm:px-4 py-2 sm:py-3">Visitor</th>
+													<th class="px-2 sm:px-4 py-2 sm:py-3">Time</th>
+													<th class="px-2 sm:px-4 py-2 sm:py-3 text-center">Status</th>
+												</tr>
+											</thead>
+											<tbody class="divide-y divide-slate-100">
+												{data.map((row, i) => (
+													<tr class={i === 0 ? 'text-[10px] sm:text-xs transition-colors duration-500 bg-blue-50/60' : 'text-[10px] sm:text-xs transition-colors duration-500 hover:bg-slate-50'}>
+														<td class="px-2 sm:px-4 py-2 sm:py-3">
+															<div class="flex items-center gap-1.5 sm:gap-2">
+																<div class="w-6 h-6 sm:w-8 sm:h-8 rounded bg-slate-200 flex items-center justify-center text-slate-400">
+																	<svg class="w-3 h-3 sm:w-3 sm:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+																		<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+																	</svg>
+																</div>
+																<span class="font-mono font-medium text-slate-600 text-[9px] sm:text-xs">{row.plate}</span>
+															</div>
+														</td>
+														<td class="px-2 sm:px-4 py-2 sm:py-3">
+															<div class="font-medium text-slate-700 text-[9px] sm:text-xs">{row.name}</div>
+															<div class="text-[8px] sm:text-[10px] text-slate-400">{row.type}</div>
+														</td>
+														<td class="px-2 sm:px-4 py-2 sm:py-3 text-slate-500 font-mono text-[9px] sm:text-xs">{row.time}</td>
+														<td class="px-2 sm:px-4 py-2 sm:py-3 text-center">
+															{row.status === 'in' ?
+																<span class="inline-block px-1.5 sm:px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[8px] sm:text-[9px] font-bold">IN</span> :
+																<span class="inline-block px-1.5 sm:px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 text-[8px] sm:text-[9px] font-bold">OUT</span>
+															}
+														</td>
+													</tr>
+												))}
+											</tbody>
+										</table>
+										<!-- Active Row Highlight Indicator -->
+										<div class="absolute left-0 w-1 h-10 sm:h-12 bg-blue-500 top-[52px] sm:top-[60px]"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Laptop Base -->
+			<div class="relative mx-auto bg-slate-800 h-2 sm:h-3 rounded-b-xl shadow-2xl w-[102%] -left-[1%] flex justify-center">
+				<div class="w-20 sm:w-24 h-0.5 sm:h-1 bg-slate-700/50 rounded-b-md mt-0"></div>
+			</div>
+		</div>
+
+		<!-- LAYER 2: MOBILE MOCKUP (FOREGROUND/GUARD APP) -->
+		<div class="absolute -bottom-4 sm:-bottom-8 -left-1 sm:-left-8 w-36 sm:w-44 md:w-52 transform rotate-2 hover:rotate-0 transition-all duration-500 z-30 filter drop-shadow-2xl">
+			<div class="bg-slate-900 rounded-[2rem] p-1.5 sm:p-2 ring-1 ring-white/10 shadow-2xl">
+				<div class="bg-slate-950 rounded-[1.5rem] sm:rounded-[1.7rem] overflow-hidden relative aspect-[9/19] border border-slate-800">
+					<!-- Dynamic Island / Notch -->
+					<div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 sm:w-20 h-4 sm:h-5 bg-black rounded-b-xl z-20 flex justify-center items-center gap-1.5 sm:gap-2">
+						<div class="w-0.5 sm:w-1 h-0.5 sm:h-1 rounded-full bg-slate-800"></div>
+						<div class="w-6 sm:w-8 h-0.5 sm:h-1 rounded-full bg-slate-800/50"></div>
+					</div>
+
+					<!-- App Content -->
+					<div class="w-full h-full bg-slate-50 flex flex-col font-sans">
+						<!-- Header -->
+						<div class="bg-blue-600 text-white pt-6 sm:pt-8 pb-3 sm:pb-4 px-3 sm:px-4 rounded-b-2xl shadow-lg relative z-10">
+							<div class="flex justify-between items-center mb-2 sm:mb-3">
+								<svg class="w-4 h-4 sm:w-[18px] sm:h-[18px] text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+								</svg>
+								<span class="font-bold text-[11px] sm:text-sm tracking-wide">RGS GUARD</span>
+								<div class="relative">
+									<svg class="w-4 h-4 sm:w-[18px] sm:h-[18px] text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+									</svg>
+									<div class="absolute top-0 right-0 w-1 h-1 bg-red-400 rounded-full border border-blue-600"></div>
+								</div>
+							</div>
+							<div class="flex items-center gap-1.5 sm:gap-2">
+								<div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-500 border border-blue-300 flex items-center justify-center text-[8px] sm:text-[10px] font-bold">
+									IMG
+								</div>
+								<div class="leading-tight">
+									<div class="text-[8px] sm:text-[10px] text-blue-200">Officer On Duty</div>
+									<div class="text-[10px] sm:text-xs font-bold">Somyot R.</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Scanner View -->
+						<div class="p-2 sm:p-3 flex-1 flex flex-col gap-2 sm:gap-3">
+							<div class="bg-slate-900 rounded-xl flex-1 relative overflow-hidden group">
+								<!-- Simulated Camera Feed -->
+								<div class="absolute inset-0 bg-slate-800 opacity-50" style="background-image: linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px); background-size: 10px 10px;"></div>
+								<div class="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
+									<svg class="w-8 h-8 sm:w-10 sm:h-10 text-white/80 mb-1 sm:mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+									</svg>
+									<span class="text-[8px] sm:text-[10px] uppercase tracking-widest text-white/60">Scanning...</span>
+								</div>
+								<!-- Scanning Laser -->
+								<div class="absolute left-0 w-full h-0.5 bg-green-400 shadow-[0_0_10px_#4ade80] animate-scan top-0"></div>
+								<!-- Corner Brackets -->
+								<div class="absolute top-3 sm:top-4 left-3 sm:left-4 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-l-2 border-white/30 rounded-tl-lg"></div>
+								<div class="absolute top-3 sm:top-4 right-3 sm:right-4 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-r-2 border-white/30 rounded-tr-lg"></div>
+								<div class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-l-2 border-white/30 rounded-bl-lg"></div>
+								<div class="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-r-2 border-white/30 rounded-br-lg"></div>
+							</div>
+
+							<!-- Quick Actions -->
+							<div class="h-12 sm:h-16 grid grid-cols-2 gap-1.5 sm:gap-2">
+								<button class="bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+									<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mb-0.5 sm:mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+									</svg>
+									<span class="text-[8px] sm:text-[9px] font-bold">Check-In</span>
+								</button>
+								<button class="bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors">
+									<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mb-0.5 sm:mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+									</svg>
+									<span class="text-[8px] sm:text-[9px] font-bold">Report</span>
+								</button>
+							</div>
+						</div>
+
+						<!-- Tab Bar -->
+						<div class="bg-white border-t py-1.5 sm:py-2 px-4 sm:px-6 flex justify-between text-slate-300">
+							<svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+							</svg>
+							<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+							</svg>
+							<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+							</svg>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- LAYER 3: FLOATING GLASS CARD (DETAILS POPUP) -->
+		<div class="absolute -top-2 sm:-top-4 -right-1 sm:-right-8 w-48 sm:w-60 z-40 animate-float pointer-events-none hidden sm:block">
+			<div class="bg-white/80 backdrop-blur-xl p-2 sm:p-3 rounded-2xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-black/5 transform rotate-3">
+				<!-- Card Header -->
+				<div class="flex justify-between items-center mb-1.5 sm:mb-2 pb-1.5 sm:pb-2 border-b border-black/5">
+					<div class="flex items-center gap-1 sm:gap-1.5">
+						<span class="relative flex h-1.5 sm:h-2 w-1.5 sm:w-2">
+							<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+							<span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+						</span>
+						<span class="text-[8px] sm:text-[10px] font-bold text-slate-700 uppercase">Incident Report</span>
+					</div>
+					<span class="text-[8px] sm:text-[9px] text-slate-400 font-mono">10:42 AM</span>
+				</div>
+
+				<!-- Evidence Photo -->
+				<div class="relative w-full h-16 sm:h-24 bg-slate-100 rounded-lg overflow-hidden mb-1.5 sm:mb-2 group">
+					<div class="absolute inset-0 flex items-center justify-center bg-slate-200 text-slate-400">
+						<svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+						</svg>
+					</div>
+					<div class="absolute bottom-0.5 sm:bottom-1 right-0.5 sm:right-1 bg-black/70 text-white text-[7px] sm:text-[8px] px-1 sm:px-1.5 py-0.5 rounded backdrop-blur-sm">
+						CAM-04
+					</div>
+				</div>
+
+				<!-- Details -->
+				<div class="space-y-0.5 sm:space-y-1">
+					<h5 class="font-bold text-slate-800 text-[10px] sm:text-xs leading-tight">Unauthorized Entry</h5>
+					<div class="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[10px] text-slate-500">
+						<svg class="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+						</svg>
+						<span>Parking Zone B, Level 2</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Custom Animations -->
+<style>
+	@keyframes scan {
+		0%, 100% { top: 0%; opacity: 0; }
+		10% { opacity: 1; }
+		90% { opacity: 1; }
+		100% { top: 100%; opacity: 0; }
+	}
+	.animate-scan {
+		animation: scan 2s ease-in-out infinite;
+	}
+
+	@keyframes float {
+		0%, 100% { transform: translateY(0) rotate(3deg); }
+		50% { transform: translateY(-8px) rotate(3deg); }
+	}
+	.animate-float {
+		animation: float 5s ease-in-out infinite;
+	}
+</style>

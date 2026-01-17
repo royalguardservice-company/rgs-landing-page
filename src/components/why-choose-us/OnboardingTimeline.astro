@@ -1,0 +1,201 @@
+---
+/**
+ * OnboardingTimeline - Professional onboarding timeline (Thai)
+ * มาตรฐานการเริ่มงานระดับมืออาชีพ
+ * Adapted from React component
+ */
+import type { TimelineStep } from './types';
+
+const timelineSteps: TimelineStep[] = [
+	{
+		step: '30',
+		timeframe: '30 Days Prior',
+		thaiTimeframe: '30 วันก่อนเริ่ม',
+		title: 'วางแผนและวิเคราะห์',
+		engTitle: 'Planning & Analysis',
+		description: 'ทีมปฏิบัติการลงพื้นที่สำรวจจุดเสี่ยง ประเมินช่องโหว่ และร่างระเบียบปฏิบัติประจำหน่วยงาน (SOPs) ให้ครอบคลุมทุกด้าน',
+		icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01',
+	},
+	{
+		step: '7',
+		timeframe: '7 Days Prior',
+		thaiTimeframe: '7 วันก่อนเริ่ม',
+		title: 'หัวหน้าชุดเรียนรู้งาน',
+		engTitle: 'Core Team Onsite',
+		description: 'บุคลากรหลักและหัวหน้าชุดเข้าสังเกตการณ์หน้างานจริง เรียนรู้วัฒนธรรมองค์กรและระบบงานเดิม เพื่อให้การรับช่วงต่อเป็นไปอย่างราบรื่น',
+		icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
+	},
+	{
+		step: 'Day 1',
+		timeframe: 'Day 1',
+		thaiTimeframe: 'วันเริ่มงานจริง',
+		title: 'ปฏิบัติการเต็มรูปแบบ',
+		engTitle: 'Full Operation',
+		description: 'ส่งมอบงานไร้รอยต่อ พนักงาน RGS เข้าประจำจุด 100% พร้อมเครื่องแบบและผ่านการบรีฟงาน ไม่มีการสะดุด ไม่มีความสับสน',
+		icon: 'M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9',
+		isFinal: true,
+	}
+];
+---
+
+<!-- Onboarding Timeline Section -->
+<section class="py-20 px-4 md:px-8 relative overflow-hidden">
+
+	<!-- Background Accents -->
+	<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-full opacity-10 pointer-events-none">
+		<div class="absolute top-20 left-10 w-64 h-64 bg-amber-500 rounded-full blur-[128px]"></div>
+		<div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-600 rounded-full blur-[128px]"></div>
+	</div>
+
+	<div class="max-w-6xl mx-auto relative z-10">
+
+		<!-- Header Section -->
+		<div class="text-center mb-20 space-y-4">
+			<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/50 border border-slate-700 text-amber-500 text-xs font-bold uppercase tracking-wider mb-2">
+				<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+				</svg>
+				Standard Operating Procedure
+			</div>
+			<h2 class="text-4xl md:text-5xl font-bold text-white leading-tight">
+				มาตรฐานการเริ่มงาน<br class="md:hidden"/>ระดับมืออาชีพ
+			</h2>
+			<p class="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+				เราเตรียมความพร้อมล่วงหน้าเพื่อให้วันแรกของคุณราบรื่นที่สุด <br class="hidden md:block"/>
+				ด้วยกลยุทธ์ <span class="text-amber-500 font-medium">Zero-Gap Transition</span> ที่ผ่านการพิสูจน์แล้ว
+			</p>
+		</div>
+
+		<!-- Desktop View (Horizontal) -->
+		<div class="hidden md:block relative mt-24 mb-16">
+			<!-- Connector Line -->
+			<div class="absolute top-[34px] left-[16%] right-[16%] h-0.5 z-0">
+				<div class="w-full h-full border-t-2 border-dashed border-slate-700/50"></div>
+			</div>
+
+			<div class="grid grid-cols-3 gap-12 relative z-10">
+				{timelineSteps.map((step) => (
+					<div class="group relative">
+
+						<!-- Step Circle & Icon -->
+						<div class="flex flex-col items-center">
+							<div class={`relative w-20 h-20 rounded-2xl rotate-45 flex items-center justify-center border-2 transition-all duration-500 z-10 shadow-2xl ${
+								step.isFinal
+									? 'bg-gradient-to-br from-amber-500 to-amber-600 border-amber-400 shadow-amber-500/30 scale-110'
+									: 'bg-slate-800 border-slate-700 group-hover:border-amber-500/50 group-hover:shadow-amber-500/10'
+							}`}>
+								<div class={`-rotate-45 transform ${step.isFinal ? 'text-white' : 'text-amber-500'}`}>
+									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={step.icon} />
+									</svg>
+								</div>
+							</div>
+
+							<!-- Timeframe Pill -->
+							<div class={`mt-8 mb-2 px-4 py-1.5 rounded-full text-sm font-bold tracking-wide border transition-colors duration-300 ${
+								step.isFinal
+									? 'bg-amber-500/10 text-amber-500 border-amber-500/20'
+									: 'bg-slate-800/50 text-slate-400 border-slate-700 group-hover:border-amber-500/30'
+							}`}>
+								{step.timeframe}
+							</div>
+							<span class="text-xs text-slate-500 font-medium uppercase tracking-wider mb-6">
+								{step.thaiTimeframe}
+							</span>
+						</div>
+
+						<!-- Content Card -->
+						<div class={`text-center p-6 rounded-2xl border transition-all duration-300
+								bg-transparent border-transparent group-hover:bg-slate-800/30 group-hover:border-slate-700/50
+						`}>
+							<h4 class={`text-xl font-bold mb-1 ${step.isFinal ? 'text-white' : 'text-slate-200'}`}>
+								{step.title}
+							</h4>
+							<p class="text-slate-500 text-sm font-medium mb-4 group-hover:text-amber-500/80 transition-colors -z-10">
+								{step.engTitle}
+							</p>
+							<p class="text-slate-400 text-sm leading-relaxed">
+								{step.description}
+							</p>
+						</div>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<!-- Mobile View (Vertical) -->
+		<div class="md:hidden space-y-0 relative ml-2">
+			<!-- Vertical Line -->
+			<div class="absolute left-[27px] top-8 bottom-8 w-0.5 bg-gradient-to-b from-slate-800 via-slate-700 to-slate-800 z-0"></div>
+
+			{timelineSteps.map((step) => (
+				<div class="relative z-10 pb-12 last:pb-0">
+					<div class="flex gap-6">
+						<!-- Icon Column -->
+						<div class="flex-shrink-0 pt-1">
+							<div class={`w-14 h-14 rounded-xl rotate-3 flex items-center justify-center border-2 shadow-lg ${
+								step.isFinal
+									? 'bg-amber-500 border-amber-400 shadow-amber-900/50'
+									: 'bg-slate-800 border-slate-700'
+							}`}>
+								<div class={step.isFinal ? 'text-white' : 'text-amber-500'}>
+									<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={step.icon} />
+									</svg>
+								</div>
+							</div>
+						</div>
+
+						<!-- Content Column -->
+						<div class="pt-1">
+							<div class="flex flex-wrap items-baseline gap-2 mb-1">
+								<span class={`text-sm font-bold uppercase tracking-wider ${
+									step.isFinal ? 'text-amber-500' : 'text-slate-500'
+								}`}>
+									{step.timeframe}
+								</span>
+								<span class="text-xs text-slate-600">| {step.thaiTimeframe}</span>
+							</div>
+
+							<h4 class={`text-xl font-bold ${step.isFinal ? 'text-white' : 'text-slate-200'}`}>
+								{step.title}
+							</h4>
+							<p class="text-slate-500 text-sm font-medium mb-3">
+								{step.engTitle}
+							</p>
+							<p class="text-slate-400 text-sm leading-relaxed pr-4">
+								{step.description}
+							</p>
+						</div>
+					</div>
+				</div>
+			))}
+		</div>
+
+		<!-- Bottom CTA / Assurance -->
+		<div class="mt-20 flex flex-col items-center relative z-10">
+			<div class="p-[1px] rounded-full bg-gradient-to-r from-slate-800 via-amber-500/50 to-slate-800">
+				<div class="bg-navy-900 rounded-full px-8 py-4 flex flex-col md:flex-row items-center gap-3 text-center">
+					<svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+					<span class="text-slate-300 font-medium text-sm md:text-base">
+						เราพร้อมการันตี: <span class="text-white">เปลี่ยนผ่านทีมรักษาความปลอดภัย 100% ภายใน 30 วัน</span>
+					</span>
+				</div>
+			</div>
+			<p class="mt-6 text-slate-600 text-xs text-center uppercase tracking-widest">
+				Trusted by 50+ Corporate Clients
+			</p>
+		</div>
+
+	</div>
+</section>
+
+<style>
+	/* Custom animations */
+	@keyframes pulse-glow {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0.7; }
+	}
+</style>

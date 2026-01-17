@@ -1,0 +1,174 @@
+---
+/**
+ * ProfessionalTeam - Professional team showcase with hover effects
+ * ทีมงานมืออาชีพที่มั่นคง
+ */
+
+const standardCards = [
+	{
+		id: 1,
+		title: "ทีมงานต่อเนื่อง ไม่เปลี่ยนหน้าบ่อย",
+		engTitle: "Consistent Security Team",
+		desc: "หมดปัญหารปภ. ลาออกบ่อย ด้วยอัตราการรักษาพนักงานที่สูงที่สุดในตลาด ทำให้งานไม่สะดุด",
+		icon: "handshake",
+		tag: "อัตราคงอยู่ 95%",
+		tagColor: "green",
+		details: ["พนักงานเดิม รู้งาน ไม่ต้องสอนใหม่", "ความสัมพันธ์ดีกับลูกบ้าน/พนักงาน", "ลดความเสี่ยงคนแปลกหน้าเข้าพื้นที่"]
+	},
+	{
+		id: 2,
+		title: "รับประกันความรับผิดชอบ 100%",
+		engTitle: "Liability Protection",
+		desc: "อุ่นใจด้วยประกันภัยความรับผิดต่อบุคคลภายนอก คุ้มครองทรัพย์สินของคุณตั้งแต่วันแรก",
+		icon: "shield",
+		tag: "มีวงเงินประกันภัย",
+		tagColor: "blue",
+		details: ["ประกันความรับผิดต่อบุคคลภายนอก", "รับผิดชอบความเสียหายจริง", "คุ้มครองทันทีตั้งแต่วันเริ่มงาน"]
+	},
+	{
+		id: 3,
+		title: "มาตรฐานร่างกายระดับปฏิบัติการ",
+		engTitle: "Combat-Ready Standards",
+		desc: "เจ้าหน้าที่ผ่านการฝึกอบรมหลักสูตร NSRS และ ITC Center ร่างกายแข็งแรง พร้อมระงับเหตุ",
+		icon: "award",
+		tag: "ผ่านการรับรอง",
+		tagColor: "amber",
+		details: ["ผ่านการฝึกอบรม 40 ชั่วโมง", "อายุ 18-55 ปี สุขภาพแข็งแรง", "มีใบอนุญาต ธภ. ถูกต้องตามกฎหมาย"]
+	},
+	{
+		id: 4,
+		title: "การันตีประวัติขาวสะอาด 100%",
+		engTitle: "Zero-Criminal Record",
+		desc: "คัดกรองเข้มงวดที่สุด ตรวจสอบประวัติอาชญากรรมจากสำนักงานตำรวจแห่งชาติทุกคน",
+		icon: "fingerprint",
+		tag: "ตรวจสอบประวัติ",
+		tagColor: "slate",
+		details: ["สัญชาติไทย 100%", "ตรวจสอบประวัติอาชญากรรม", "ตรวจหาสารเสพติดก่อนเริ่มงาน"]
+	}
+];
+type TagColor = 'blue' | 'green' | 'amber' | 'slate';
+function getTagStyle(color: TagColor) {
+
+	const styles = {
+		green: 'bg-green-100 text-green-700 border-green-200',
+		blue: 'bg-blue-100 text-blue-700 border-blue-200',
+		amber: 'bg-amber-100 text-amber-700 border-amber-200',
+		slate: 'bg-slate-100 text-slate-700 border-slate-200'
+	};
+	return styles[color];
+}
+---
+
+<!-- Professional Team Section -->
+<section class="bg-slate-50 py-20 px-4 md:px-8">
+	<div class="max-w-6xl mx-auto">
+
+		<!-- Section Header -->
+		<div class="text-center mb-12">
+			<div class="inline-flex items-center justify-center p-2 bg-white rounded-full shadow-sm border border-slate-200 mb-4">
+				<svg class="w-6 h-6 text-[#002147]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+				</svg>
+			</div>
+			<h2 class="text-3xl md:text-4xl font-bold text-[#002147] mb-2">
+				ทีมงานมืออาชีพที่มั่นคง
+			</h2>
+			<p class="text-slate-600 text-lg">
+				เราดูแลพนักงานดี → พนักงานไม่ลาออก → ดูแลคุณได้เต็มประสิทธิภาพ
+			</p>
+		</div>
+
+		<!-- Cards Grid -->
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+			{standardCards.map((card) => (
+				<div class="group relative bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full flex flex-col">
+
+					<!-- Blue Background Slide-Up -->
+					<div class="absolute inset-0 bg-[#002147] translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-0"></div>
+
+					<div class="relative z-10 flex flex-col h-full">
+						<!-- Header Icon & Tag -->
+						<div class="flex justify-between items-start mb-6">
+							<div class="w-14 h-14 rounded-xl flex items-center justify-center transition-colors duration-300 bg-slate-50 border border-slate-100 group-hover:bg-white/10 group-hover:border-transparent">
+								<div class="text-amber-500 group-hover:text-white transition-colors duration-300">
+									{card.icon === "handshake" && (
+										<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/>
+										</svg>
+									)}
+									{card.icon === "shield" && (
+										<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+										</svg>
+									)}
+									{card.icon === "award" && (
+										<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+										</svg>
+									)}
+									{card.icon === "fingerprint" && (
+										<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.131A8 8 0 008 8m0 0a8 8 0 00-8 8c0 2.472.345 4.865.99 7.131M8 8a8 8 0 008 8m8-8a8 8 0 00-8 8"/>
+										</svg>
+									)}
+								</div>
+							</div>
+
+							<span class={`text-xs font-bold px-3 py-1 rounded-full border flex items-center gap-1 transition-all duration-300 group-hover:bg-white group-hover:text-[#002147] group-hover:border-white ${getTagStyle(card.tagColor as TagColor)}`}>
+								{card.tag}
+							</span>
+						</div>
+
+						<!-- Title -->
+						<h3 class="text-xl font-bold mb-1 transition-colors duration-300 text-[#002147] group-hover:text-white">
+							{card.title}
+						</h3>
+						<p class="text-sm font-medium mb-4 transition-colors duration-300 text-slate-500 group-hover:text-amber-400">
+							{card.engTitle}
+						</p>
+
+						<!-- Content Area (Swap Description for Bullet Points on Hover) -->
+						<div class="mt-auto relative grid grid-cols-1 grid-rows-1">
+
+							<!-- Default View: Short Description -->
+							<div class="col-start-1 row-start-1 transition-all duration-300 group-hover:opacity-0 group-hover:-translate-y-2">
+								<p class="text-slate-500 text-sm leading-relaxed">
+									{card.desc}
+								</p>
+							</div>
+
+							<!-- Hover View: Bullet Points -->
+							<div class="col-start-1 row-start-1 transition-all duration-300 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 pt-2 border-t border-white/10 pointer-events-none group-hover:pointer-events-auto">
+								{card.details.map((detail) => (
+									<div class="flex items-start gap-2 text-white/90 text-sm mb-1 last:mb-0">
+										<svg class="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+										</svg>
+										<span>{detail}</span>
+									</div>
+								))}
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+			))}
+		</div>
+
+		<!-- Integrated Services Note -->
+		<div class="mt-12 text-center">
+			<div class="inline-flex items-center gap-2 bg-slate-100 px-6 py-3 rounded-full text-slate-500 text-sm">
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+				</svg>
+				<span>
+					<strong class="text-[#002147]">Unified Standard:</strong> This rigorous screening applies to both our Security Guard & Cleaning Staff divisions.
+				</span>
+			</div>
+		</div>
+	</div>
+</section>

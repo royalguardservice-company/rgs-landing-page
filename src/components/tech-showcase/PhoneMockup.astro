@@ -1,0 +1,87 @@
+---
+/**
+ * PhoneMockup - Standard phone mockup component
+ * Displays a phone frame with app-specific content
+ */
+import type { PhoneMockupProps } from './types';
+import AttendanceContent from './content/AttendanceContent.astro';
+import PatrolContent from './content/PatrolContent.astro';
+import VisitorContent from './content/VisitorContent.astro';
+
+interface Props extends PhoneMockupProps {}
+
+const { app } = Astro.props;
+---
+
+<div class="relative group w-[240px]">
+	<!-- Glow Effect -->
+	<div class={`absolute inset-0 bg-gradient-to-br ${app.glowColor} rounded-[3rem] blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`}></div>
+
+	<!-- Phone Frame -->
+	<div class="relative bg-gray-900 rounded-[2.5rem] p-2.5 shadow-2xl transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl" style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+		<div class="relative bg-white rounded-[2rem] overflow-hidden transition-all duration-500 group-hover:scale-[1.02]" style="height: 480px;">
+			<div class="h-full overflow-hidden flex flex-col">
+				<!-- Header -->
+				<div class={`${app.headerColor} text-white px-3 py-2.5 flex items-center gap-2`}>
+					<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+					</svg>
+					<h2 class="text-xs flex-1 font-medium truncate">{app.title}</h2>
+					<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={app.icon} />
+					</svg>
+				</div>
+
+				<!-- App-Specific Content -->
+				{app.id === 'attendance' && <AttendanceContent {app} />}
+				{app.id === 'patrol' && <PatrolContent {app} />}
+				{app.id === 'visitor' && <VisitorContent {app} />}
+
+				<!-- Info Section (for attendance only) -->
+				{app.id === 'attendance' && (
+					<div class="bg-gray-50 px-2.5 py-1.5 flex items-center gap-2 text-[10px] border-b border-gray-200">
+						<div class="flex items-center gap-0.5">
+							<svg class="w-2.5 h-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+							</svg>
+							<span class="text-gray-600">06/06/2024</span>
+						</div>
+						<div class="flex items-center gap-0.5">
+							<svg class="w-2.5 h-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>
+							<span class="text-gray-600">21:11</span>
+						</div>
+					</div>
+				)}
+
+				<!-- Content Section (for attendance only) -->
+				{app.id === 'attendance' && (
+					<div class="flex-1 p-3 bg-white overflow-auto">
+						<div class="mb-3">
+							<p class="text-[10px] mb-0.5 text-gray-400">Target :</p>
+							<p class="text-xs font-semibold text-gray-800">{app.targetName}</p>
+						</div>
+						<div class="mb-3">
+							<div class="grid grid-cols-2 gap-1.5">
+								<button class={`${app.headerColor} hover:opacity-90 text-white py-2 rounded-lg text-[10px] font-medium transition-opacity`}>
+									{app.actionButtons?.[0]}
+								</button>
+								<button class="bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 rounded-lg text-[10px] font-medium transition-colors">
+									{app.actionButtons?.[1]}
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
+		</div>
+
+		<!-- Side Buttons -->
+		<div class="absolute right-0 top-16 w-0.5 h-8 bg-gray-700 rounded-r"></div>
+		<div class="absolute right-0 top-28 w-0.5 h-12 bg-gray-700 rounded-r"></div>
+
+		<!-- Notch -->
+		<div class="absolute top-3 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-900 rounded-b-lg"></div>
+	</div>
+</div>

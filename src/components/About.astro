@@ -3,202 +3,36 @@ const aboutContent = {
 	title: 'เกี่ยวกับเรา',
 	subtitle: 'Security Royalguard Services Co., Ltd.',
 	englishName: 'บริษัท รักษาความปลอดภัย รอยัลการ์ด เซอร์วิสเซส จำกัด (RGS)',
-	description: 'จดทะเบียนถูกต้องตามพระราชบัญญัติธุรกิจรักษาความปลอดภัย เมื่อวันที่ 26 กันยายน 2559 (ค.ศ. 2016) ด้วยทุนจดทะเบียน 5,000,000 บาท (เดิมชื่อ บริษัท รักษาความปลอดภัย เอ.อาร์.การ์ด เซอร์วิสเซส จำกัด)',
+	description: 'จดทะเบียนถูกต้องตามพระราชบัญญัติธุรกิจรักษาความปลอดภัย เมื่อวันที่ 26 กันยายน 2559 (ค.ศ. 2016) ด้วยทุนจดทะเบียน 5,000,000 บาท',
 	license: 'ใบอนุญาตเลขที่ ตภ.2600068',
-	vision: 'บริการงานระดับมืออาชีพที่หลากหลายและครบวงจรในหนึ่งเดียว',
-	mission: 'พร้อมให้บริการทั่วกรุงเทพฯ และปริมณฑล ด้วยเครื่องมือที่ทันสมัย และตอบสนองความต้องการของผู้ว่าจ้างอย่างรวดเร็วและมีประสิทธิภาพ'
+	vision: 'บริการงานระดับมืออาชีพที่หลากหลายและครบวงจรในหนึ่งเดียว'
 };
 
-const standards = [
-	{
-		title: 'NSRS',
-		subtitle: 'National Skills Recognition System',
-		description: 'ระบบรับรองทักษะฝีมือแรงงานแห่งชาติ การรับประกันคุณภาพบุคลากรที่ผ่านการรับรองทักษะฝีมือ',
-		icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-	},
-	{
-		title: 'SOP',
-		subtitle: 'Standard Operating Procedures',
-		description: 'มาตรฐานการปฏิบัติงานที่ชัดเจนและเป็นระบบ เพื่อความโปร่งใสและตรวจสอบได้',
-		icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'
-	},
-	{
-		title: 'ไอ.ที.ซี.',
-		subtitle: 'I.T.C. Security Training Center',
-		description: 'ศูนย์ฝึกอบรมทะเบียนเลขที่ ก ๕๖๑๐๐๒๗ - ผ่านหลักสูตร 40 ชั่วโมงตาม พ.ร.บ. ธุรกิจรักษาความปลอดภัย',
-		icon: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253'
-	}
-];
 
-const training = [
-	{ title: 'ภาคทฤษฎี', description: 'กฎระเบียบ นโยบาย ความรู้พื้นฐานวิชาชีพ' },
-	{ title: 'การดับเพลิงเบื้องต้น', description: 'Basic Fire Fighting' },
-	{ title: 'การปฐมพยาบาล', description: 'First Aid' },
-	{ title: 'การต่อสู้ป้องกันตัว', description: 'Self Defense & Control' },
-	{ title: 'การตรวจค้น', description: 'บุคคลและยานพาหนะ' },
-	{ title: 'การจัดการจราจร', description: 'Traffic Control' }
-];
-
-const personnel = [
-	{ title: 'สัญชาติไทย', description: 'เฉพาะคนไทย เพื่อการสื่อสารที่ดีและถูกกฎหมาย' },
-	{ title: 'อ่านออกเขียนได้', description: 'สามารถใช้แอปพลิเคชันและบันทึกรายงานได้' },
-	{ title: 'อายุ 18-55 ปี', description: 'มีความแข็งแรงและพร้อมรับใช้งาน' },
-	{ title: 'ตรวจสอบประวัติ', description: 'ผ่านการตรวจสอบประวัติอาชญากรรม' }
-];
-
-const welfare = [
-	{ title: 'ประกันสาธารณภัย', description: 'คุ้มครองความเสียหายจากการปฏิบัติหน้าที่หน้าที่' },
-	{ title: 'ประกันภัยความรับผิด', description: 'Public Liability Insurance คุ้มครองบุคคลภายนอก' },
-	{ title: 'เบี้ยยาม', description: 'สำหรับพนักงานที่ไม่ขาดลา' },
-	{ title: 'กองทุนประกันสังคม', description: 'ความมั่นคงในการทำงาน' }
-];
 ---
 
 <section id="about" class="section-padding bg-navy-900">
 	<div class="container-custom">
 		<!-- Header -->
 		<div class="text-center mb-16">
-			<p class="section-subtitle">เกี่ยวกับเรา</p>
-			<h2 class="section-title">{aboutContent.title}</h2>
-			<p class="text-gray-400 max-w-3xl mx-auto mt-4">
+			<p class="section-subtitle text-amber-500">About RGS</p>
+			<h2 class="section-title text-white">{aboutContent.title}</h2>
+			<p class="text-gray-400 max-w-3xl mx-auto mt-4 text-lg">
 				{aboutContent.englishName}
 			</p>
-			<p class="text-sm text-blue-900 mt-2">{aboutContent.license}</p>
 		</div>
 
-		<!-- Vision & Mission -->
-		<div class="grid md:grid-cols-2 gap-6 mb-16">
-			<div class="bg-navy-950 rounded-lg p-6 border border-white/5">
-				<div class="flex items-center gap-3 mb-3">
-					<div class="w-10 h-10 bg-blue-900/10 rounded-lg flex items-center justify-center">
-						<svg class="w-5 h-5 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-						</svg>
-					</div>
-					<h3 class="text-lg font-bold text-white">วิสัยทัศน์</h3>
-				</div>
-				<p class="text-gray-300">{aboutContent.vision}</p>
-			</div>
-			<div class="bg-navy-950 rounded-lg p-6 border border-white/5">
-				<div class="flex items-center gap-3 mb-3">
-					<div class="w-10 h-10 bg-blue-900/10 rounded-lg flex items-center justify-center">
-						<svg class="w-5 h-5 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-						</svg>
-					</div>
-					<h3 class="text-lg font-bold text-white">พันธกิจ</h3>
-				</div>
-				<p class="text-gray-300">{aboutContent.mission}</p>
-			</div>
-		</div>
 
-		<!-- Standards -->
-		<div class="mb-16">
-			<div class="text-center mb-10">
-				<h3 class="text-2xl font-bold text-white mb-2">มาตรฐานและการรับรอง</h3>
-				<p class="text-gray-400">เราปฏิบัติตามมาตรฐานสากลเพื่อคุณภาพบริการที่ดีที่สุด</p>
-			</div>
 
-			<div class="grid md:grid-cols-3 gap-6">
-				{standards.map(standard => (
-					<div class="bg-navy-950 rounded-lg p-6 border border-white/5 hover:border-blue-900/30 transition-all">
-						<div class="w-12 h-12 bg-blue-900/10 rounded-lg flex items-center justify-center mb-4">
-							<svg class="w-6 h-6 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={standard.icon}/>
-							</svg>
-						</div>
-						<h4 class="text-xl font-bold text-white mb-1">{standard.title}</h4>
-						<p class="text-blue-900 text-sm mb-3">{standard.subtitle}</p>
-						<p class="text-gray-400 text-sm">{standard.description}</p>
-					</div>
-				))}
-			</div>
-		</div>
-
-		<!-- Training Program -->
-		<div class="mb-16">
-			<div class="text-center mb-10">
-				<h3 class="text-2xl font-bold text-white mb-2">หลักสูตรการฝึกอบรม</h3>
-				<p class="text-gray-400">ผ่านหลักสูตร 40 ชั่วโมง ณ ศูนย์ฝึกอบรม ไอ.ที.ซี.</p>
-			</div>
-
-			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-				{training.map(item => (
-					<div class="bg-navy-950 rounded-lg p-4 border border-white/5 flex items-center gap-3">
-						<div class="w-8 h-8 bg-blue-900/10 rounded flex items-center justify-center flex-shrink-0">
-							<svg class="w-4 h-4 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-							</svg>
-						</div>
-						<div>
-							<h4 class="text-white font-semibold text-sm">{item.title}</h4>
-							<p class="text-gray-400 text-xs">{item.description}</p>
-						</div>
-					</div>
-				))}
-			</div>
-		</div>
-
-		<!-- Personnel Requirements -->
-		<div class="grid md:grid-cols-2 gap-8 mb-16">
-			<div>
-				<h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-					<svg class="w-5 h-5 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-					</svg>
-					คุณสมบัติพนักงาน
-				</h3>
-				<div class="space-y-3">
-					{personnel.map(item => (
-						<div class="flex items-center gap-3">
-							<span class="w-2 h-2 bg-blue-900 rounded-full flex-shrink-0"></span>
-							<div>
-								<span class="text-white font-medium">{item.title}</span>
-								<span class="text-gray-400 text-sm ml-2">- {item.description}</span>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-
-			<div>
-				<h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
-					<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-					</svg>
-					สวัสดิการและการรับประกัน
-				</h3>
-				<div class="space-y-3">
-					{welfare.map(item => (
-						<div class="flex items-center gap-3">
-							<span class="w-2 h-2 bg-green-500 rounded-full flex-shrink-0"></span>
-							<div>
-								<span class="text-white font-medium">{item.title}</span>
-								<span class="text-gray-400 text-sm ml-2">- {item.description}</span>
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-
-		<!-- Company Info -->
-		<div class="bg-navy-950 rounded-lg p-6 border border-white/5">
-			<div class="grid md:grid-cols-3 gap-6 text-center">
-				<div>
-					<div class="text-3xl font-bold text-blue-900 mb-1">5M</div>
-					<div class="text-gray-400 text-sm">ทุนจดทะเบียน (บาท)</div>
-				</div>
-				<div>
-					<div class="text-3xl font-bold text-blue-900 mb-1">2016</div>
-					<div class="text-gray-400 text-sm">ปีที่จดทะเบียน</div>
-				</div>
-				<div>
-					<div class="text-3xl font-bold text-blue-900 mb-1">ตภ.2600068</div>
-					<div class="text-gray-400 text-sm">ใบอนุญาตธุรกิจรักษาความปลอดภัย</div>
-				</div>
-			</div>
+		<!-- CTA to Why Choose Us -->
+		<div class="text-center">
+			<p class="text-gray-400 mb-6">เรียนรู้เพิ่มเติมเกี่ยวกับมาตรฐานและความเป็นเลิศของเรา</p>
+			<a href="#why-us" class="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-navy-950 font-semibold px-8 py-3 rounded-xl transition-colors">
+				<span>Why Choose RGS</span>
+				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+				</svg>
+			</a>
 		</div>
 	</div>
 </section>
