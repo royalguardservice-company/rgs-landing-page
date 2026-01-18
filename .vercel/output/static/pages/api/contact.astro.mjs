@@ -215,7 +215,34 @@ const POST = async ({ request }) => {
       };
       await transporter.sendMail(mailOptions);
     } catch (emailError) {
-      console.error("Nodemailer error:", emailError);
+      const error = emailError;
+      if (error.code === "EAUTH") {
+        console.error("Email authentication failed:", {
+          code: error.code,
+          message: "Invalid Gmail credentials or App Password"
+        });
+        throw new Error("Email authentication failed");
+      }
+      if (error.code === "ECONNECTION" || error.code === "ETIMEDOUT") {
+        console.error("Email connection error:", {
+          code: error.code,
+          message: error.message
+        });
+        throw new Error("Email service unavailable");
+      }
+      if (error.responseCode && error.responseCode >= 500) {
+        console.error("Email server error:", {
+          responseCode: error.responseCode,
+          response: error.response
+        });
+        throw new Error("Email server error");
+      }
+      console.error("Nodemailer error:", {
+        code: error.code,
+        command: error.command,
+        responseCode: error.responseCode,
+        message: error.message
+      });
       throw new Error("Failed to send email");
     }
     return new Response(JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }), {
