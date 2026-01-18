@@ -245,10 +245,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 	}
 
 	// Cloudflare Turnstile callback functions
-	let turnstileToken = '';
-
 	(window as any).turnstileCallback = (token: string) => {
-		turnstileToken = token;
 		const hiddenInput = document.getElementById('cf-turnstile-response') as HTMLInputElement;
 		if (hiddenInput) {
 			hiddenInput.value = token;
@@ -256,7 +253,10 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 	};
 
 	(window as any).turnstileErrorCallback = () => {
-		turnstileToken = '';
+		const hiddenInput = document.getElementById('cf-turnstile-response') as HTMLInputElement;
+		if (hiddenInput) {
+			hiddenInput.value = '';
+		}
 		const formMessage = document.getElementById('form-message');
 		if (formMessage) {
 			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
@@ -282,7 +282,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 			return;
 		}
 
-		// Check Turnstile token
+		// Get Turnstile token from hidden input field
+		const turnstileToken = formData.get('cf-turnstile-response') as string;
 		if (!turnstileToken) {
 			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
 			formMessage.classList.remove('hidden');
@@ -369,9 +370,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 				formMessage.classList.remove('hidden', 'text-red-500');
 				formMessage.classList.add('text-green-600', 'font-semibold');
 				form.reset();
-				turnstileToken = '';
 
-				// Reset Turnstile widget
+				// Reset Turnstile widget and hidden input
 				const turnstileContainer = form.querySelector('.cf-turnstile');
 				if (turnstileContainer && (window as any).turnstile) {
 					(window as any).turnstile.reset(turnstileContainer);

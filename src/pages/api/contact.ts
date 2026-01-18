@@ -1,32 +1,25 @@
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
 
-// Cloudflare Turnstile Secret Key
-const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY || "demo-secret-key";
+const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY as string;
 
-/**
- * Verify Cloudflare Turnstile token
- */
 async function verifyTurnstileToken(token: string): Promise<boolean> {
   const secretKey = TURNSTILE_SECRET_KEY;
 
-  // Skip verification in development if using demo key
-  if (secretKey === "demo-secret-key" || secretKey === "1x00000000000000000000AA") {
-    console.warn("Using demo Turnstile key - skipping verification");
-    return true;
-  }
-
   try {
-    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
+    const response = await fetch(
+      "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          secret: secretKey,
+          response: token,
+        }),
       },
-      body: JSON.stringify({
-        secret: secretKey,
-        response: token,
-      }),
-    });
+    );
 
     const result = await response.json();
     return result.success === true;
@@ -51,31 +44,63 @@ function sanitizeString(input: string, maxLength: number = 1000): string {
   return input
     .trim()
     .slice(0, maxLength)
-    .replace(/[<>]/g, "")
-    .replace(/javascript:/gi, "")
+    .replaceAll("<", "")
+    .replaceAll(">", "")
+    .replaceAll("javascript:", "")
+    .replaceAll("Javascript:", "")
+    .replaceAll("JAVASCRIPT:", "")
+    .replaceAll("data:", "")
+    .replaceAll("Data:", "")
+    .replaceAll("DATA:", "")
     .replace(/on\w+=/gi, "")
-    .replace(/data:/gi, "");
+    .replace(/&lt;/gi, "")
+    .replace(/&gt;/gi, "");
 }
 
 export const POST: APIRoute = async ({ request }) => {
   try {
+    // Validate email credentials are configured
+    const gmailEmail = import.meta.env.GMAIL_APP_EMAIL;
+    const gmailPassword = import.meta.env.GMAIL_APP_PASSWORD;
+
+    if (!gmailEmail || !gmailPassword) {
+      console.error("Email credentials not configured");
+      return new Response(
+        JSON.stringify({
+          error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+        }),
+        { status: 500, headers: { "Content-Type": "application/json" } },
+      );
+    }
+
     const data = await request.json();
-    const { name, phone, email, service, message, turnstileToken, website_url } = data;
+    const {
+      name,
+      phone,
+      email,
+      service,
+      message,
+      turnstileToken,
+      website_url,
+    } = data;
 
     // Check honeypot field - if filled, it's a bot
     // Return generic success message to trick bots
     if (website_url && website_url.trim().length > 0) {
-      return new Response(JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+      return new Response(
+        JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }),
+        {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        },
+      );
     }
 
     // Verify Turnstile token - use generic error message
     if (!turnstileToken) {
       return new Response(
         JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -83,7 +108,7 @@ export const POST: APIRoute = async ({ request }) => {
     if (!isValidTurnstile) {
       return new Response(
         JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -156,22 +181,19 @@ export const POST: APIRoute = async ({ request }) => {
 
     const serviceName = service ? serviceNames[service] || service : "ไม่ระบุ";
 
-    // Configure email transporter
-    // NOTE: For production, use environment variables for credentials
-    // You'll need to set up Gmail App Password for this to work
+    // Create email transporter with validated credentials
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: import.meta.env.GMAIL_APP_EMAIL as string,
-        // You should use APP_PASSWORD from environment variable
-        pass: import.meta.env.GMAIL_APP_PASSWORD as string,
+        user: gmailEmail as string,
+        pass: gmailPassword as string,
       },
     });
 
     // Email content
     const mailOptions = {
-      from: "royalguardservices2016@gmail.com",
-      to: "royalguardservices2016@gmail.com",
+      from: gmailEmail as string,
+      to: gmailEmail as string,
       subject: `[ใบเสนอราคาใหม่] จาก ${sanitizedName}`,
       html: `
 				<div style="font-family: 'Sarabun', sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 20px;">
@@ -232,7 +254,12 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     // Send email
-    await transporter.sendMail(mailOptions);
+    try {
+      await transporter.sendMail(mailOptions);
+    } catch (emailError) {
+      console.error("Nodemailer error:", emailError);
+      throw new Error("Failed to send email");
+    }
 
     return new Response(JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }), {
       status: 200,
