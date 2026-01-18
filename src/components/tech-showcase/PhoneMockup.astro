@@ -11,17 +11,17 @@ const { app } = Astro.props;
 ---
 
 <div class="relative group w-[240px]">
-	<div class={`absolute inset-0 bg-gradient-to-br ${app.glowColor} rounded-[3rem] blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`}></div>
+	<div class={`absolute inset-0 bg-linear-to-br ${app.glowColor} rounded-[3rem] blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`}></div>
 
 	<div class="relative bg-gray-900 rounded-[2.5rem] p-2.5 shadow-2xl transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl" style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
-		<div class="relative bg-white rounded-[2rem] overflow-hidden transition-all duration-500 group-hover:scale-[1.02]" style="height: 480px;">
+		<div class="relative bg-white rounded-4xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02]" style="height: 480px;">
 			<div class="h-full overflow-hidden flex flex-col">
 				<div class={`${app.headerColor} text-white px-3 py-2.5 flex items-center gap-2`}>
-					<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 					</svg>
 					<h2 class="text-xs flex-1 font-medium truncate">{app.title}</h2>
-					<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={app.icon} />
 					</svg>
 				</div>

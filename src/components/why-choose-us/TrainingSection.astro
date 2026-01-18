@@ -38,7 +38,7 @@ const trainingSlides = [
 
 		<!-- Section Header -->
 		<div class="text-center mb-12">
-			<div class="inline-flex items-center justify-center p-2 bg-white rounded-full shadow-sm border border-slate-200 mb-4">
+			<div class="inline-flex items-center justify-center p-2 bg-white rounded-full shadow-xs border border-slate-200 mb-4">
 				<svg class="w-6 h-6 text-[#002147]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5 9 5c0 5.523-4.477 10-10 10s-10-4.477-10-10S6.477 4 12 4z"/>
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5 9 5c0 5.523-4.477 10-10 10s-10-4.477-10-10S6.477 4 12 4z"/>
@@ -74,12 +74,12 @@ const trainingSlides = [
 								style="object-position: center;"
 							/>
 							<!-- Gradient Overlay -->
-							<div class={`absolute inset-0 bg-gradient-to-br ${slide.gradient} opacity-40`}></div>
+							<div class={`absolute inset-0 bg-linear-to-br ${slide.gradient} opacity-40`}></div>
 						</div>
 					))}
 
 					<!-- OVERLAY -->
-					<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent z-20 pointer-events-none"></div>
+					<div class="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent z-20 pointer-events-none"></div>
 
 					<!-- CAPTION -->
 					<div class="absolute bottom-6 left-6 right-6 z-30 transition-all duration-500" id="slide-caption">
@@ -98,7 +98,7 @@ const trainingSlides = [
 					<!-- CONTROLS -->
 					<button
 						id="prev-slide"
-						class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/60 text-white p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
+						class="absolute left-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/60 text-white p-2 rounded-full backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100"
 					>
 						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -106,7 +106,7 @@ const trainingSlides = [
 					</button>
 					<button
 						id="next-slide"
-						class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/60 text-white p-2 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100"
+						class="absolute right-4 top-1/2 -translate-y-1/2 z-30 bg-black/30 hover:bg-black/60 text-white p-2 rounded-full backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100"
 					>
 						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
@@ -185,7 +185,7 @@ const trainingSlides = [
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z"/>
 							</svg>
 							<span class="flex-1 font-bold">การดับเพลิงเบื้องต้น (Basic Fire Fighting)</span>
-							<span class="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded uppercase tracking-wider">Highlight</span>
+							<span class="text-[10px] bg-red-500 text-white px-2 py-0.5 rounded-sm uppercase tracking-wider">Highlight</span>
 						</li>
 						<li class="flex items-center gap-3 text-slate-300">
 							<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -207,7 +207,7 @@ const trainingSlides = [
 
 		<!-- Footer Badge -->
 		<div class="mt-8 flex justify-center">
-			<div class="inline-flex items-center gap-2 bg-slate-200 text-slate-600 px-4 py-2 rounded text-xs font-mono border border-slate-300">
+			<div class="inline-flex items-center gap-2 bg-slate-200 text-slate-600 px-4 py-2 rounded-sm text-xs font-mono border border-slate-300">
 				<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.707.293L15.414 5H17a2 2 0 012 2v10a2 2 0 01-2 2H5z"/>
 				</svg>

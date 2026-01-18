@@ -71,7 +71,7 @@ const timelineSteps: TimelineStep[] = [
 						<div class="flex flex-col items-center">
 							<div class={`relative w-20 h-20 rounded-2xl rotate-45 flex items-center justify-center border-2 transition-all duration-500 z-10 shadow-2xl ${
 								step.isFinal
-									? 'bg-gradient-to-br from-amber-500 to-amber-600 border-amber-400 shadow-amber-500/30 scale-110'
+									? 'bg-linear-to-br from-amber-500 to-amber-600 border-amber-400 shadow-amber-500/30 scale-110'
 									: 'bg-slate-800 border-slate-700 group-hover:border-amber-500/50 group-hover:shadow-amber-500/10'
 							}`}>
 								<div class={`-rotate-45 transform ${step.isFinal ? 'text-white' : 'text-amber-500'}`}>
@@ -114,13 +114,13 @@ const timelineSteps: TimelineStep[] = [
 		<!-- Mobile View (Vertical) -->
 		<div class="md:hidden space-y-0 relative ml-2">
 			<!-- Vertical Line -->
-			<div class="absolute left-[27px] top-8 bottom-8 w-0.5 bg-gradient-to-b from-slate-800 via-slate-700 to-slate-800 z-0"></div>
+			<div class="absolute left-[27px] top-8 bottom-8 w-0.5 bg-linear-to-b from-slate-800 via-slate-700 to-slate-800 z-0"></div>
 
 			{timelineSteps.map((step) => (
 				<div class="relative z-10 pb-12 last:pb-0">
 					<div class="flex gap-6">
 						<!-- Icon Column -->
-						<div class="flex-shrink-0 pt-1">
+						<div class="shrink-0 pt-1">
 							<div class={`w-14 h-14 rounded-xl rotate-3 flex items-center justify-center border-2 shadow-lg ${
 								step.isFinal
 									? 'bg-amber-500 border-amber-400 shadow-amber-900/50'
@@ -162,9 +162,9 @@ const timelineSteps: TimelineStep[] = [
 
 		<!-- Bottom CTA / Assurance -->
 		<div class="mt-20 flex flex-col items-center relative z-10">
-			<div class="p-[1px] rounded-full bg-gradient-to-r from-slate-800 via-amber-500/50 to-slate-800">
+			<div class="p-px rounded-full bg-linear-to-r from-slate-800 via-amber-500/50 to-slate-800">
 				<div class="bg-navy-900 rounded-full px-8 py-4 flex flex-col md:flex-row items-center gap-3 text-center">
-					<svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-5 h-5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
 					<span class="text-slate-300 font-medium text-sm md:text-base">

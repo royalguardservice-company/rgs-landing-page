@@ -23,7 +23,7 @@ const features = [
 ---
 
 <section class="relative min-h-screen flex items-center overflow-hidden">
-	<div class="absolute inset-0 z-0 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950"></div>
+	<div class="absolute inset-0 z-0 bg-linear-to-br from-navy-950 via-navy-900 to-navy-950"></div>
 
 	<div class="absolute inset-0 z-0">
 		<div class="absolute inset-0 overflow-hidden">
@@ -37,7 +37,7 @@ const features = [
 			/>
 		</div>
 		<div class="absolute inset-0 bg-navy-950/75"></div>
-		<div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/40 to-transparent"></div>
+		<div class="absolute inset-0 bg-linear-to-r from-navy-950/90 via-navy-950/40 to-transparent"></div>
 	</div>
 
 	<div class="absolute inset-0 z-0 opacity-10">
@@ -47,7 +47,7 @@ const features = [
 
 	<div class="relative z-10 container-custom pt-20">
 		<div class="stagger-fade-up" style="--delay: 0ms;">
-			<div class="inline-flex items-center gap-2 bg-navy-900/50 border border-amber-400/30 rounded-full px-4 py-2 mb-4 backdrop-blur-sm">
+			<div class="inline-flex items-center gap-2 bg-navy-900/50 border border-amber-400/30 rounded-full px-4 py-2 mb-4 backdrop-blur-xs">
 				<span class="w-2 h-2 bg-amber-400 rounded-full status-pulse"></span>
 				<span class="text-amber-400 text-sm font-medium tracking-wide">24/7 บริการรักษาความปลอดภัยมืออาชีพ</span>
 			</div>
@@ -55,7 +55,7 @@ const features = [
 
 		</div>
 
-		<h1 class="text-hero text-white mb-6 max-w-3xl stagger-fade-up break-words" style="--delay: 200ms;">
+		<h1 class="text-hero text-white mb-6 max-w-3xl stagger-fade-up wrap-break-word" style="--delay: 200ms;">
 			{heroContent.title_1} <br /> {heroContent.title_2}
 		</h1>
 
