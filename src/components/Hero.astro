@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import heroBgImage from '../assets/images/hero_image.jpg';
 
 const heroContent = {
-	title: 'บริการรักษาความปลอดภัยและงานทำความสะอาดครบวงจร ระดับมืออาชีพ',
+	title_1: 'บริการรักษาความปลอดภัยและงานทำความสะอาด',
+	title_2: 'ครบวงจร ระดับมืออาชีพ',
 	subtitle: 'เราดูแลทั้งภายนอกและภายใน ด้วยมาตรฐานสากล (SOP, NSRS) ผสานเทคโนโลยีทันสมัย เพื่อความปลอดภัยสูงสุดของคุณ',
 	ctaText: 'บริการของเรา',
 	ctaLink: '#services',
@@ -63,8 +64,8 @@ const features = [
 		</div>
 
 		<!-- Main Headline -->
-		<h1 class="text-hero text-white mb-6 max-w-3xl stagger-fade-up" style="--delay: 200ms;">
-			{heroContent.title}
+		<h1 class="text-hero text-white mb-6 max-w-3xl stagger-fade-up break-words" style="--delay: 200ms;">
+			{heroContent.title_1} <br /> {heroContent.title_2}
 		</h1>
 
 		<!-- Sub-headline -->

@@ -213,19 +213,67 @@ const contactInfo = {
 	form?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 
-		// Get form data
 		if (!form || !formMessage) return;
 
-		// Here you would typically send the data to your backend
-		// For now, we'll just show a success message
-		formMessage.textContent = 'ขอบคุณสำหรับข้อความของคุณ! เราจะติดต่อกลับโดยเร็วที่สุด';
-		formMessage.classList.remove('hidden', 'text-red-500');
-		formMessage.classList.add('text-green-600', 'font-semibold');
-		form.reset();
+		const formData = new FormData(form);
+		const data = {
+			name: formData.get('name') as string,
+			phone: formData.get('phone') as string,
+			email: formData.get('email') as string,
+			service: formData.get('service') as string,
+			message: formData.get('message') as string,
+		};
 
-		// Hide message after 5 seconds
-		setTimeout(() => {
-			formMessage.classList.add('hidden');
-		}, 5000);
+		// Show loading state
+		const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+		const originalButtonText = submitButton?.innerHTML || '';
+		if (submitButton) {
+			submitButton.disabled = true;
+			submitButton.innerHTML = `
+				<svg class="animate-spin h-5 w-5 text-[#002147]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+					<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+				</svg>
+				<span>กำลังส่งข้อมูล...</span>
+			`;
+		}
+
+		try {
+			const response = await fetch('/api/contact', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
+			const result = await response.json();
+
+			if (response.ok) {
+				formMessage.textContent = 'ขอบคุณสำหรับข้อความของคุณ! เราจะติดต่อกลับโดยเร็วที่สุด';
+				formMessage.classList.remove('hidden', 'text-red-500');
+				formMessage.classList.add('text-green-600', 'font-semibold');
+				form.reset();
+			} else {
+				formMessage.textContent = result.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง';
+				formMessage.classList.remove('hidden', 'text-green-600');
+				formMessage.classList.add('text-red-500', 'font-semibold');
+			}
+		} catch (error) {
+			formMessage.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง';
+			formMessage.classList.remove('hidden', 'text-green-600');
+			formMessage.classList.add('text-red-500', 'font-semibold');
+		} finally {
+			// Reset button state
+			if (submitButton) {
+				submitButton.disabled = false;
+				submitButton.innerHTML = originalButtonText;
+			}
+
+			// Hide message after 5 seconds
+			setTimeout(() => {
+				formMessage.classList.add('hidden');
+			}, 5000);
+		}
 	});
 </script>

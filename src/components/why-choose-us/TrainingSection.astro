@@ -1,32 +1,34 @@
 ---
-/**
- * TrainingSection - Intensive training showcase with image slider
- * หลักสูตรการฝึกอบรมที่เข้มข้น
- */
  import { Image } from 'astro:assets';
 import practiceImage from '../../assets/images/practice.jpg';
-
+import selfDefenseImage from '../../assets/images/selfDefense.png';
+import cprImage from '../../assets/images/cpr.jpg';
+import fireTrainingImage from '../../assets/images/fireTraining.png';
 const trainingSlides = [
 	{
 		id: 1,
 		title: 'การดับเพลิงเบื้องต้น',
 		subtitle: 'Basic Fire Fighting Training',
 		gradient: 'from-orange-500 to-red-600',
-		icon: '🔥'
+		icon: '🔥',
+		image: fireTrainingImage
 	},
 	{
 		id: 2,
 		title: 'การปฐมพยาบาล',
 		subtitle: 'First Aid & CPR Training',
 		gradient: 'from-red-500 to-pink-600',
-		icon: '🏥'
+		icon: '🏥',
+		image: cprImage
 	},
 	{
 		id: 3,
 		title: 'ศิลปะการป้องกันตัว',
 		subtitle: 'Self Defense Techniques',
 		gradient: 'from-blue-600 to-purple-600',
-		icon: '🛡️'
+		icon: '🛡️',
+		image: selfDefenseImage
+
 	}
 ];
 ---
@@ -65,11 +67,11 @@ const trainingSlides = [
 							class={`training-slide absolute inset-0 transition-opacity duration-700 ease-in-out ${index === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
 						>
 							<Image
-								src={practiceImage}
+								src={slide.image}
 								alt={slide.title}
 								width={400}
 								height={500}
-								class={`w-full h-full object-cover ${index === 0 ? 'opacity-100' : 'opacity-0'}`}
+								class={`w-full h-full object-cover  opacity-100'`}
 								style="object-position: center;"
 							/>
 							<!-- Gradient Overlay -->
