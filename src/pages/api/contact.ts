@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
+import DOMPurify from "isomorphic-dompurify";
 
 const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY as string;
 
@@ -40,21 +41,20 @@ function validateThaiPhone(phone: string): boolean {
   return phoneRegex.test(phone.replace(/\s/g, ""));
 }
 
+/**
+ * Sanitize string input using DOMPurify to prevent XSS attacks.
+ * Removes all HTML tags and dangerous content while preserving plain text.
+ */
 function sanitizeString(input: string, maxLength: number = 1000): string {
-  return input
-    .trim()
-    .slice(0, maxLength)
-    .replaceAll("<", "")
-    .replaceAll(">", "")
-    .replaceAll("javascript:", "")
-    .replaceAll("Javascript:", "")
-    .replaceAll("JAVASCRIPT:", "")
-    .replaceAll("data:", "")
-    .replaceAll("Data:", "")
-    .replaceAll("DATA:", "")
-    .replace(/on\w+=/gi, "")
-    .replace(/&lt;/gi, "")
-    .replace(/&gt;/gi, "");
+  // Use DOMPurify with config to strip ALL HTML (not just sanitize)
+  const clean = DOMPurify.sanitize(input, {
+    ALLOWED_TAGS: [], // Remove all HTML tags
+    ALLOWED_ATTR: [], // Remove all attributes
+    KEEP_CONTENT: true, // Keep text content
+  });
+
+  // Trim and enforce max length
+  return clean.trim().slice(0, maxLength);
 }
 
 export const POST: APIRoute = async ({ request }) => {

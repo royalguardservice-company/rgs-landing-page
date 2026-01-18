@@ -218,6 +218,8 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 </section>
 
 <script>
+	import DOMPurify from 'isomorphic-dompurify';
+
 	// Input validation utilities
 	function validateEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -230,12 +232,20 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 		return phoneRegex.test(phone.replace(/\s/g, ''));
 	}
 
+	/**
+	 * Sanitize string input using DOMPurify to prevent XSS attacks.
+	 * Removes all HTML tags and dangerous content while preserving plain text.
+	 */
 	function sanitizeString(input: string): string {
-		return input
-			.trim()
-			.replace(/[<>]/g, '') // Remove potential HTML tags
-			.replace(/javascript:/gi, '') // Remove javascript: protocol
-			.replace(/on\w+=/gi, ''); // Remove event handlers like onclick=
+		// Use DOMPurify with config to strip ALL HTML (not just sanitize)
+		const clean = DOMPurify.sanitize(input, {
+			ALLOWED_TAGS: [], // Remove all HTML tags
+			ALLOWED_ATTR: [], // Remove all attributes
+			KEEP_CONTENT: true, // Keep text content
+		});
+
+		// Trim and enforce max length (1000 for messages)
+		return clean.trim().slice(0, 1000);
 	}
 
 	function showValidationMessage(formMessage: HTMLElement, message: string, isError: boolean) {
