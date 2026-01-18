@@ -152,14 +152,7 @@ export const POST: APIRoute = async ({ request }) => {
     const sanitizedEmail = email.trim().toLowerCase();
 
     // Validate service value if provided
-    const allowedServices = [
-      "security",
-      "cleaning",
-      "duo",
-      "smart",
-      "other",
-      "",
-    ];
+    const allowedServices = ["security", "cleaning", "duo", "smart", "other"];
     if (service && !allowedServices.includes(service)) {
       return new Response(
         JSON.stringify({ error: "กรุณาเลือกบริการให้ถูกต้อง" }),
@@ -256,12 +249,18 @@ export const POST: APIRoute = async ({ request }) => {
       await transporter.sendMail(mailOptions);
     } catch (emailError: unknown) {
       // Determine error type for better debugging and monitoring
-      const error = emailError as { code?: string; command?: string; responseCode?: number; response?: string; message: string };
+      const error = emailError as {
+        code?: string;
+        command?: string;
+        responseCode?: number;
+        response?: string;
+        message: string;
+      };
 
       if (error.code === "EAUTH") {
         console.error("Email authentication failed:", {
           code: error.code,
-          message: "Invalid Gmail credentials or App Password"
+          message: "Invalid Gmail credentials or App Password",
         });
         throw new Error("Email authentication failed");
       }
@@ -269,7 +268,7 @@ export const POST: APIRoute = async ({ request }) => {
       if (error.code === "ECONNECTION" || error.code === "ETIMEDOUT") {
         console.error("Email connection error:", {
           code: error.code,
-          message: error.message
+          message: error.message,
         });
         throw new Error("Email service unavailable");
       }
@@ -277,7 +276,7 @@ export const POST: APIRoute = async ({ request }) => {
       if (error.responseCode && error.responseCode >= 500) {
         console.error("Email server error:", {
           responseCode: error.responseCode,
-          response: error.response
+          response: error.response,
         });
         throw new Error("Email server error");
       }
@@ -287,7 +286,7 @@ export const POST: APIRoute = async ({ request }) => {
         code: error.code,
         command: error.command,
         responseCode: error.responseCode,
-        message: error.message
+        message: error.message,
       });
       throw new Error("Failed to send email");
     }

@@ -1,10 +1,8 @@
 /* empty css                                 */
-import { c as createComponent, a as createAstro, b as addAttribute, r as renderHead, d as renderSlot, e as renderTemplate, m as maybeRenderHead, s as spreadAttributes, f as renderComponent } from '../chunks/astro/server_0KXbjPcF.mjs';
+import { c as createComponent, a as createAstro, b as addAttribute, y as renderHead, z as renderSlot, r as renderTemplate, m as maybeRenderHead, h as renderComponent } from '../chunks/astro/server_CRifWwKX.mjs';
 import 'kleur/colors';
-import 'html-escaper';
 import 'clsx';
-import { A as AstroError, f as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, E as ExpectedImageOptions, g as ExpectedImage, h as ExpectedNotESMImage, r as resolveSrc, i as isRemoteImage, j as isCoreRemotePath, k as isESMImportedImage, l as isLocalService, D as DEFAULT_HASH_PROPS, m as InvalidImageService, n as ImageMissingAlt } from '../chunks/astro/assets-service_CGzmfIre.mjs';
-import * as mime from 'mrmime';
+import { $ as $$Image } from '../chunks/_astro_assets_DfeCbvjb.mjs';
 export { renderers } from '../renderers.mjs';
 
 const logo = new Proxy({"src":"/_astro/logo.BNPwFSYU.png","width":842,"height":322,"format":"png"}, {
@@ -15,14 +13,14 @@ const logo = new Proxy({"src":"/_astro/logo.BNPwFSYU.png","width":842,"height":3
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/logo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/logo.png");
+							
 							return target[name];
 						}
 					});
 
-const $$Astro$6 = createAstro();
+const $$Astro$4 = createAstro();
 const $$Layout = createComponent(($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$6, $$props, $$slots);
+  const Astro2 = $$result.createAstro($$Astro$4, $$props, $$slots);
   Astro2.self = $$Layout;
   const {
     title = "RGS - \u0E1A\u0E23\u0E34\u0E01\u0E32\u0E23\u0E23\u0E31\u0E01\u0E29\u0E32\u0E04\u0E27\u0E32\u0E21\u0E1B\u0E25\u0E2D\u0E14\u0E20\u0E31\u0E22\u0E41\u0E25\u0E30\u0E07\u0E32\u0E19\u0E17\u0E33\u0E04\u0E27\u0E32\u0E21\u0E2A\u0E30\u0E2D\u0E32\u0E14\u0E04\u0E23\u0E1A\u0E27\u0E07\u0E08\u0E23 \u0E23\u0E30\u0E14\u0E31\u0E1A\u0E21\u0E37\u0E2D\u0E2D\u0E32\u0E0A\u0E35\u0E1E",
@@ -31,1015 +29,6 @@ const $$Layout = createComponent(($$result, $$props, $$slots) => {
   } = Astro2.props;
   return renderTemplate`<html lang="th"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="icon" type="image/png"${addAttribute(logo.src, "href")}><meta name="description"${addAttribute(description, "content")}><meta name="keywords" content="รักษาความปลอดภัย, รปภ., บริการรักษาความปลอดภัย, ทำความสะอาด, Big Cleaning, รปภ.มืออาชีพ, Security Guard, Cleaning Services, RGS"><meta name="author" content="บริษัท รักษาความปลอดภัย รอยัลการ์ด เซอร์วิสเซส จำกัด"><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:locale" content="th_TH"><meta property="og:title"${addAttribute(title, "content")}><meta property="og:description"${addAttribute(description, "content")}><meta property="og:image"${addAttribute(image, "content")}><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:title"${addAttribute(title, "content")}><meta property="twitter:description"${addAttribute(description, "content")}><meta property="twitter:image"${addAttribute(image, "content")}><title>${title}</title><!-- Preconnect for fonts --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>${renderHead()}</head> <body> ${renderSlot($$result, $$slots["default"])} </body></html>`;
 }, "/Users/pirawatwareetanyarat/Documents/rgs/src/layouts/Layout.astro", void 0);
-
-function isImageMetadata(src) {
-  return src.fsPath && !("fsPath" in src);
-}
-
-const decoder = new TextDecoder();
-const toUTF8String = (input, start = 0, end = input.length) => decoder.decode(input.slice(start, end));
-const toHexString = (input, start = 0, end = input.length) => input.slice(start, end).reduce((memo, i) => memo + ("0" + i.toString(16)).slice(-2), "");
-const readInt16LE = (input, offset = 0) => {
-  const val = input[offset] + input[offset + 1] * 2 ** 8;
-  return val | (val & 2 ** 15) * 131070;
-};
-const readUInt16BE = (input, offset = 0) => input[offset] * 2 ** 8 + input[offset + 1];
-const readUInt16LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8;
-const readUInt24LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16;
-const readInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + (input[offset + 3] << 24);
-const readUInt32BE = (input, offset = 0) => input[offset] * 2 ** 24 + input[offset + 1] * 2 ** 16 + input[offset + 2] * 2 ** 8 + input[offset + 3];
-const readUInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + input[offset + 3] * 2 ** 24;
-const methods = {
-  readUInt16BE,
-  readUInt16LE,
-  readUInt32BE,
-  readUInt32LE
-};
-function readUInt(input, bits, offset, isBigEndian) {
-  offset = offset || 0;
-  const endian = isBigEndian ? "BE" : "LE";
-  const methodName = "readUInt" + bits + endian;
-  return methods[methodName](input, offset);
-}
-function readBox(buffer, offset) {
-  if (buffer.length - offset < 4) return;
-  const boxSize = readUInt32BE(buffer, offset);
-  if (buffer.length - offset < boxSize) return;
-  return {
-    name: toUTF8String(buffer, 4 + offset, 8 + offset),
-    offset,
-    size: boxSize
-  };
-}
-function findBox(buffer, boxName, offset) {
-  while (offset < buffer.length) {
-    const box = readBox(buffer, offset);
-    if (!box) break;
-    if (box.name === boxName) return box;
-    offset += box.size;
-  }
-}
-
-const BMP = {
-  validate: (input) => toUTF8String(input, 0, 2) === "BM",
-  calculate: (input) => ({
-    height: Math.abs(readInt32LE(input, 22)),
-    width: readUInt32LE(input, 18)
-  })
-};
-
-const TYPE_ICON = 1;
-const SIZE_HEADER$1 = 2 + 2 + 2;
-const SIZE_IMAGE_ENTRY = 1 + 1 + 1 + 1 + 2 + 2 + 4 + 4;
-function getSizeFromOffset(input, offset) {
-  const value = input[offset];
-  return value === 0 ? 256 : value;
-}
-function getImageSize$1(input, imageIndex) {
-  const offset = SIZE_HEADER$1 + imageIndex * SIZE_IMAGE_ENTRY;
-  return {
-    height: getSizeFromOffset(input, offset + 1),
-    width: getSizeFromOffset(input, offset)
-  };
-}
-const ICO = {
-  validate(input) {
-    const reserved = readUInt16LE(input, 0);
-    const imageCount = readUInt16LE(input, 4);
-    if (reserved !== 0 || imageCount === 0) return false;
-    const imageType = readUInt16LE(input, 2);
-    return imageType === TYPE_ICON;
-  },
-  calculate(input) {
-    const nbImages = readUInt16LE(input, 4);
-    const imageSize = getImageSize$1(input, 0);
-    if (nbImages === 1) return imageSize;
-    const imgs = [imageSize];
-    for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
-      imgs.push(getImageSize$1(input, imageIndex));
-    }
-    return {
-      height: imageSize.height,
-      images: imgs,
-      width: imageSize.width
-    };
-  }
-};
-
-const TYPE_CURSOR = 2;
-const CUR = {
-  validate(input) {
-    const reserved = readUInt16LE(input, 0);
-    const imageCount = readUInt16LE(input, 4);
-    if (reserved !== 0 || imageCount === 0) return false;
-    const imageType = readUInt16LE(input, 2);
-    return imageType === TYPE_CURSOR;
-  },
-  calculate: (input) => ICO.calculate(input)
-};
-
-const DDS = {
-  validate: (input) => readUInt32LE(input, 0) === 542327876,
-  calculate: (input) => ({
-    height: readUInt32LE(input, 12),
-    width: readUInt32LE(input, 16)
-  })
-};
-
-const gifRegexp = /^GIF8[79]a/;
-const GIF = {
-  validate: (input) => gifRegexp.test(toUTF8String(input, 0, 6)),
-  calculate: (input) => ({
-    height: readUInt16LE(input, 8),
-    width: readUInt16LE(input, 6)
-  })
-};
-
-const brandMap = {
-  avif: "avif",
-  mif1: "heif",
-  msf1: "heif",
-  // hief-sequence
-  heic: "heic",
-  heix: "heic",
-  hevc: "heic",
-  // heic-sequence
-  hevx: "heic"
-  // heic-sequence
-};
-function detectBrands(buffer, start, end) {
-  let brandsDetected = {};
-  for (let i = start; i <= end; i += 4) {
-    const brand = toUTF8String(buffer, i, i + 4);
-    if (brand in brandMap) {
-      brandsDetected[brand] = 1;
-    }
-  }
-  if ("avif" in brandsDetected) {
-    return "avif";
-  } else if ("heic" in brandsDetected || "heix" in brandsDetected || "hevc" in brandsDetected || "hevx" in brandsDetected) {
-    return "heic";
-  } else if ("mif1" in brandsDetected || "msf1" in brandsDetected) {
-    return "heif";
-  }
-}
-const HEIF = {
-  validate(buffer) {
-    const ftype = toUTF8String(buffer, 4, 8);
-    const brand = toUTF8String(buffer, 8, 12);
-    return "ftyp" === ftype && brand in brandMap;
-  },
-  calculate(buffer) {
-    const metaBox = findBox(buffer, "meta", 0);
-    const iprpBox = metaBox && findBox(buffer, "iprp", metaBox.offset + 12);
-    const ipcoBox = iprpBox && findBox(buffer, "ipco", iprpBox.offset + 8);
-    const ispeBox = ipcoBox && findBox(buffer, "ispe", ipcoBox.offset + 8);
-    if (ispeBox) {
-      return {
-        height: readUInt32BE(buffer, ispeBox.offset + 16),
-        width: readUInt32BE(buffer, ispeBox.offset + 12),
-        type: detectBrands(buffer, 8, metaBox.offset)
-      };
-    }
-    throw new TypeError("Invalid HEIF, no size found");
-  }
-};
-
-const SIZE_HEADER = 4 + 4;
-const FILE_LENGTH_OFFSET = 4;
-const ENTRY_LENGTH_OFFSET = 4;
-const ICON_TYPE_SIZE = {
-  ICON: 32,
-  "ICN#": 32,
-  // m => 16 x 16
-  "icm#": 16,
-  icm4: 16,
-  icm8: 16,
-  // s => 16 x 16
-  "ics#": 16,
-  ics4: 16,
-  ics8: 16,
-  is32: 16,
-  s8mk: 16,
-  icp4: 16,
-  // l => 32 x 32
-  icl4: 32,
-  icl8: 32,
-  il32: 32,
-  l8mk: 32,
-  icp5: 32,
-  ic11: 32,
-  // h => 48 x 48
-  ich4: 48,
-  ich8: 48,
-  ih32: 48,
-  h8mk: 48,
-  // . => 64 x 64
-  icp6: 64,
-  ic12: 32,
-  // t => 128 x 128
-  it32: 128,
-  t8mk: 128,
-  ic07: 128,
-  // . => 256 x 256
-  ic08: 256,
-  ic13: 256,
-  // . => 512 x 512
-  ic09: 512,
-  ic14: 512,
-  // . => 1024 x 1024
-  ic10: 1024
-};
-function readImageHeader(input, imageOffset) {
-  const imageLengthOffset = imageOffset + ENTRY_LENGTH_OFFSET;
-  return [
-    toUTF8String(input, imageOffset, imageLengthOffset),
-    readUInt32BE(input, imageLengthOffset)
-  ];
-}
-function getImageSize(type) {
-  const size = ICON_TYPE_SIZE[type];
-  return { width: size, height: size, type };
-}
-const ICNS = {
-  validate: (input) => toUTF8String(input, 0, 4) === "icns",
-  calculate(input) {
-    const inputLength = input.length;
-    const fileLength = readUInt32BE(input, FILE_LENGTH_OFFSET);
-    let imageOffset = SIZE_HEADER;
-    let imageHeader = readImageHeader(input, imageOffset);
-    let imageSize = getImageSize(imageHeader[0]);
-    imageOffset += imageHeader[1];
-    if (imageOffset === fileLength) return imageSize;
-    const result = {
-      height: imageSize.height,
-      images: [imageSize],
-      width: imageSize.width
-    };
-    while (imageOffset < fileLength && imageOffset < inputLength) {
-      imageHeader = readImageHeader(input, imageOffset);
-      imageSize = getImageSize(imageHeader[0]);
-      imageOffset += imageHeader[1];
-      result.images.push(imageSize);
-    }
-    return result;
-  }
-};
-
-const J2C = {
-  // TODO: this doesn't seem right. SIZ marker doesn't have to be right after the SOC
-  validate: (input) => toHexString(input, 0, 4) === "ff4fff51",
-  calculate: (input) => ({
-    height: readUInt32BE(input, 12),
-    width: readUInt32BE(input, 8)
-  })
-};
-
-const JP2 = {
-  validate(input) {
-    if (readUInt32BE(input, 4) !== 1783636e3 || readUInt32BE(input, 0) < 1) return false;
-    const ftypBox = findBox(input, "ftyp", 0);
-    if (!ftypBox) return false;
-    return readUInt32BE(input, ftypBox.offset + 4) === 1718909296;
-  },
-  calculate(input) {
-    const jp2hBox = findBox(input, "jp2h", 0);
-    const ihdrBox = jp2hBox && findBox(input, "ihdr", jp2hBox.offset + 8);
-    if (ihdrBox) {
-      return {
-        height: readUInt32BE(input, ihdrBox.offset + 8),
-        width: readUInt32BE(input, ihdrBox.offset + 12)
-      };
-    }
-    throw new TypeError("Unsupported JPEG 2000 format");
-  }
-};
-
-const EXIF_MARKER = "45786966";
-const APP1_DATA_SIZE_BYTES = 2;
-const EXIF_HEADER_BYTES = 6;
-const TIFF_BYTE_ALIGN_BYTES = 2;
-const BIG_ENDIAN_BYTE_ALIGN = "4d4d";
-const LITTLE_ENDIAN_BYTE_ALIGN = "4949";
-const IDF_ENTRY_BYTES = 12;
-const NUM_DIRECTORY_ENTRIES_BYTES = 2;
-function isEXIF(input) {
-  return toHexString(input, 2, 6) === EXIF_MARKER;
-}
-function extractSize(input, index) {
-  return {
-    height: readUInt16BE(input, index),
-    width: readUInt16BE(input, index + 2)
-  };
-}
-function extractOrientation(exifBlock, isBigEndian) {
-  const idfOffset = 8;
-  const offset = EXIF_HEADER_BYTES + idfOffset;
-  const idfDirectoryEntries = readUInt(exifBlock, 16, offset, isBigEndian);
-  for (let directoryEntryNumber = 0; directoryEntryNumber < idfDirectoryEntries; directoryEntryNumber++) {
-    const start = offset + NUM_DIRECTORY_ENTRIES_BYTES + directoryEntryNumber * IDF_ENTRY_BYTES;
-    const end = start + IDF_ENTRY_BYTES;
-    if (start > exifBlock.length) {
-      return;
-    }
-    const block = exifBlock.slice(start, end);
-    const tagNumber = readUInt(block, 16, 0, isBigEndian);
-    if (tagNumber === 274) {
-      const dataFormat = readUInt(block, 16, 2, isBigEndian);
-      if (dataFormat !== 3) {
-        return;
-      }
-      const numberOfComponents = readUInt(block, 32, 4, isBigEndian);
-      if (numberOfComponents !== 1) {
-        return;
-      }
-      return readUInt(block, 16, 8, isBigEndian);
-    }
-  }
-}
-function validateExifBlock(input, index) {
-  const exifBlock = input.slice(APP1_DATA_SIZE_BYTES, index);
-  const byteAlign = toHexString(
-    exifBlock,
-    EXIF_HEADER_BYTES,
-    EXIF_HEADER_BYTES + TIFF_BYTE_ALIGN_BYTES
-  );
-  const isBigEndian = byteAlign === BIG_ENDIAN_BYTE_ALIGN;
-  const isLittleEndian = byteAlign === LITTLE_ENDIAN_BYTE_ALIGN;
-  if (isBigEndian || isLittleEndian) {
-    return extractOrientation(exifBlock, isBigEndian);
-  }
-}
-function validateInput(input, index) {
-  if (index > input.length) {
-    throw new TypeError("Corrupt JPG, exceeded buffer limits");
-  }
-}
-const JPG = {
-  validate: (input) => toHexString(input, 0, 2) === "ffd8",
-  calculate(input) {
-    input = input.slice(4);
-    let orientation;
-    let next;
-    while (input.length) {
-      const i = readUInt16BE(input, 0);
-      if (input[i] !== 255) {
-        input = input.slice(i);
-        continue;
-      }
-      if (isEXIF(input)) {
-        orientation = validateExifBlock(input, i);
-      }
-      validateInput(input, i);
-      next = input[i + 1];
-      if (next === 192 || next === 193 || next === 194) {
-        const size = extractSize(input, i + 5);
-        if (!orientation) {
-          return size;
-        }
-        return {
-          height: size.height,
-          orientation,
-          width: size.width
-        };
-      }
-      input = input.slice(i + 2);
-    }
-    throw new TypeError("Invalid JPG, no size found");
-  }
-};
-
-const KTX = {
-  validate: (input) => {
-    const signature = toUTF8String(input, 1, 7);
-    return ["KTX 11", "KTX 20"].includes(signature);
-  },
-  calculate: (input) => {
-    const type = input[5] === 49 ? "ktx" : "ktx2";
-    const offset = type === "ktx" ? 36 : 20;
-    return {
-      height: readUInt32LE(input, offset + 4),
-      width: readUInt32LE(input, offset),
-      type
-    };
-  }
-};
-
-const pngSignature = "PNG\r\n\n";
-const pngImageHeaderChunkName = "IHDR";
-const pngFriedChunkName = "CgBI";
-const PNG = {
-  validate(input) {
-    if (pngSignature === toUTF8String(input, 1, 8)) {
-      let chunkName = toUTF8String(input, 12, 16);
-      if (chunkName === pngFriedChunkName) {
-        chunkName = toUTF8String(input, 28, 32);
-      }
-      if (chunkName !== pngImageHeaderChunkName) {
-        throw new TypeError("Invalid PNG");
-      }
-      return true;
-    }
-    return false;
-  },
-  calculate(input) {
-    if (toUTF8String(input, 12, 16) === pngFriedChunkName) {
-      return {
-        height: readUInt32BE(input, 36),
-        width: readUInt32BE(input, 32)
-      };
-    }
-    return {
-      height: readUInt32BE(input, 20),
-      width: readUInt32BE(input, 16)
-    };
-  }
-};
-
-const PNMTypes = {
-  P1: "pbm/ascii",
-  P2: "pgm/ascii",
-  P3: "ppm/ascii",
-  P4: "pbm",
-  P5: "pgm",
-  P6: "ppm",
-  P7: "pam",
-  PF: "pfm"
-};
-const handlers = {
-  default: (lines) => {
-    let dimensions = [];
-    while (lines.length > 0) {
-      const line = lines.shift();
-      if (line[0] === "#") {
-        continue;
-      }
-      dimensions = line.split(" ");
-      break;
-    }
-    if (dimensions.length === 2) {
-      return {
-        height: parseInt(dimensions[1], 10),
-        width: parseInt(dimensions[0], 10)
-      };
-    } else {
-      throw new TypeError("Invalid PNM");
-    }
-  },
-  pam: (lines) => {
-    const size = {};
-    while (lines.length > 0) {
-      const line = lines.shift();
-      if (line.length > 16 || line.charCodeAt(0) > 128) {
-        continue;
-      }
-      const [key, value] = line.split(" ");
-      if (key && value) {
-        size[key.toLowerCase()] = parseInt(value, 10);
-      }
-      if (size.height && size.width) {
-        break;
-      }
-    }
-    if (size.height && size.width) {
-      return {
-        height: size.height,
-        width: size.width
-      };
-    } else {
-      throw new TypeError("Invalid PAM");
-    }
-  }
-};
-const PNM = {
-  validate: (input) => toUTF8String(input, 0, 2) in PNMTypes,
-  calculate(input) {
-    const signature = toUTF8String(input, 0, 2);
-    const type = PNMTypes[signature];
-    const lines = toUTF8String(input, 3).split(/[\r\n]+/);
-    const handler = handlers[type] || handlers.default;
-    return handler(lines);
-  }
-};
-
-const PSD = {
-  validate: (input) => toUTF8String(input, 0, 4) === "8BPS",
-  calculate: (input) => ({
-    height: readUInt32BE(input, 14),
-    width: readUInt32BE(input, 18)
-  })
-};
-
-const svgReg = /<svg\s([^>"']|"[^"]*"|'[^']*')*>/;
-const extractorRegExps = {
-  height: /\sheight=(['"])([^%]+?)\1/,
-  root: svgReg,
-  viewbox: /\sviewBox=(['"])(.+?)\1/i,
-  width: /\swidth=(['"])([^%]+?)\1/
-};
-const INCH_CM = 2.54;
-const units = {
-  in: 96,
-  cm: 96 / INCH_CM,
-  em: 16,
-  ex: 8,
-  m: 96 / INCH_CM * 100,
-  mm: 96 / INCH_CM / 10,
-  pc: 96 / 72 / 12,
-  pt: 96 / 72,
-  px: 1
-};
-const unitsReg = new RegExp(
-  `^([0-9.]+(?:e\\d+)?)(${Object.keys(units).join("|")})?$`
-);
-function parseLength(len) {
-  const m = unitsReg.exec(len);
-  if (!m) {
-    return void 0;
-  }
-  return Math.round(Number(m[1]) * (units[m[2]] || 1));
-}
-function parseViewbox(viewbox) {
-  const bounds = viewbox.split(" ");
-  return {
-    height: parseLength(bounds[3]),
-    width: parseLength(bounds[2])
-  };
-}
-function parseAttributes(root) {
-  const width = extractorRegExps.width.exec(root);
-  const height = extractorRegExps.height.exec(root);
-  const viewbox = extractorRegExps.viewbox.exec(root);
-  return {
-    height: height && parseLength(height[2]),
-    viewbox: viewbox && parseViewbox(viewbox[2]),
-    width: width && parseLength(width[2])
-  };
-}
-function calculateByDimensions(attrs) {
-  return {
-    height: attrs.height,
-    width: attrs.width
-  };
-}
-function calculateByViewbox(attrs, viewbox) {
-  const ratio = viewbox.width / viewbox.height;
-  if (attrs.width) {
-    return {
-      height: Math.floor(attrs.width / ratio),
-      width: attrs.width
-    };
-  }
-  if (attrs.height) {
-    return {
-      height: attrs.height,
-      width: Math.floor(attrs.height * ratio)
-    };
-  }
-  return {
-    height: viewbox.height,
-    width: viewbox.width
-  };
-}
-const SVG = {
-  // Scan only the first kilo-byte to speed up the check on larger files
-  validate: (input) => svgReg.test(toUTF8String(input, 0, 1e3)),
-  calculate(input) {
-    const root = extractorRegExps.root.exec(toUTF8String(input));
-    if (root) {
-      const attrs = parseAttributes(root[0]);
-      if (attrs.width && attrs.height) {
-        return calculateByDimensions(attrs);
-      }
-      if (attrs.viewbox) {
-        return calculateByViewbox(attrs, attrs.viewbox);
-      }
-    }
-    throw new TypeError("Invalid SVG");
-  }
-};
-
-const TGA = {
-  validate(input) {
-    return readUInt16LE(input, 0) === 0 && readUInt16LE(input, 4) === 0;
-  },
-  calculate(input) {
-    return {
-      height: readUInt16LE(input, 14),
-      width: readUInt16LE(input, 12)
-    };
-  }
-};
-
-function readIFD(input, isBigEndian) {
-  const ifdOffset = readUInt(input, 32, 4, isBigEndian);
-  return input.slice(ifdOffset + 2);
-}
-function readValue(input, isBigEndian) {
-  const low = readUInt(input, 16, 8, isBigEndian);
-  const high = readUInt(input, 16, 10, isBigEndian);
-  return (high << 16) + low;
-}
-function nextTag(input) {
-  if (input.length > 24) {
-    return input.slice(12);
-  }
-}
-function extractTags(input, isBigEndian) {
-  const tags = {};
-  let temp = input;
-  while (temp && temp.length) {
-    const code = readUInt(temp, 16, 0, isBigEndian);
-    const type = readUInt(temp, 16, 2, isBigEndian);
-    const length = readUInt(temp, 32, 4, isBigEndian);
-    if (code === 0) {
-      break;
-    } else {
-      if (length === 1 && (type === 3 || type === 4)) {
-        tags[code] = readValue(temp, isBigEndian);
-      }
-      temp = nextTag(temp);
-    }
-  }
-  return tags;
-}
-function determineEndianness(input) {
-  const signature = toUTF8String(input, 0, 2);
-  if ("II" === signature) {
-    return "LE";
-  } else if ("MM" === signature) {
-    return "BE";
-  }
-}
-const signatures = [
-  // '492049', // currently not supported
-  "49492a00",
-  // Little endian
-  "4d4d002a"
-  // Big Endian
-  // '4d4d002a', // BigTIFF > 4GB. currently not supported
-];
-const TIFF = {
-  validate: (input) => signatures.includes(toHexString(input, 0, 4)),
-  calculate(input) {
-    const isBigEndian = determineEndianness(input) === "BE";
-    const ifdBuffer = readIFD(input, isBigEndian);
-    const tags = extractTags(ifdBuffer, isBigEndian);
-    const width = tags[256];
-    const height = tags[257];
-    if (!width || !height) {
-      throw new TypeError("Invalid Tiff. Missing tags");
-    }
-    return { height, width };
-  }
-};
-
-function calculateExtended(input) {
-  return {
-    height: 1 + readUInt24LE(input, 7),
-    width: 1 + readUInt24LE(input, 4)
-  };
-}
-function calculateLossless(input) {
-  return {
-    height: 1 + ((input[4] & 15) << 10 | input[3] << 2 | (input[2] & 192) >> 6),
-    width: 1 + ((input[2] & 63) << 8 | input[1])
-  };
-}
-function calculateLossy(input) {
-  return {
-    height: readInt16LE(input, 8) & 16383,
-    width: readInt16LE(input, 6) & 16383
-  };
-}
-const WEBP = {
-  validate(input) {
-    const riffHeader = "RIFF" === toUTF8String(input, 0, 4);
-    const webpHeader = "WEBP" === toUTF8String(input, 8, 12);
-    const vp8Header = "VP8" === toUTF8String(input, 12, 15);
-    return riffHeader && webpHeader && vp8Header;
-  },
-  calculate(input) {
-    const chunkHeader = toUTF8String(input, 12, 16);
-    input = input.slice(20, 30);
-    if (chunkHeader === "VP8X") {
-      const extendedHeader = input[0];
-      const validStart = (extendedHeader & 192) === 0;
-      const validEnd = (extendedHeader & 1) === 0;
-      if (validStart && validEnd) {
-        return calculateExtended(input);
-      } else {
-        throw new TypeError("Invalid WebP");
-      }
-    }
-    if (chunkHeader === "VP8 " && input[0] !== 47) {
-      return calculateLossy(input);
-    }
-    const signature = toHexString(input, 3, 6);
-    if (chunkHeader === "VP8L" && signature !== "9d012a") {
-      return calculateLossless(input);
-    }
-    throw new TypeError("Invalid WebP");
-  }
-};
-
-const typeHandlers = /* @__PURE__ */ new Map([
-  ["bmp", BMP],
-  ["cur", CUR],
-  ["dds", DDS],
-  ["gif", GIF],
-  ["heif", HEIF],
-  ["icns", ICNS],
-  ["ico", ICO],
-  ["j2c", J2C],
-  ["jp2", JP2],
-  ["jpg", JPG],
-  ["ktx", KTX],
-  ["png", PNG],
-  ["pnm", PNM],
-  ["psd", PSD],
-  ["svg", SVG],
-  ["tga", TGA],
-  ["tiff", TIFF],
-  ["webp", WEBP]
-]);
-const types = Array.from(typeHandlers.keys());
-
-const firstBytes = /* @__PURE__ */ new Map([
-  [56, "psd"],
-  [66, "bmp"],
-  [68, "dds"],
-  [71, "gif"],
-  [73, "tiff"],
-  [77, "tiff"],
-  [82, "webp"],
-  [105, "icns"],
-  [137, "png"],
-  [255, "jpg"]
-]);
-function detector(input) {
-  const byte = input[0];
-  const type = firstBytes.get(byte);
-  if (type && typeHandlers.get(type).validate(input)) {
-    return type;
-  }
-  return types.find((fileType) => typeHandlers.get(fileType).validate(input));
-}
-
-const globalOptions = {
-  disabledTypes: []
-};
-function lookup(input) {
-  const type = detector(input);
-  if (typeof type !== "undefined") {
-    if (globalOptions.disabledTypes.includes(type)) {
-      throw new TypeError("disabled file type: " + type);
-    }
-    const size = typeHandlers.get(type).calculate(input);
-    if (size !== void 0) {
-      size.type = size.type ?? type;
-      return size;
-    }
-  }
-  throw new TypeError("unsupported file type: " + type);
-}
-
-async function imageMetadata(data, src) {
-  try {
-    const result = lookup(data);
-    if (!result.height || !result.width || !result.type) {
-      throw new AstroError({
-        ...NoImageMetadata,
-        message: NoImageMetadata.message(src)
-      });
-    }
-    const { width, height, type, orientation } = result;
-    const isPortrait = (orientation || 0) >= 5;
-    return {
-      width: isPortrait ? height : width,
-      height: isPortrait ? width : height,
-      format: type,
-      orientation
-    };
-  } catch {
-    throw new AstroError({
-      ...NoImageMetadata,
-      message: NoImageMetadata.message(src)
-    });
-  }
-}
-
-async function inferRemoteSize(url) {
-  const response = await fetch(url);
-  if (!response.body || !response.ok) {
-    throw new AstroError({
-      ...FailedToFetchRemoteImageDimensions,
-      message: FailedToFetchRemoteImageDimensions.message(url)
-    });
-  }
-  const reader = response.body.getReader();
-  let done, value;
-  let accumulatedChunks = new Uint8Array();
-  while (!done) {
-    const readResult = await reader.read();
-    done = readResult.done;
-    if (done) break;
-    if (readResult.value) {
-      value = readResult.value;
-      let tmp = new Uint8Array(accumulatedChunks.length + value.length);
-      tmp.set(accumulatedChunks, 0);
-      tmp.set(value, accumulatedChunks.length);
-      accumulatedChunks = tmp;
-      try {
-        const dimensions = await imageMetadata(accumulatedChunks, url);
-        if (dimensions) {
-          await reader.cancel();
-          return dimensions;
-        }
-      } catch {
-      }
-    }
-  }
-  throw new AstroError({
-    ...NoImageMetadata,
-    message: NoImageMetadata.message(url)
-  });
-}
-
-async function getConfiguredImageService() {
-  if (!globalThis?.astroAsset?.imageService) {
-    const { default: service } = await import(
-      // @ts-expect-error
-      '../chunks/astro/assets-service_CGzmfIre.mjs'
-    ).then(n => n.s).catch((e) => {
-      const error = new AstroError(InvalidImageService);
-      error.cause = e;
-      throw error;
-    });
-    if (!globalThis.astroAsset) globalThis.astroAsset = {};
-    globalThis.astroAsset.imageService = service;
-    return service;
-  }
-  return globalThis.astroAsset.imageService;
-}
-async function getImage$1(options, imageConfig) {
-  if (!options || typeof options !== "object") {
-    throw new AstroError({
-      ...ExpectedImageOptions,
-      message: ExpectedImageOptions.message(JSON.stringify(options))
-    });
-  }
-  if (typeof options.src === "undefined") {
-    throw new AstroError({
-      ...ExpectedImage,
-      message: ExpectedImage.message(
-        options.src,
-        "undefined",
-        JSON.stringify(options)
-      )
-    });
-  }
-  if (isImageMetadata(options)) {
-    throw new AstroError(ExpectedNotESMImage);
-  }
-  const service = await getConfiguredImageService();
-  const resolvedOptions = {
-    ...options,
-    src: await resolveSrc(options.src)
-  };
-  if (options.inferSize && isRemoteImage(resolvedOptions.src) && isCoreRemotePath(resolvedOptions.src)) {
-    const result = await inferRemoteSize(resolvedOptions.src);
-    resolvedOptions.width ??= result.width;
-    resolvedOptions.height ??= result.height;
-    delete resolvedOptions.inferSize;
-  }
-  const originalFilePath = isESMImportedImage(resolvedOptions.src) ? resolvedOptions.src.fsPath : void 0;
-  const clonedSrc = isESMImportedImage(resolvedOptions.src) ? (
-    // @ts-expect-error - clone is a private, hidden prop
-    resolvedOptions.src.clone ?? resolvedOptions.src
-  ) : resolvedOptions.src;
-  resolvedOptions.src = clonedSrc;
-  const validatedOptions = service.validateOptions ? await service.validateOptions(resolvedOptions, imageConfig) : resolvedOptions;
-  const srcSetTransforms = service.getSrcSet ? await service.getSrcSet(validatedOptions, imageConfig) : [];
-  let imageURL = await service.getURL(validatedOptions, imageConfig);
-  let srcSets = await Promise.all(
-    srcSetTransforms.map(async (srcSet) => ({
-      transform: srcSet.transform,
-      url: await service.getURL(srcSet.transform, imageConfig),
-      descriptor: srcSet.descriptor,
-      attributes: srcSet.attributes
-    }))
-  );
-  if (isLocalService(service) && globalThis.astroAsset.addStaticImage && !(isRemoteImage(validatedOptions.src) && imageURL === validatedOptions.src)) {
-    const propsToHash = service.propertiesToHash ?? DEFAULT_HASH_PROPS;
-    imageURL = globalThis.astroAsset.addStaticImage(
-      validatedOptions,
-      propsToHash,
-      originalFilePath
-    );
-    srcSets = srcSetTransforms.map((srcSet) => ({
-      transform: srcSet.transform,
-      url: globalThis.astroAsset.addStaticImage(srcSet.transform, propsToHash, originalFilePath),
-      descriptor: srcSet.descriptor,
-      attributes: srcSet.attributes
-    }));
-  }
-  return {
-    rawOptions: resolvedOptions,
-    options: validatedOptions,
-    src: imageURL,
-    srcSet: {
-      values: srcSets,
-      attribute: srcSets.map((srcSet) => `${srcSet.url} ${srcSet.descriptor}`).join(", ")
-    },
-    attributes: service.getHTMLAttributes !== void 0 ? await service.getHTMLAttributes(validatedOptions, imageConfig) : {}
-  };
-}
-
-const $$Astro$5 = createAstro();
-const $$Image = createComponent(async ($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$5, $$props, $$slots);
-  Astro2.self = $$Image;
-  const props = Astro2.props;
-  if (props.alt === void 0 || props.alt === null) {
-    throw new AstroError(ImageMissingAlt);
-  }
-  if (typeof props.width === "string") {
-    props.width = parseInt(props.width);
-  }
-  if (typeof props.height === "string") {
-    props.height = parseInt(props.height);
-  }
-  const image = await getImage(props);
-  const additionalAttributes = {};
-  if (image.srcSet.values.length > 0) {
-    additionalAttributes.srcset = image.srcSet.attribute;
-  }
-  return renderTemplate`${maybeRenderHead()}<img${addAttribute(image.src, "src")}${spreadAttributes(additionalAttributes)}${spreadAttributes(image.attributes)}>`;
-}, "/Users/pirawatwareetanyarat/Documents/rgs/node_modules/astro/components/Image.astro", void 0);
-
-const $$Astro$4 = createAstro();
-const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
-  const Astro2 = $$result.createAstro($$Astro$4, $$props, $$slots);
-  Astro2.self = $$Picture;
-  const defaultFormats = ["webp"];
-  const defaultFallbackFormat = "png";
-  const specialFormatsFallback = ["gif", "svg", "jpg", "jpeg"];
-  const { formats = defaultFormats, pictureAttributes = {}, fallbackFormat, ...props } = Astro2.props;
-  if (props.alt === void 0 || props.alt === null) {
-    throw new AstroError(ImageMissingAlt);
-  }
-  const scopedStyleClass = props.class?.match(/\bastro-\w{8}\b/)?.[0];
-  if (scopedStyleClass) {
-    if (pictureAttributes.class) {
-      pictureAttributes.class = `${pictureAttributes.class} ${scopedStyleClass}`;
-    } else {
-      pictureAttributes.class = scopedStyleClass;
-    }
-  }
-  for (const key in props) {
-    if (key.startsWith("data-astro-cid")) {
-      pictureAttributes[key] = props[key];
-    }
-  }
-  const originalSrc = await resolveSrc(props.src);
-  const optimizedImages = await Promise.all(
-    formats.map(
-      async (format) => await getImage({
-        ...props,
-        src: originalSrc,
-        format,
-        widths: props.widths,
-        densities: props.densities
-      })
-    )
-  );
-  let resultFallbackFormat = fallbackFormat ?? defaultFallbackFormat;
-  if (!fallbackFormat && isESMImportedImage(originalSrc) && specialFormatsFallback.includes(originalSrc.format)) {
-    resultFallbackFormat = originalSrc.format;
-  }
-  const fallbackImage = await getImage({
-    ...props,
-    format: resultFallbackFormat,
-    widths: props.widths,
-    densities: props.densities
-  });
-  const imgAdditionalAttributes = {};
-  const sourceAdditionalAttributes = {};
-  if (props.sizes) {
-    sourceAdditionalAttributes.sizes = props.sizes;
-  }
-  if (fallbackImage.srcSet.values.length > 0) {
-    imgAdditionalAttributes.srcset = fallbackImage.srcSet.attribute;
-  }
-  return renderTemplate`${maybeRenderHead()}<picture${spreadAttributes(pictureAttributes)}> ${Object.entries(optimizedImages).map(([_, image]) => {
-    const srcsetAttribute = props.densities || !props.densities && !props.widths ? `${image.src}${image.srcSet.values.length > 0 ? ", " + image.srcSet.attribute : ""}` : image.srcSet.attribute;
-    return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(mime.lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
-  })} <img${addAttribute(fallbackImage.src, "src")}${spreadAttributes(imgAdditionalAttributes)}${spreadAttributes(fallbackImage.attributes)}> </picture>`;
-}, "/Users/pirawatwareetanyarat/Documents/rgs/node_modules/astro/components/Picture.astro", void 0);
-
-const imageConfig = {"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[]};
-					const getImage = async (options) => await getImage$1(options, imageConfig);
 
 const $$Header = createComponent(($$result, $$props, $$slots) => {
   const navItems = [
@@ -1060,7 +49,7 @@ const heroBgImage = new Proxy({"src":"/_astro/hero_image.Bg_9H7kg.jpg","width":1
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/hero_image.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/hero_image.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1098,7 +87,7 @@ const serviceBgImage = new Proxy({"src":"/_astro/cleaningService.7QCDQEOZ.jpg","
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/cleaningService.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/cleaningService.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1111,7 +100,7 @@ const installationBgImage = new Proxy({"src":"/_astro/installationService._rza4p
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/installationService.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/installationService.png");
+							
 							return target[name];
 						}
 					});
@@ -1124,7 +113,7 @@ const securityBgImage = new Proxy({"src":"/_astro/securityService.BGmpYtcp.jpg",
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/securityService.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/securityService.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1183,7 +172,7 @@ const aomsinLogo = new Proxy({"src":"/_astro/aomsinLogo.B_yM0-LM.jpg","width":95
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/aomsinLogo.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/aomsinLogo.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1196,7 +185,7 @@ const bangsueLogo = new Proxy({"src":"/_astro/bangsueLogo.D5qk8j55.png","width":
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/bangsueLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/bangsueLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1209,7 +198,7 @@ const centralHouseLogo = new Proxy({"src":"/_astro/centralHouseLogo.BNjkw0rz.png
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/centralHouseLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/centralHouseLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1222,7 +211,7 @@ const crystalSolanaLogo = new Proxy({"src":"/_astro/crystalSolanaLogo.HnzChMTr.j
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/crystalSolanaLogo.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/crystalSolanaLogo.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1235,7 +224,7 @@ const edsLogo = new Proxy({"src":"/_astro/edsLogo.oM5xkh56.png","width":1200,"he
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/edsLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/edsLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1248,7 +237,7 @@ const egatLogo = new Proxy({"src":"/_astro/egatLogo.CPRGkm3k.png","width":1678,"
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/egatLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/egatLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1261,7 +250,7 @@ const emblemOfTheCrownLogo = new Proxy({"src":"/_astro/emblemOfTheThaiCrownLogo.
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/emblemOfTheThaiCrownLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/emblemOfTheThaiCrownLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1274,7 +263,7 @@ const huaweiLogo = new Proxy({"src":"/_astro/huaweiLogo.CWS9_ZF6.png","width":60
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/huaweiLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/huaweiLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1287,7 +276,7 @@ const jebsenLogo = new Proxy({"src":"/_astro/jebsenLogo.CZWAXEuK.png","width":15
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/jebsenLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/jebsenLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1300,7 +289,7 @@ const nfiLogo = new Proxy({"src":"/_astro/nfiLogo.DR4KDn5k.jpg","width":225,"hei
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/nfiLogo.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/nfiLogo.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1313,7 +302,7 @@ const narasiriLogo = new Proxy({"src":"/_astro/narasiriLogo.C3UybDVP.png","width
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/narasiriLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/narasiriLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1326,7 +315,7 @@ const pathumThaniPlaceHotelLogo = new Proxy({"src":"/_astro/pathumThaniPlaceHote
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/pathumThaniPlaceHotelLogo.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/pathumThaniPlaceHotelLogo.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1339,7 +328,7 @@ const pearlResortLogo = new Proxy({"src":"/_astro/perarlResortLogo.CNNhseq5.jpg"
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/perarlResortLogo.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/perarlResortLogo.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1352,7 +341,7 @@ const qslLogo = new Proxy({"src":"/_astro/qslLogo.JxdtCurM.webp","width":1288,"h
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/qslLogo.webp";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/qslLogo.webp");
+							
 							return target[name];
 						}
 					});
@@ -1365,7 +354,7 @@ const thainaokaLogo = new Proxy({"src":"/_astro/thainaokaLogo.8c9-QDc3.png","wid
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/thainaokaLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/thainaokaLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1378,7 +367,7 @@ const thanakornApartmentLogo = new Proxy({"src":"/_astro/thanakornApartmentLogo.
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/thanakornApartmentLogo.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/thanakornApartmentLogo.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1391,7 +380,7 @@ const wasugreeLogo = new Proxy({"src":"/_astro/wasugreeLogo.DxVsJIeQ.png","width
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/wasugreeLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/wasugreeLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1429,7 +418,7 @@ const egatImage = new Proxy({"src":"/_astro/EGAT.smQjt52b.jpg","width":1477,"hei
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/EGAT.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/EGAT.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1442,7 +431,7 @@ const commonAreaMaintenance = new Proxy({"src":"/_astro/commonAreaMaintenance.Bw
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/commonAreaMaintenance.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/commonAreaMaintenance.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1455,7 +444,7 @@ const royalSecurity = new Proxy({"src":"/_astro/904.Cp-0ejey.jpg","width":1108,"
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/904.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/904.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1468,7 +457,7 @@ const specificAreaMaintenance = new Proxy({"src":"/_astro/specificAreaMaintenanc
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/specificAreaMaintenance.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/specificAreaMaintenance.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1481,7 +470,7 @@ const thainaokaCompany = new Proxy({"src":"/_astro/thainaoka.COluCLfL.jpg","widt
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/thainaoka.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/thainaoka.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1494,7 +483,7 @@ const practiceImage = new Proxy({"src":"/_astro/practice.BYd0HhsT.jpg","width":1
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/practice.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/practice.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1574,7 +563,7 @@ const $$Contact = createComponent(async ($$result, $$props, $$slots) => {
     license: "ตภ.2600068"
   };
   const TURNSTILE_SITE_KEY = "your-site-key-here";
-  return renderTemplate(_a || (_a = __template(['<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> ', '<section id="contact" class="w-full bg-[#002147] py-20 px-4 md:px-8 relative overflow-hidden"> <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div> <div class="max-w-7xl mx-auto relative z-10"> <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16"> <div class="md:col-span-5 order-2 md:order-1 flex flex-col justify-center space-y-10 text-white"> <div> <h5 class="text-amber-500 font-bold uppercase tracking-widest text-sm mb-2">Contact Us</h5> <h2 class="text-3xl md:text-4xl font-bold mb-2">ช่องทางติดต่อ</h2> <p class="text-slate-300 text-lg">ปรึกษาและวางแผนระบบรักษาความปลอดภัยฟรี</p> </div> <div class="space-y-8"> <div class="flex gap-4"> <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path> </svg> </div> <div> <h4 class="font-bold text-lg mb-1">สำนักงานใหญ่</h4> <p class="text-slate-300 text-sm leading-relaxed mb-2"> ', "<br> ", "<br> ", ' </p> <a href="https://maps.google.com/?q=13.7865,100.6535" target="_blank" rel="noopener noreferrer" class="text-amber-500 text-xs font-bold underline hover:text-amber-400 transition-colors">\nดูแผนที่ Google Maps\n</a> </div> </div> <div class="flex gap-4"> <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path> </svg> </div> <div> <h4 class="font-bold text-lg mb-2">เบอร์โทรศัพท์ติดต่อ</h4> <div class="space-y-1"> <p class="text-slate-300 text-sm">Office: <a', ' class="hover:text-white transition-colors">', '</a></p> <p class="text-slate-300 text-sm">\nHotline 1: <a', ' class="text-white font-bold hover:text-amber-400 transition-colors">', '</a> </p> <p class="text-slate-300 text-sm">\nHotline 2: <a', ' class="text-white font-bold hover:text-amber-400 transition-colors">', '</a> </p> </div> </div> </div> <div class="flex gap-4"> <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path> </svg> </div> <div> <h4 class="font-bold text-lg mb-1">อีเมล & LINE</h4> <a', ' class="text-slate-300 text-sm mb-3 hover:text-amber-400 transition-colors block">', '</a> <div class="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10 max-w-xs cursor-pointer hover:bg-white/10 transition-colors"> <svg class="w-8 h-8 text-green-400" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path> </svg> <div class="flex-1"> <p class="text-xs text-slate-400">Add Line for Fast Response</p> <p class="text-sm font-bold text-white">Line ID: ', '</p> </div> </div> </div> </div> </div> <div class="pt-6 border-t border-white/10"> <p class="text-slate-400 text-sm">\nใบอนุญาต: <span class="text-white font-semibold">', '</span> </p> </div> </div> <div class="md:col-span-7 order-1 md:order-2"> <div class="bg-white rounded-2xl shadow-2xl overflow-hidden p-6 md:p-8 border-t-8 border-amber-500"> <div class="mb-6"> <h3 class="text-[#002147] text-2xl font-bold mb-2">บริการประเมินราคาเบื้องต้นฟรี</h3> <p class="text-slate-500 text-sm">กรอกข้อมูลเพื่อให้เจ้าหน้าที่ติดต่อกลับเพื่อนำเสนอโซลูชั่นที่ดีที่สุด (ก่อนตัดสินใจจ้างงาน)</p> </div> <form class="space-y-4" id="contact-form"> <!-- Honeypot field for bot detection - hidden from humans --> <input type="text" name="website_url" tabindex="-1" autocomplete="off" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;" aria-hidden="true"> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">ชื่อ-นามสกุล</label> <input type="text" name="name" required placeholder="ระบุชื่อผู้ติดต่อ" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all"> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">เบอร์โทรศัพท์</label> <input type="tel" name="phone" required placeholder="0xx-xxx-xxxx" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all"> </div> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">อีเมล</label> <input type="email" name="email" required placeholder="name@company.com" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all"> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">บริการที่สนใจ</label> <div class="relative"> <select name="service" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none appearance-none transition-all cursor-pointer"> <option value="" disabled selected>กรุณาเลือกบริการ</option> <option value="security">บริการรักษาความปลอดภัย (Security)</option> <option value="cleaning">บริการทำความสะอาด (Cleaning)</option> <option value="duo">Duo Care (บริการผสมผสาน Security + Cleaning)</option> <option value="smart">ระบบ Smart Security</option> <option value="other">อื่นๆ</option> </select> <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"> <svg class="w-4 h-4 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </div> </div> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">รายละเอียดเพิ่มเติม</label> <textarea name="message" rows="4" placeholder="ระบุขนาดพื้นที่, จำนวนจุดที่ต้องการ รปภ., หรือรายละเอียดอื่นๆ..." class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all resize-none"></textarea> </div> <!-- Cloudflare Turnstile Widget --> <div class="flex justify-start"> <div class="cf-turnstile"', ' data-callback="turnstileCallback" data-error-callback="turnstileErrorCallback"></div> </div> <input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response"> <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-[#002147] font-bold text-lg py-4 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2"> <span>ขอใบเสนอราคาฟรี (Get Free Quote)</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path> </svg> </button> <p class="text-center text-xs text-slate-400 mt-2">\n*ข้อมูลของท่านจะถูกเก็บเป็นความลับ\n</p> <p id="form-message" class="text-center text-sm hidden"></p> </form> </div> </div> </div> </div> </section> '])), maybeRenderHead(), contactInfo.address, contactInfo.street, contactInfo.city, addAttribute(`tel:${contactInfo.phone.replace(/-/g, "")}`, "href"), contactInfo.phone, addAttribute(`tel:${contactInfo.hotline1.replace(/-/g, "").replace(/\s/g, "")}`, "href"), contactInfo.hotline1, addAttribute(`tel:${contactInfo.hotline2.replace(/-/g, "").replace(/\s/g, "")}`, "href"), contactInfo.hotline2, addAttribute(`mailto:${contactInfo.email}`, "href"), contactInfo.email, contactInfo.lineId, contactInfo.license, addAttribute(TURNSTILE_SITE_KEY, "data-sitekey"));
+  return renderTemplate(_a || (_a = __template(['<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> ', '<section id="contact" class="w-full bg-[#002147] py-20 px-4 md:px-8 relative overflow-hidden"> <div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div> <div class="max-w-7xl mx-auto relative z-10"> <div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16"> <div class="md:col-span-5 order-2 md:order-1 flex flex-col justify-center space-y-10 text-white"> <div> <h5 class="text-amber-500 font-bold uppercase tracking-widest text-sm mb-2">Contact Us</h5> <h2 class="text-3xl md:text-4xl font-bold mb-2">ช่องทางติดต่อ</h2> <p class="text-slate-300 text-lg">ปรึกษาและวางแผนระบบรักษาความปลอดภัยฟรี</p> </div> <div class="space-y-8"> <div class="flex gap-4"> <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path> </svg> </div> <div> <h4 class="font-bold text-lg mb-1">สำนักงานใหญ่</h4> <p class="text-slate-300 text-sm leading-relaxed mb-2"> ', "<br> ", "<br> ", ' </p> <a href="https://maps.google.com/?q=13.7865,100.6535" target="_blank" rel="noopener noreferrer" class="text-amber-500 text-xs font-bold underline hover:text-amber-400 transition-colors">\nดูแผนที่ Google Maps\n</a> </div> </div> <div class="flex gap-4"> <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path> </svg> </div> <div> <h4 class="font-bold text-lg mb-2">เบอร์โทรศัพท์ติดต่อ</h4> <div class="space-y-1"> <p class="text-slate-300 text-sm">Office: <a', ' class="hover:text-white transition-colors">', '</a></p> <p class="text-slate-300 text-sm">\nHotline 1: <a', ' class="text-white font-bold hover:text-amber-400 transition-colors">', '</a> </p> <p class="text-slate-300 text-sm">\nHotline 2: <a', ' class="text-white font-bold hover:text-amber-400 transition-colors">', '</a> </p> </div> </div> </div> <div class="flex gap-4"> <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500"> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path> </svg> </div> <div> <h4 class="font-bold text-lg mb-1">อีเมล & LINE</h4> <a', ' class="text-slate-300 text-sm mb-3 hover:text-amber-400 transition-colors block">', '</a> <div class="flex items-center gap-3 bg-white/5 p-3 rounded-lg border border-white/10 max-w-xs cursor-pointer hover:bg-white/10 transition-colors"> <svg class="w-8 h-8 text-green-400" fill="currentColor" viewBox="0 0 24 24"> <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"></path> </svg> <div class="flex-1"> <p class="text-xs text-slate-400">Add Line for Fast Response</p> <p class="text-sm font-bold text-white">Line ID: ', '</p> </div> </div> </div> </div> </div> <div class="pt-6 border-t border-white/10"> <p class="text-slate-400 text-sm">\nใบอนุญาต: <span class="text-white font-semibold">', '</span> </p> </div> </div> <div class="md:col-span-7 order-1 md:order-2"> <div class="bg-white rounded-2xl shadow-2xl overflow-hidden p-6 md:p-8 border-t-8 border-amber-500"> <div class="mb-6"> <h3 class="text-[#002147] text-2xl font-bold mb-2">บริการประเมินราคาเบื้องต้นฟรี</h3> <p class="text-slate-500 text-sm">กรอกข้อมูลเพื่อให้เจ้าหน้าที่ติดต่อกลับเพื่อนำเสนอโซลูชั่นที่ดีที่สุด (ก่อนตัดสินใจจ้างงาน)</p> </div> <form class="space-y-4" id="contact-form"> <!-- Honeypot field for bot detection - hidden from humans --> <input type="text" name="website_url" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;" aria-hidden="true"> <div class="grid grid-cols-1 md:grid-cols-2 gap-4"> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">ชื่อ-นามสกุล</label> <input type="text" name="name" required placeholder="ระบุชื่อผู้ติดต่อ" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all"> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">เบอร์โทรศัพท์</label> <input type="tel" name="phone" required placeholder="0xx-xxx-xxxx" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all"> </div> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">อีเมล</label> <input type="email" name="email" required placeholder="name@company.com" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all"> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">บริการที่สนใจ</label> <div class="relative"> <select name="service" class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none appearance-none transition-all cursor-pointer"> <option value="" disabled selected>กรุณาเลือกบริการ</option> <option value="security">บริการรักษาความปลอดภัย (Security)</option> <option value="cleaning">บริการทำความสะอาด (Cleaning)</option> <option value="duo">Duo Care (บริการผสมผสาน Security + Cleaning)</option> <option value="smart">ระบบ Smart Security</option> <option value="other">อื่นๆ</option> </select> <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400"> <svg class="w-4 h-4 rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path> </svg> </div> </div> </div> <div class="space-y-1"> <label class="text-xs font-bold text-slate-600 uppercase">รายละเอียดเพิ่มเติม</label> <textarea name="message" rows="4" placeholder="ระบุขนาดพื้นที่, จำนวนจุดที่ต้องการ รปภ., หรือรายละเอียดอื่นๆ..." class="w-full bg-slate-100 border-2 border-transparent focus:bg-white focus:border-[#002147] rounded-lg px-4 py-3 text-slate-900 outline-none transition-all resize-none"></textarea> </div> <!-- Cloudflare Turnstile Widget --> <div class="flex justify-start"> <div class="cf-turnstile"', ' data-callback="turnstileCallback" data-error-callback="turnstileErrorCallback"></div> </div> <input type="hidden" name="turnstileToken" id="turnstileToken"> <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-[#002147] font-bold text-lg py-4 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2"> <span>ขอใบเสนอราคาฟรี (Get Free Quote)</span> <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path> </svg> </button> <p class="text-center text-xs text-slate-400 mt-2">\n*ข้อมูลของท่านจะถูกเก็บเป็นความลับ\n</p> <p id="form-message" class="text-center text-sm hidden"></p> </form> </div> </div> </div> </div> </section> '])), maybeRenderHead(), contactInfo.address, contactInfo.street, contactInfo.city, addAttribute(`tel:${contactInfo.phone.replace(/-/g, "")}`, "href"), contactInfo.phone, addAttribute(`tel:${contactInfo.hotline1.replace(/-/g, "").replace(/\s/g, "")}`, "href"), contactInfo.hotline1, addAttribute(`tel:${contactInfo.hotline2.replace(/-/g, "").replace(/\s/g, "")}`, "href"), contactInfo.hotline2, addAttribute(`mailto:${contactInfo.email}`, "href"), contactInfo.email, contactInfo.lineId, contactInfo.license, addAttribute(TURNSTILE_SITE_KEY, "data-sitekey"));
 }, "/Users/pirawatwareetanyarat/Documents/rgs/src/components/Contact.astro", void 0);
 
 const $$Footer = createComponent(($$result, $$props, $$slots) => {
@@ -1611,7 +600,7 @@ const hikivisionLogo = new Proxy({"src":"/_astro/hikivisionLogo.B7fqdyEz.svg","w
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/hikivisionLogo.svg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/hikivisionLogo.svg");
+							
 							return target[name];
 						}
 					});
@@ -1624,7 +613,7 @@ const dahuaLogo = new Proxy({"src":"/_astro/dahuaLogo.Cs3_mj48.svg","width":1024
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/dahuaLogo.svg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/dahuaLogo.svg");
+							
 							return target[name];
 						}
 					});
@@ -1637,7 +626,7 @@ const hipLogo = new Proxy({"src":"/_astro/hipLogo.CoN5xoeH.png","width":437,"hei
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/hipLogo.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/hipLogo.png");
+							
 							return target[name];
 						}
 					});
@@ -1650,7 +639,7 @@ const citLogo = new Proxy({"src":"/_astro/citLogo.DNNnK0Tb.webp","width":626,"he
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/citLogo.webp";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/citLogo.webp");
+							
 							return target[name];
 						}
 					});
@@ -1870,7 +859,7 @@ const selfDefenseImage = new Proxy({"src":"/_astro/selfDefense.CoXEd_O2.png","wi
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/selfDefense.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/selfDefense.png");
+							
 							return target[name];
 						}
 					});
@@ -1883,7 +872,7 @@ const cprImage = new Proxy({"src":"/_astro/cpr.BaETRP3p.jpg","width":748,"height
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/cpr.jpg";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/cpr.jpg");
+							
 							return target[name];
 						}
 					});
@@ -1896,7 +885,7 @@ const fireTrainingImage = new Proxy({"src":"/_astro/fireTraining.DdwvdKrb.png","
 							if (name === 'fsPath') {
 								return "/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/fireTraining.png";
 							}
-							if (target[name] !== undefined && globalThis.astroAsset) globalThis.astroAsset?.referencedImages.add("/Users/pirawatwareetanyarat/Documents/rgs/src/assets/images/fireTraining.png");
+							
 							return target[name];
 						}
 					});

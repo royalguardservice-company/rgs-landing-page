@@ -1,3 +1,71 @@
+function appendForwardSlash(path) {
+  return path.endsWith("/") ? path : path + "/";
+}
+function prependForwardSlash(path) {
+  return path[0] === "/" ? path : "/" + path;
+}
+function removeTrailingForwardSlash(path) {
+  return path.endsWith("/") ? path.slice(0, path.length - 1) : path;
+}
+function removeLeadingForwardSlash(path) {
+  return path.startsWith("/") ? path.substring(1) : path;
+}
+function trimSlashes(path) {
+  return path.replace(/^\/|\/$/g, "");
+}
+function isString(path) {
+  return typeof path === "string" || path instanceof String;
+}
+function joinPaths(...paths) {
+  return paths.filter(isString).map((path, i) => {
+    if (i === 0) {
+      return removeTrailingForwardSlash(path);
+    } else if (i === paths.length - 1) {
+      return removeLeadingForwardSlash(path);
+    } else {
+      return trimSlashes(path);
+    }
+  }).join("/");
+}
+function isRemotePath(src) {
+  return /^(?:http|ftp|https|ws):?\/\//.test(src) || src.startsWith("data:");
+}
+function slash(path) {
+  return path.replace(/\\/g, "/");
+}
+function fileExtension(path) {
+  const ext = path.split(".").pop();
+  return ext !== path ? `.${ext}` : "";
+}
+
+const ClientAddressNotAvailable = {
+  name: "ClientAddressNotAvailable",
+  title: "`Astro.clientAddress` is not available in current adapter.",
+  message: (adapterName) => `\`Astro.clientAddress\` is not available in the \`${adapterName}\` adapter. File an issue with the adapter to add support.`
+};
+const PrerenderClientAddressNotAvailable = {
+  name: "PrerenderClientAddressNotAvailable",
+  title: "`Astro.clientAddress` cannot be used inside prerendered routes.",
+  message: `\`Astro.clientAddress\` cannot be used inside prerendered routes`
+};
+const StaticClientAddressNotAvailable = {
+  name: "StaticClientAddressNotAvailable",
+  title: "`Astro.clientAddress` is not available in static mode.",
+  message: "`Astro.clientAddress` is only available when using `output: 'server'` or `output: 'hybrid'`. Update your Astro config if you need SSR features.",
+  hint: "See https://docs.astro.build/en/guides/server-side-rendering/ for more information on how to enable SSR."
+};
+const NoMatchingStaticPathFound = {
+  name: "NoMatchingStaticPathFound",
+  title: "No static path found for requested path.",
+  message: (pathName) => `A \`getStaticPaths()\` route pattern was matched, but no matching static path was found for requested path \`${pathName}\`.`,
+  hint: (possibleRoutes) => `Possible dynamic routes being matched: ${possibleRoutes.join(", ")}.`
+};
+const OnlyResponseCanBeReturned = {
+  name: "OnlyResponseCanBeReturned",
+  title: "Invalid type returned by Astro page.",
+  message: (route, returnedValue) => `Route \`${route ? route : ""}\` returned a \`${returnedValue}\`. Only a [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) can be returned from Astro files.`,
+  hint: "See https://docs.astro.build/en/guides/server-side-rendering/#response for more information."
+};
 const MissingMediaQueryDirective = {
   name: "MissingMediaQueryDirective",
   title: "Missing value for `client:media` directive.",
@@ -26,6 +94,44 @@ const NoClientOnlyHint = {
   message: (componentName) => `Unable to render \`${componentName}\`. When using the \`client:only\` hydration strategy, Astro needs a hint to use the correct renderer.`,
   hint: (probableRenderers) => `Did you mean to pass \`client:only="${probableRenderers}"\`? See https://docs.astro.build/en/reference/directives-reference/#clientonly for more information on client:only`
 };
+const InvalidGetStaticPathsEntry = {
+  name: "InvalidGetStaticPathsEntry",
+  title: "Invalid entry inside getStaticPath's return value",
+  message: (entryType) => `Invalid entry returned by getStaticPaths. Expected an object, got \`${entryType}\``,
+  hint: "If you're using a `.map` call, you might be looking for `.flatMap()` instead. See https://docs.astro.build/en/reference/api-reference/#getstaticpaths for more information on getStaticPaths."
+};
+const InvalidGetStaticPathsReturn = {
+  name: "InvalidGetStaticPathsReturn",
+  title: "Invalid value returned by getStaticPaths.",
+  message: (returnType) => `Invalid type returned by \`getStaticPaths\`. Expected an \`array\`, got \`${returnType}\``,
+  hint: "See https://docs.astro.build/en/reference/api-reference/#getstaticpaths for more information on getStaticPaths."
+};
+const GetStaticPathsExpectedParams = {
+  name: "GetStaticPathsExpectedParams",
+  title: "Missing params property on `getStaticPaths` route.",
+  message: "Missing or empty required `params` property on `getStaticPaths` route.",
+  hint: "See https://docs.astro.build/en/reference/api-reference/#getstaticpaths for more information on getStaticPaths."
+};
+const GetStaticPathsInvalidRouteParam = {
+  name: "GetStaticPathsInvalidRouteParam",
+  title: "Invalid value for `getStaticPaths` route parameter.",
+  message: (key, value, valueType) => `Invalid getStaticPaths route parameter for \`${key}\`. Expected undefined, a string or a number, received \`${valueType}\` (\`${value}\`)`,
+  hint: "See https://docs.astro.build/en/reference/api-reference/#getstaticpaths for more information on getStaticPaths."
+};
+const GetStaticPathsRequired = {
+  name: "GetStaticPathsRequired",
+  title: "`getStaticPaths()` function required for dynamic routes.",
+  message: "`getStaticPaths()` function is required for dynamic routes. Make sure that you `export` a `getStaticPaths` function from your dynamic route.",
+  hint: `See https://docs.astro.build/en/guides/routing/#dynamic-routes for more information on dynamic routes.
+
+Alternatively, set \`output: "server"\` or \`output: "hybrid"\` in your Astro config file to switch to a non-static server build. This error can also occur if using \`export const prerender = true;\`.
+See https://docs.astro.build/en/guides/server-side-rendering/ for more information on non-static rendering.`
+};
+const ReservedSlotName = {
+  name: "ReservedSlotName",
+  title: "Invalid slot name.",
+  message: (slotName) => `Unable to create a slot named \`${slotName}\`. \`${slotName}\` is a reserved slot name. Please update the name of this slot.`
+};
 const NoMatchingImport = {
   name: "NoMatchingImport",
   title: "No import found for component.",
@@ -37,6 +143,12 @@ const InvalidComponentArgs = {
   title: "Invalid component arguments.",
   message: (name) => `Invalid arguments passed to${name ? ` <${name}>` : ""} component.`,
   hint: "Astro components cannot be rendered directly via function call, such as `Component()` or `{items.map(Component)}`."
+};
+const PageNumberParamNotFound = {
+  name: "PageNumberParamNotFound",
+  title: "Page number param not found.",
+  message: (paramName) => `[paginate()] page number param \`${paramName}\` not found in your filepath.`,
+  hint: "Rename your file to `[page].astro` or `[...page].astro`."
 };
 const ImageMissingAlt = {
   name: "ImageMissingAlt",
@@ -74,6 +186,12 @@ const UnsupportedImageConversion = {
   title: "Unsupported image conversion",
   message: "Converting between vector (such as SVGs) and raster (such as PNGs and JPEGs) images is not currently supported."
 };
+const PrerenderDynamicEndpointPathCollide = {
+  name: "PrerenderDynamicEndpointPathCollide",
+  title: "Prerendered dynamic endpoint has path collision.",
+  message: (pathname) => `Could not render \`${pathname}\` with an \`undefined\` param as the generated path will collide during prerendering. Prevent passing \`undefined\` as \`params\` for the endpoint's \`getStaticPaths()\` function, or add an additional extension to the endpoint's filename.`,
+  hint: (filename) => `Rename \`${filename}\` to \`${filename.replace(/\.(?:js|ts)/, (m) => `.json` + m)}\``
+};
 const ExpectedImage = {
   name: "ExpectedImage",
   title: "Expected src to be an image.",
@@ -105,6 +223,38 @@ const NoImageMetadata = {
   message: (imagePath) => `Could not process image metadata${imagePath ? ` for \`${imagePath}\`` : ""}.`,
   hint: "This is often caused by a corrupted or malformed image. Re-exporting the image from your image editor may fix this issue."
 };
+const ResponseSentError = {
+  name: "ResponseSentError",
+  title: "Unable to set response.",
+  message: "The response has already been sent to the browser and cannot be altered."
+};
+const MiddlewareNoDataOrNextCalled = {
+  name: "MiddlewareNoDataOrNextCalled",
+  title: "The middleware didn't return a `Response`.",
+  message: "Make sure your middleware returns a `Response` object, either directly or by returning the `Response` from calling the `next` function."
+};
+const MiddlewareNotAResponse = {
+  name: "MiddlewareNotAResponse",
+  title: "The middleware returned something that is not a `Response` object.",
+  message: "Any data returned from middleware must be a valid `Response` object."
+};
+const EndpointDidNotReturnAResponse = {
+  name: "EndpointDidNotReturnAResponse",
+  title: "The endpoint did not return a `Response`.",
+  message: "An endpoint must return either a `Response`, or a `Promise` that resolves with a `Response`."
+};
+const LocalsNotAnObject = {
+  name: "LocalsNotAnObject",
+  title: "Value assigned to `locals` is not accepted.",
+  message: "`locals` can only be assigned to an object. Other values like numbers, strings, etc. are not accepted.",
+  hint: "If you tried to remove some information from the `locals` object, try to use `delete` or set the property to `undefined`."
+};
+const AstroResponseHeadersReassigned = {
+  name: "AstroResponseHeadersReassigned",
+  title: "`Astro.response.headers` must not be reassigned.",
+  message: "Individual headers can be added to and removed from `Astro.response.headers`, but it must not be replaced with another instance of `Headers` altogether.",
+  hint: "Consider using `Astro.response.headers.add()`, and `Astro.response.headers.delete()`."
+};
 const LocalImageUsedWrongly = {
   name: "LocalImageUsedWrongly",
   title: "Local images must be imported.",
@@ -128,6 +278,16 @@ const MissingSharp = {
   title: "Could not find Sharp.",
   message: "Could not find Sharp. Please install Sharp (`sharp`) manually into your project or migrate to another image service.",
   hint: "See Sharp's installation instructions for more information: https://sharp.pixelplumbing.com/install. If you are not relying on `astro:assets` to optimize, transform, or process any images, you can configure a passthrough image service instead of installing Sharp. See https://docs.astro.build/en/reference/errors/missing-sharp for more information.\n\nSee https://docs.astro.build/en/guides/images/#default-image-service for more information on how to migrate to another image service."
+};
+const i18nNoLocaleFoundInPath = {
+  name: "i18nNoLocaleFoundInPath",
+  title: "The path doesn't contain any locale",
+  message: "You tried to use an i18n utility on a path that doesn't contain any locale. You can use `pathHasLocale` first to determine if the path has a locale."
+};
+const RewriteWithBodyUsed = {
+  name: "RewriteWithBodyUsed",
+  title: "Cannot use Astro.rewrite after the request body has been read",
+  message: "Astro.rewrite() cannot be used if the request body has already been read. If you need to read the body, first clone the request."
 };
 
 function normalizeLF(code) {
@@ -198,33 +358,6 @@ class AstroError extends Error {
   static is(err) {
     return err.type === "AstroError";
   }
-}
-
-function removeTrailingForwardSlash(path) {
-  return path.endsWith("/") ? path.slice(0, path.length - 1) : path;
-}
-function removeLeadingForwardSlash(path) {
-  return path.startsWith("/") ? path.substring(1) : path;
-}
-function trimSlashes(path) {
-  return path.replace(/^\/|\/$/g, "");
-}
-function isString(path) {
-  return typeof path === "string" || path instanceof String;
-}
-function joinPaths(...paths) {
-  return paths.filter(isString).map((path, i) => {
-    if (i === 0) {
-      return removeTrailingForwardSlash(path);
-    } else if (i === paths.length - 1) {
-      return removeLeadingForwardSlash(path);
-    } else {
-      return trimSlashes(path);
-    }
-  }).join("/");
-}
-function isRemotePath(src) {
-  return /^(?:http|ftp|https|ws):?\/\//.test(src) || src.startsWith("data:");
 }
 
 const URL_PROTOCOL_REGEX = /^(?:(?:http|ftp|https|ws):?\/\/|\/\/)/;
@@ -568,4 +701,4 @@ const sharp$1 = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   default: sharp_default
 }, Symbol.toStringTag, { value: 'Module' }));
 
-export { AstroError as A, DEFAULT_HASH_PROPS as D, ExpectedImageOptions as E, FailedToFetchRemoteImageDimensions as F, InvalidComponentArgs as I, MissingMediaQueryDirective as M, NoMatchingImport as N, AstroGlobUsedOutside as a, AstroGlobNoMatch as b, NoMatchingRenderer as c, NoClientOnlyHint as d, NoClientEntrypoint as e, NoImageMetadata as f, ExpectedImage as g, ExpectedNotESMImage as h, isRemoteImage as i, isCoreRemotePath as j, isESMImportedImage as k, isLocalService as l, InvalidImageService as m, ImageMissingAlt as n, resolveSrc as r, sharp$1 as s };
+export { AstroError as A, trimSlashes as B, NoMatchingStaticPathFound as C, DEFAULT_HASH_PROPS as D, EndpointDidNotReturnAResponse as E, FailedToFetchRemoteImageDimensions as F, GetStaticPathsRequired as G, PrerenderDynamicEndpointPathCollide as H, InvalidComponentArgs as I, ReservedSlotName as J, removeTrailingForwardSlash as K, RewriteWithBodyUsed as L, MissingMediaQueryDirective as M, NoMatchingImport as N, OnlyResponseCanBeReturned as O, PageNumberParamNotFound as P, LocalsNotAnObject as Q, ResponseSentError as R, PrerenderClientAddressNotAvailable as S, ClientAddressNotAvailable as T, StaticClientAddressNotAvailable as U, AstroResponseHeadersReassigned as V, fileExtension as W, slash as X, prependForwardSlash as Y, sharp$1 as Z, AstroGlobUsedOutside as a, AstroGlobNoMatch as b, NoMatchingRenderer as c, NoClientOnlyHint as d, NoClientEntrypoint as e, isRemoteAllowed as f, NoImageMetadata as g, ExpectedImageOptions as h, isCoreRemotePath as i, ExpectedImage as j, ExpectedNotESMImage as k, isRemoteImage as l, isESMImportedImage as m, isLocalService as n, InvalidImageService as o, ImageMissingAlt as p, appendForwardSlash as q, resolveSrc as r, joinPaths as s, i18nNoLocaleFoundInPath as t, MiddlewareNoDataOrNextCalled as u, MiddlewareNotAResponse as v, InvalidGetStaticPathsReturn as w, InvalidGetStaticPathsEntry as x, GetStaticPathsExpectedParams as y, GetStaticPathsInvalidRouteParam as z };

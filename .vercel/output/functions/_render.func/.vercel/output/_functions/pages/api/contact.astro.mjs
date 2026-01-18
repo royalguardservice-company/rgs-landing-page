@@ -121,14 +121,7 @@ const POST = async ({ request }) => {
       );
     }
     const sanitizedEmail = email.trim().toLowerCase();
-    const allowedServices = [
-      "security",
-      "cleaning",
-      "duo",
-      "smart",
-      "other",
-      ""
-    ];
+    const allowedServices = ["security", "cleaning", "duo", "smart", "other"];
     if (service && !allowedServices.includes(service)) {
       return new Response(
         JSON.stringify({ error: "กรุณาเลือกบริการให้ถูกต้อง" }),

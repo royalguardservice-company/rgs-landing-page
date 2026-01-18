@@ -118,6 +118,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 							name="website_url"
 							tabindex="-1"
 							autocomplete="off"
+							aria-hidden="true"
 							style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
 							aria-hidden="true"
 						/>
@@ -192,7 +193,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 						<div class="flex justify-start">
 							<div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-callback="turnstileCallback" data-error-callback="turnstileErrorCallback"></div>
 						</div>
-						<input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response" />
+						<input type="hidden" name="turnstileToken" id="turnstileToken" />
 
 						<button
 							type="submit"
@@ -236,16 +237,15 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 	 * Sanitize string input using DOMPurify to prevent XSS attacks.
 	 * Removes all HTML tags and dangerous content while preserving plain text.
 	 */
-	function sanitizeString(input: string): string {
+	function sanitizeString(input: string, maxLength: number): string {
 		// Use DOMPurify with config to strip ALL HTML (not just sanitize)
 		const clean = DOMPurify.sanitize(input, {
 			ALLOWED_TAGS: [], // Remove all HTML tags
 			ALLOWED_ATTR: [], // Remove all attributes
 			KEEP_CONTENT: true, // Keep text content
-		});
 
-		// Trim and enforce max length (1000 for messages)
-		return clean.trim().slice(0, 1000);
+		});
+		return clean.trim().slice(0, maxLength);
 	}
 
 	function showValidationMessage(formMessage: HTMLElement, message: string, isError: boolean) {
@@ -256,14 +256,14 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 
 	// Cloudflare Turnstile callback functions
 	(window as any).turnstileCallback = (token: string) => {
-		const hiddenInput = document.getElementById('cf-turnstile-response') as HTMLInputElement;
+		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
 		if (hiddenInput) {
 			hiddenInput.value = token;
 		}
 	};
 
 	(window as any).turnstileErrorCallback = () => {
-		const hiddenInput = document.getElementById('cf-turnstile-response') as HTMLInputElement;
+		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
 		if (hiddenInput) {
 			hiddenInput.value = '';
 		}
@@ -293,7 +293,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 		}
 
 		// Get Turnstile token from hidden input field
-		const turnstileToken = formData.get('cf-turnstile-response') as string;
+		const turnstileToken = formData.get('turnstileToken') as string;
 		if (!turnstileToken) {
 			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
 			formMessage.classList.remove('hidden');
@@ -301,7 +301,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 		}
 
 		// Extract and validate name
-		const name = sanitizeString(formData.get('name') as string);
+		const name = sanitizeString(formData.get('name') as string, 1000);
 		if (name.length < 2 || name.length > 100) {
 			showValidationMessage(formMessage, 'กรุณาระบุชื่อผู้ติดต่อให้ถูกต้อง (2-100 ตัวอักษร)', true);
 			formMessage.classList.remove('hidden');
@@ -334,7 +334,7 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 		}
 
 		// Extract and sanitize message
-		const message = sanitizeString(formData.get('message') as string || '');
+		const message = sanitizeString(formData.get('message') as string || '', 1000);
 		if (message.length > 1000) {
 			showValidationMessage(formMessage, 'รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร', true);
 			formMessage.classList.remove('hidden');
