@@ -1,36 +1,39 @@
 import type { APIRoute } from "astro";
 import nodemailer from "nodemailer";
 
-// In-memory rate limiting store (for production, use Redis or a database)
-const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_WINDOW = 3600000; // 1 hour in milliseconds
-const MAX_REQUESTS_PER_IP = 5;
+// Cloudflare Turnstile Secret Key
+const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY || "demo-secret-key";
 
-function getClientIp(request: Request): string {
-  const forwarded = request.headers.get("x-forwarded-for");
-  const realIp = request.headers.get("x-real-ip");
-  return forwarded?.split(",")[0] || realIp || "unknown";
-}
+/**
+ * Verify Cloudflare Turnstile token
+ */
+async function verifyTurnstileToken(token: string): Promise<boolean> {
+  const secretKey = TURNSTILE_SECRET_KEY;
 
-function checkRateLimit(ip: string): { allowed: boolean; error?: string } {
-  const now = Date.now();
-  const record = rateLimitStore.get(ip);
-
-  if (!record || now > record.resetTime) {
-    rateLimitStore.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
-    return { allowed: true };
+  // Skip verification in development if using demo key
+  if (secretKey === "demo-secret-key" || secretKey === "1x00000000000000000000AA") {
+    console.warn("Using demo Turnstile key - skipping verification");
+    return true;
   }
 
-  if (record.count >= MAX_REQUESTS_PER_IP) {
-    const resetMinutes = Math.ceil((record.resetTime - now) / 60000);
-    return {
-      allowed: false,
-      error: `ส่งข้อมูลบ่อยเกินไป กรุณาลองใหม่ใน ${resetMinutes} นาที`,
-    };
-  }
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        secret: secretKey,
+        response: token,
+      }),
+    });
 
-  record.count++;
-  return { allowed: true };
+    const result = await response.json();
+    return result.success === true;
+  } catch (error) {
+    console.error("Turnstile verification error:", error);
+    return false;
+  }
 }
 
 function validateEmail(email: string): boolean {
@@ -56,18 +59,33 @@ function sanitizeString(input: string, maxLength: number = 1000): string {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    // Rate limiting check
-    const clientIp = getClientIp(request);
-    const rateLimitCheck = checkRateLimit(clientIp);
-    if (!rateLimitCheck.allowed) {
-      return new Response(JSON.stringify({ error: rateLimitCheck.error }), {
-        status: 429,
-        headers: { "Content-Type": "application/json", "Retry-After": "3600" },
+    const data = await request.json();
+    const { name, phone, email, service, message, turnstileToken, website_url } = data;
+
+    // Check honeypot field - if filled, it's a bot
+    // Return generic success message to trick bots
+    if (website_url && website_url.trim().length > 0) {
+      return new Response(JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
       });
     }
 
-    const data = await request.json();
-    const { name, phone, email, service, message } = data;
+    // Verify Turnstile token - use generic error message
+    if (!turnstileToken) {
+      return new Response(
+        JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    const isValidTurnstile = await verifyTurnstileToken(turnstileToken);
+    if (!isValidTurnstile) {
+      return new Response(
+        JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
 
     // Validate required fields exist
     if (!name || !phone || !email) {
@@ -144,7 +162,7 @@ export const POST: APIRoute = async ({ request }) => {
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "royalguardservices2016@gmail.com",
+        user: import.meta.env.GMAIL_APP_EMAIL as string,
         // You should use APP_PASSWORD from environment variable
         pass: import.meta.env.GMAIL_APP_PASSWORD as string,
       },

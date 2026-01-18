@@ -11,7 +11,11 @@ const contactInfo = {
 	lineId: '0816968904',
 	license: 'ตภ.2600068'
 };
+
+const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 ---
+
+<script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
 <section id="contact" class="w-full bg-[#002147] py-20 px-4 md:px-8 relative overflow-hidden">
 	<div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
@@ -108,6 +112,16 @@ const contactInfo = {
 					</div>
 
 					<form class="space-y-4" id="contact-form">
+						<!-- Honeypot field for bot detection - hidden from humans -->
+						<input
+							type="text"
+							name="website_url"
+							tabindex="-1"
+							autocomplete="off"
+							style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
+							aria-hidden="true"
+						/>
+
 						<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 							<div class="space-y-1">
 								<label class="text-xs font-bold text-slate-600 uppercase">ชื่อ-นามสกุล</label>
@@ -174,6 +188,12 @@ const contactInfo = {
 							></textarea>
 						</div>
 
+						<!-- Cloudflare Turnstile Widget -->
+						<div class="flex justify-start">
+							<div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-callback="turnstileCallback" data-error-callback="turnstileErrorCallback"></div>
+						</div>
+						<input type="hidden" name="cf-turnstile-response" id="cf-turnstile-response" />
+
 						<button
 							type="submit"
 							class="w-full bg-amber-500 hover:bg-amber-400 text-[#002147] font-bold text-lg py-4 rounded-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2"
@@ -198,23 +218,6 @@ const contactInfo = {
 </section>
 
 <script>
-	const RATE_LIMIT_KEY = 'contactFormLastSubmit';
-	const RATE_LIMIT_MS = 60000;
-	const MAX_SUBMISSIONS_PER_HOUR = 3;
-
-	function getSubmissionHistory(): number[] {
-		const history = localStorage.getItem('contactFormHistory');
-		return history ? JSON.parse(history) : [];
-	}
-
-	function saveSubmissionTime(timestamp: number) {
-		const history = getSubmissionHistory();
-		history.push(timestamp);
-		const oneHourAgo = Date.now() - 3600000;
-		const filtered = history.filter(t => t > oneHourAgo);
-		localStorage.setItem('contactFormHistory', JSON.stringify(filtered));
-	}
-
 	// Input validation utilities
 	function validateEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -241,6 +244,26 @@ const contactInfo = {
 		formMessage.classList.add(isError ? 'text-red-500' : 'text-green-600', 'font-semibold');
 	}
 
+	// Cloudflare Turnstile callback functions
+	let turnstileToken = '';
+
+	(window as any).turnstileCallback = (token: string) => {
+		turnstileToken = token;
+		const hiddenInput = document.getElementById('cf-turnstile-response') as HTMLInputElement;
+		if (hiddenInput) {
+			hiddenInput.value = token;
+		}
+	};
+
+	(window as any).turnstileErrorCallback = () => {
+		turnstileToken = '';
+		const formMessage = document.getElementById('form-message');
+		if (formMessage) {
+			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
+			formMessage.classList.remove('hidden');
+		}
+	};
+
 	const form = document.getElementById('contact-form') as HTMLFormElement | null;
 	const formMessage = document.getElementById('form-message');
 
@@ -249,29 +272,22 @@ const contactInfo = {
 
 		if (!form || !formMessage) return;
 
-		// Check rate limit - last submission
-		const lastSubmit = localStorage.getItem(RATE_LIMIT_KEY);
-		if (lastSubmit) {
-			const timeSinceLastSubmit = Date.now() - parseInt(lastSubmit);
-			if (timeSinceLastSubmit < RATE_LIMIT_MS) {
-				const remainingSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastSubmit) / 1000);
-				showValidationMessage(formMessage, `กรุณารอสักครู่ (${remainingSeconds} วินาที) ก่อนส่งอีกครั้ง`, true);
-				formMessage.classList.remove('hidden');
-				setTimeout(() => formMessage.classList.add('hidden'), 5000);
-				return;
-			}
-		}
+		const formData = new FormData(form);
 
-		// Check hourly submission limit
-		const submissionHistory = getSubmissionHistory();
-		if (submissionHistory.length >= MAX_SUBMISSIONS_PER_HOUR) {
-			showValidationMessage(formMessage, 'คุณได้ส่งข้อมูลครบจำนวนสูงสุดแล้ว กรุณาลองใหม่ใน 1 ชั่วโมง', true);
-			formMessage.classList.remove('hidden');
-			setTimeout(() => formMessage.classList.add('hidden'), 5000);
+		// Check honeypot field - if filled, it's a bot
+		const honeypotValue = formData.get('website_url') as string;
+		if (honeypotValue && honeypotValue.trim().length > 0) {
+			// Silently fail for bots
+			console.log('Bot detected via honeypot');
 			return;
 		}
 
-		const formData = new FormData(form);
+		// Check Turnstile token
+		if (!turnstileToken) {
+			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
+			formMessage.classList.remove('hidden');
+			return;
+		}
 
 		// Extract and validate name
 		const name = sanitizeString(formData.get('name') as string);
@@ -320,6 +336,7 @@ const contactInfo = {
 			email: email.trim().toLowerCase(),
 			service: service || '',
 			message,
+			turnstileToken,
 		};
 
 		// Show loading state
@@ -348,13 +365,17 @@ const contactInfo = {
 			const result = await response.json();
 
 			if (response.ok) {
-				localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
-				saveSubmissionTime(Date.now());
-
 				formMessage.textContent = 'ขอบคุณสำหรับข้อความของคุณ! เราจะติดต่อกลับโดยเร็วที่สุด';
 				formMessage.classList.remove('hidden', 'text-red-500');
 				formMessage.classList.add('text-green-600', 'font-semibold');
 				form.reset();
+				turnstileToken = '';
+
+				// Reset Turnstile widget
+				const turnstileContainer = form.querySelector('.cf-turnstile');
+				if (turnstileContainer && (window as any).turnstile) {
+					(window as any).turnstile.reset(turnstileContainer);
+				}
 			} else {
 				formMessage.textContent = result.error || 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง';
 				formMessage.classList.remove('hidden', 'text-green-600');
