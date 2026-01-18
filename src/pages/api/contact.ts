@@ -180,22 +180,21 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     const serviceName = service ? serviceNames[service] || service : "ไม่ระบุ";
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: gmailEmail as string,
+          pass: gmailPassword as string,
+        },
+      });
 
-    // Create email transporter with validated credentials
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: gmailEmail as string,
-        pass: gmailPassword as string,
-      },
-    });
-
-    // Email content
-    const mailOptions = {
-      from: gmailEmail as string,
-      to: gmailEmail as string,
-      subject: `[ใบเสนอราคาใหม่] จาก ${sanitizedName}`,
-      html: `
+      // Email content
+      const mailOptions = {
+        from: gmailEmail as string,
+        to: gmailEmail as string,
+        subject: `[ใบเสนอราคาใหม่] จาก ${sanitizedName}`,
+        html: `
 				<div style="font-family: 'Sarabun', sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 20px;">
 					<div style="background: linear-gradient(135deg, #002147 0%, #003366 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
 						<h1 style="color: #fbbf24; margin: 0; font-size: 28px;">รอยัลการ์ด เซอร์วิสเซส</h1>
@@ -242,7 +241,7 @@ export const POST: APIRoute = async ({ request }) => {
 					</div>
 				</div>
 			`,
-      text: `
+        text: `
 				รายละเอียดการติดต่อใหม่จากเว็บไซต์
 
 				ชื่อ-นามสกุล: ${sanitizedName}
@@ -251,10 +250,10 @@ export const POST: APIRoute = async ({ request }) => {
 				บริการที่สนใจ: ${serviceName}
 				รายละเอียดเพิ่มเติม: ${sanitizedMessage || "ไม่ระบุ"}
 			`,
-    };
+      };
 
-    // Send email
-    try {
+      // Send email
+
       await transporter.sendMail(mailOptions);
     } catch (emailError) {
       console.error("Nodemailer error:", emailError);
