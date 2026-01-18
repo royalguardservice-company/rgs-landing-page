@@ -1,8 +1,4 @@
 ---
-/**
- * CommandCenter - Laptop + Phone + Floating Card layout
- * Displays the admin dashboard with mobile guard app
- */
 import type { CommandCenterProps } from './types';
 
 interface Props extends CommandCenterProps {
@@ -14,26 +10,19 @@ const { data, isEven = true } = Astro.props;
 
 <div class={`relative flex justify-center ${isEven ? 'order-2 lg:order-1' : 'order-2 lg:order-2'} w-full`}>
 	<div class="relative w-full max-w-4xl">
-		<!-- Background Decor -->
 		<div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-50/80 to-transparent pointer-events-none rounded-3xl" />
 		<div class="absolute -bottom-32 -left-32 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl" />
 		<div class="absolute top-20 right-20 w-72 h-72 bg-indigo-100/30 rounded-full blur-3xl" />
 
-		<!-- LAYER 1: LAPTOP MOCKUP (BACKGROUND/ADMIN DASHBOARD) -->
 		<div class="relative mx-auto w-full max-w-3xl transform transition-transform duration-700 hover:rotate-1 z-10">
-			<!-- Laptop Body -->
 			<div class="bg-slate-800 rounded-t-2xl p-2 pb-0 shadow-2xl shadow-slate-900/20 ring-1 ring-slate-700">
-				<!-- Screen Bezel -->
 				<div class="bg-slate-950 rounded-t-xl p-1 relative ring-1 ring-white/10">
-					<!-- Webcam -->
 					<div class="absolute top-2 left-1/2 transform -translate-x-1/2 flex gap-2 z-30">
 						<div class="w-1.5 h-1.5 bg-slate-800 rounded-full" />
 						<div class="w-1.5 h-1.5 bg-blue-900/30 rounded-full" />
 					</div>
 
-					<!-- Screen Content (The Admin Panel) -->
 					<div class="bg-slate-50 w-full aspect-[16/10] rounded-lg overflow-hidden flex flex-col font-sans relative">
-						<!-- Fake Browser UI -->
 						<div class="h-9 bg-slate-100 border-b flex items-center px-4 justify-between select-none">
 							<div class="flex gap-2">
 								<div class="w-3 h-3 rounded-full bg-rose-400/80"></div>
@@ -51,9 +40,7 @@ const { data, isEven = true } = Astro.props;
 							<div class="w-10"></div>
 						</div>
 
-						<!-- Dashboard Content -->
 						<div class="flex-1 flex overflow-hidden">
-							<!-- Sidebar -->
 							<div class="w-14 sm:w-16 bg-slate-900 flex flex-col items-center py-4 sm:py-6 gap-4 sm:gap-6 z-20">
 								<div class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-[10px] sm:text-xs mb-1 sm:mb-2 shadow-lg shadow-blue-500/30">RGS</div>
 								<div class="p-2 sm:p-2.5 bg-slate-800/50 text-blue-400 rounded-xl border border-slate-700">
@@ -78,9 +65,7 @@ const { data, isEven = true } = Astro.props;
 								</div>
 							</div>
 
-							<!-- Main Area -->
 							<div class="flex-1 flex flex-col bg-slate-50 relative">
-								<!-- Dashboard Header -->
 								<div class="h-14 sm:h-16 bg-white border-b flex items-center justify-between px-4 sm:px-8">
 									<div>
 										<h3 class="font-bold text-slate-800 flex items-center gap-2 text-sm sm:text-base">
@@ -103,7 +88,6 @@ const { data, isEven = true } = Astro.props;
 									</div>
 								</div>
 
-								<!-- Data Table Area -->
 								<div class="p-3 sm:p-6 overflow-hidden flex flex-col h-full">
 									<div class="flex justify-between items-end mb-3 sm:mb-4">
 										<div>
@@ -171,25 +155,20 @@ const { data, isEven = true } = Astro.props;
 					</div>
 				</div>
 			</div>
-			<!-- Laptop Base -->
 			<div class="relative mx-auto bg-slate-800 h-2 sm:h-3 rounded-b-xl shadow-2xl w-[102%] -left-[1%] flex justify-center">
 				<div class="w-20 sm:w-24 h-0.5 sm:h-1 bg-slate-700/50 rounded-b-md mt-0"></div>
 			</div>
 		</div>
 
-		<!-- LAYER 2: MOBILE MOCKUP (FOREGROUND/GUARD APP) -->
 		<div class="absolute -bottom-4 sm:-bottom-8 -left-1 sm:-left-8 w-36 sm:w-44 md:w-52 transform rotate-2 hover:rotate-0 transition-all duration-500 z-30 filter drop-shadow-2xl">
 			<div class="bg-slate-900 rounded-[2rem] p-1.5 sm:p-2 ring-1 ring-white/10 shadow-2xl">
 				<div class="bg-slate-950 rounded-[1.5rem] sm:rounded-[1.7rem] overflow-hidden relative aspect-[9/19] border border-slate-800">
-					<!-- Dynamic Island / Notch -->
 					<div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 sm:w-20 h-4 sm:h-5 bg-black rounded-b-xl z-20 flex justify-center items-center gap-1.5 sm:gap-2">
 						<div class="w-0.5 sm:w-1 h-0.5 sm:h-1 rounded-full bg-slate-800"></div>
 						<div class="w-6 sm:w-8 h-0.5 sm:h-1 rounded-full bg-slate-800/50"></div>
 					</div>
 
-					<!-- App Content -->
 					<div class="w-full h-full bg-slate-50 flex flex-col font-sans">
-						<!-- Header -->
 						<div class="bg-blue-600 text-white pt-6 sm:pt-8 pb-3 sm:pb-4 px-3 sm:px-4 rounded-b-2xl shadow-lg relative z-10">
 							<div class="flex justify-between items-center mb-2 sm:mb-3">
 								<svg class="w-4 h-4 sm:w-[18px] sm:h-[18px] text-blue-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -225,16 +204,13 @@ const { data, isEven = true } = Astro.props;
 									</svg>
 									<span class="text-[8px] sm:text-[10px] uppercase tracking-widest text-white/60">Scanning...</span>
 								</div>
-								<!-- Scanning Laser -->
 								<div class="absolute left-0 w-full h-0.5 bg-green-400 shadow-[0_0_10px_#4ade80] animate-scan top-0"></div>
-								<!-- Corner Brackets -->
 								<div class="absolute top-3 sm:top-4 left-3 sm:left-4 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-l-2 border-white/30 rounded-tl-lg"></div>
 								<div class="absolute top-3 sm:top-4 right-3 sm:right-4 w-3 sm:w-4 h-3 sm:h-4 border-t-2 border-r-2 border-white/30 rounded-tr-lg"></div>
 								<div class="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-l-2 border-white/30 rounded-bl-lg"></div>
 								<div class="absolute bottom-3 sm:bottom-4 right-3 sm:right-4 w-3 sm:w-4 h-3 sm:h-4 border-b-2 border-r-2 border-white/30 rounded-br-lg"></div>
 							</div>
 
-							<!-- Quick Actions -->
 							<div class="h-12 sm:h-16 grid grid-cols-2 gap-1.5 sm:gap-2">
 								<button class="bg-white border rounded-lg shadow-sm flex flex-col items-center justify-center text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-colors">
 									<svg class="w-3.5 h-3.5 sm:w-4 sm:h-4 mb-0.5 sm:mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,7 +227,6 @@ const { data, isEven = true } = Astro.props;
 							</div>
 						</div>
 
-						<!-- Tab Bar -->
 						<div class="bg-white border-t py-1.5 sm:py-2 px-4 sm:px-6 flex justify-between text-slate-300">
 							<svg class="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -269,10 +244,8 @@ const { data, isEven = true } = Astro.props;
 			</div>
 		</div>
 
-		<!-- LAYER 3: FLOATING GLASS CARD (DETAILS POPUP) -->
 		<div class="absolute -top-2 sm:-top-4 -right-1 sm:-right-8 w-48 sm:w-60 z-40 animate-float pointer-events-none hidden sm:block">
 			<div class="bg-white/80 backdrop-blur-xl p-2 sm:p-3 rounded-2xl border border-white/60 shadow-[0_8px_32px_rgba(0,0,0,0.1)] ring-1 ring-black/5 transform rotate-3">
-				<!-- Card Header -->
 				<div class="flex justify-between items-center mb-1.5 sm:mb-2 pb-1.5 sm:pb-2 border-b border-black/5">
 					<div class="flex items-center gap-1 sm:gap-1.5">
 						<span class="relative flex h-1.5 sm:h-2 w-1.5 sm:w-2">
@@ -284,7 +257,6 @@ const { data, isEven = true } = Astro.props;
 					<span class="text-[8px] sm:text-[9px] text-slate-400 font-mono">10:42 AM</span>
 				</div>
 
-				<!-- Evidence Photo -->
 				<div class="relative w-full h-16 sm:h-24 bg-slate-100 rounded-lg overflow-hidden mb-1.5 sm:mb-2 group">
 					<div class="absolute inset-0 flex items-center justify-center bg-slate-200 text-slate-400">
 						<svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -297,7 +269,6 @@ const { data, isEven = true } = Astro.props;
 					</div>
 				</div>
 
-				<!-- Details -->
 				<div class="space-y-0.5 sm:space-y-1">
 					<h5 class="font-bold text-slate-800 text-[10px] sm:text-xs leading-tight">Unauthorized Entry</h5>
 					<div class="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-[10px] text-slate-500">
@@ -313,7 +284,6 @@ const { data, isEven = true } = Astro.props;
 	</div>
 </div>
 
-<!-- Custom Animations -->
 <style>
 	@keyframes scan {
 		0%, 100% { top: 0%; opacity: 0; }

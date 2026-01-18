@@ -9,7 +9,6 @@ import OnboardingTimeline from './why-choose-us/OnboardingTimeline.astro';
 import TrainingSection from './why-choose-us/TrainingSection.astro';
 import ProfessionalTeam from './why-choose-us/ProfessionalTeam.astro';
 
-// (A) Vision + Mission
 const missions = [
 	{ icon: 'shield', label: 'ครอบคลุม', title: 'Coverage', description: 'บริการทั่วประเทศ' },
 	{ icon: 'award', label: 'มาตรฐาน', title: 'Standard', description: 'SOP & NSRS' },
@@ -27,13 +26,10 @@ const hardwarePartners = [
 ];
 ---
 
-<!-- Main Section -->
 <section id="why-us" class="bg-navy-950">
 
-	<!-- (A) Vision & Mission - Opening -->
 	<div class="container-custom section-padding">
 		<div class="grid lg:grid-cols-2 gap-12 items-center">
-			<!-- Left Side: Vision -->
 			<div class="space-y-6">
 				<p class="text-amber-500 font-medium tracking-wide uppercase text-sm">Why Choose RGS</p>
 				<h2 class="text-white text-4xl lg:text-5xl font-bold hero-title">
@@ -46,7 +42,6 @@ const hardwarePartners = [
 				</p>
 			</div>
 
-			<!-- Right Side: Mission Cards -->
 			<div class="grid grid-cols-2 gap-4">
 				{missions.map((mission) => (
 					<div class="group relative">
@@ -85,10 +80,8 @@ const hardwarePartners = [
 		</div>
 	</div>
 
-	<!-- Divider -->
 	<div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-	<!-- (B) Standard & Technology -->
 	<div class="container-custom py-20">
 		<div class="text-center mb-12">
 			<p class="text-blue-400 font-medium tracking-wide uppercase text-sm mb-2">Standard & Technology</p>
@@ -96,12 +89,10 @@ const hardwarePartners = [
 			<p class="text-gray-400 max-w-2xl mx-auto">ระบบความปลอดภัยอัจฉริยะที่ช่วยให้คุณตรวจสอบและมั่นใจได้ตลอด 24 ชั่วโมง</p>
 		</div>
 
-		<!-- Tech Showcase - 4 Phone Mockups -->
 		<div class="py-12">
 			<TechShowcase />
 		</div>
 
-		<!-- Hardware Partners - Small Logo Strip -->
 		<div class="flex flex-wrap items-center justify-center gap-8 md:gap-12">
 			<p class="text-gray-500 text-sm">ใช้งานอุปกรณ์จากแบรนด์ชั้นนำ:</p>
 			{hardwarePartners.map((partner) => (
@@ -119,22 +110,16 @@ const hardwarePartners = [
 		</div>
 	</div>
 
-	<!-- Divider -->
 	<div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-	<!-- (C) Quality Assurance (Training) -->
 	<TrainingSection />
 
-	<!-- Divider -->
 	<div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-	<!-- (D) Professional Team -->
 	<ProfessionalTeam />
 
-	<!-- Divider -->
 	<div class="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
 
-	<!-- Timeline (The Closer - Anxiety Reducer) -->
 	<div class="container-custom py-20">
 		<OnboardingTimeline />
 	</div>

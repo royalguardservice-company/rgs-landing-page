@@ -13,15 +13,12 @@ const contactInfo = {
 };
 ---
 
-<!-- Contact Section -->
 <section id="contact" class="w-full bg-[#002147] py-20 px-4 md:px-8 relative overflow-hidden">
-	<!-- Subtle pattern background -->
 	<div class="absolute inset-0 opacity-5" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 30px 30px;"></div>
 
 	<div class="max-w-7xl mx-auto relative z-10">
 		<div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-16">
 
-			<!-- Left Column: Trust & Contact Info -->
 			<div class="md:col-span-5 order-2 md:order-1 flex flex-col justify-center space-y-10 text-white">
 
 				<div>
@@ -30,10 +27,8 @@ const contactInfo = {
 					<p class="text-slate-300 text-lg">ปรึกษาและวางแผนระบบรักษาความปลอดภัยฟรี</p>
 				</div>
 
-				<!-- Contact Details -->
 				<div class="space-y-8">
 
-					<!-- Address -->
 					<div class="flex gap-4">
 						<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500">
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,7 +49,6 @@ const contactInfo = {
 						</div>
 					</div>
 
-					<!-- Direct Lines -->
 					<div class="flex gap-4">
 						<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500">
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,7 +69,6 @@ const contactInfo = {
 						</div>
 					</div>
 
-					<!-- Digital Channels -->
 					<div class="flex gap-4">
 						<div class="flex-shrink-0 w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-amber-500">
 							<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,7 +93,6 @@ const contactInfo = {
 
 				</div>
 
-				<!-- License -->
 				<div class="pt-6 border-t border-white/10">
 					<p class="text-slate-400 text-sm">
 						ใบอนุญาต: <span class="text-white font-semibold">{contactInfo.license}</span>
@@ -108,7 +100,6 @@ const contactInfo = {
 				</div>
 			</div>
 
-			<!-- Right Column: Get Quote Form -->
 			<div class="md:col-span-7 order-1 md:order-2">
 				<div class="bg-white rounded-2xl shadow-2xl overflow-hidden p-6 md:p-8 border-t-8 border-amber-500">
 					<div class="mb-6">
@@ -207,6 +198,49 @@ const contactInfo = {
 </section>
 
 <script>
+	const RATE_LIMIT_KEY = 'contactFormLastSubmit';
+	const RATE_LIMIT_MS = 60000;
+	const MAX_SUBMISSIONS_PER_HOUR = 3;
+
+	function getSubmissionHistory(): number[] {
+		const history = localStorage.getItem('contactFormHistory');
+		return history ? JSON.parse(history) : [];
+	}
+
+	function saveSubmissionTime(timestamp: number) {
+		const history = getSubmissionHistory();
+		history.push(timestamp);
+		const oneHourAgo = Date.now() - 3600000;
+		const filtered = history.filter(t => t > oneHourAgo);
+		localStorage.setItem('contactFormHistory', JSON.stringify(filtered));
+	}
+
+	// Input validation utilities
+	function validateEmail(email: string): boolean {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return emailRegex.test(email.trim());
+	}
+
+	function validateThaiPhone(phone: string): boolean {
+		// Supports formats: 0xx-xxx-xxxx, 0xxxxxxxxx, 02-xxx-xxxx, etc.
+		const phoneRegex = /^0[1-9]\d{1,2}[-]?\d{3}[-]?\d{4}$/;
+		return phoneRegex.test(phone.replace(/\s/g, ''));
+	}
+
+	function sanitizeString(input: string): string {
+		return input
+			.trim()
+			.replace(/[<>]/g, '') // Remove potential HTML tags
+			.replace(/javascript:/gi, '') // Remove javascript: protocol
+			.replace(/on\w+=/gi, ''); // Remove event handlers like onclick=
+	}
+
+	function showValidationMessage(formMessage: HTMLElement, message: string, isError: boolean) {
+		formMessage.textContent = message;
+		formMessage.classList.remove('hidden', 'text-red-500', 'text-green-600');
+		formMessage.classList.add(isError ? 'text-red-500' : 'text-green-600', 'font-semibold');
+	}
+
 	const form = document.getElementById('contact-form') as HTMLFormElement | null;
 	const formMessage = document.getElementById('form-message');
 
@@ -215,13 +249,77 @@ const contactInfo = {
 
 		if (!form || !formMessage) return;
 
+		// Check rate limit - last submission
+		const lastSubmit = localStorage.getItem(RATE_LIMIT_KEY);
+		if (lastSubmit) {
+			const timeSinceLastSubmit = Date.now() - parseInt(lastSubmit);
+			if (timeSinceLastSubmit < RATE_LIMIT_MS) {
+				const remainingSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastSubmit) / 1000);
+				showValidationMessage(formMessage, `กรุณารอสักครู่ (${remainingSeconds} วินาที) ก่อนส่งอีกครั้ง`, true);
+				formMessage.classList.remove('hidden');
+				setTimeout(() => formMessage.classList.add('hidden'), 5000);
+				return;
+			}
+		}
+
+		// Check hourly submission limit
+		const submissionHistory = getSubmissionHistory();
+		if (submissionHistory.length >= MAX_SUBMISSIONS_PER_HOUR) {
+			showValidationMessage(formMessage, 'คุณได้ส่งข้อมูลครบจำนวนสูงสุดแล้ว กรุณาลองใหม่ใน 1 ชั่วโมง', true);
+			formMessage.classList.remove('hidden');
+			setTimeout(() => formMessage.classList.add('hidden'), 5000);
+			return;
+		}
+
 		const formData = new FormData(form);
+
+		// Extract and validate name
+		const name = sanitizeString(formData.get('name') as string);
+		if (name.length < 2 || name.length > 100) {
+			showValidationMessage(formMessage, 'กรุณาระบุชื่อผู้ติดต่อให้ถูกต้อง (2-100 ตัวอักษร)', true);
+			formMessage.classList.remove('hidden');
+			return;
+		}
+
+		// Extract and validate phone
+		const phone = formData.get('phone') as string;
+		if (!validateThaiPhone(phone)) {
+			showValidationMessage(formMessage, 'กรุณาระบุเบอร์โทรศัพท์ให้ถูกต้อง (เช่น 0xx-xxx-xxxx)', true);
+			formMessage.classList.remove('hidden');
+			return;
+		}
+
+		// Extract and validate email
+		const email = formData.get('email') as string;
+		if (!validateEmail(email)) {
+			showValidationMessage(formMessage, 'กรุณาระบุอีเมลให้ถูกต้อง', true);
+			formMessage.classList.remove('hidden');
+			return;
+		}
+
+		// Extract service (allowed values only)
+		const service = formData.get('service') as string;
+		const allowedServices = ['security', 'cleaning', 'duo', 'smart', 'other'];
+		if (service && !allowedServices.includes(service)) {
+			showValidationMessage(formMessage, 'กรุณาเลือกบริการให้ถูกต้อง', true);
+			formMessage.classList.remove('hidden');
+			return;
+		}
+
+		// Extract and sanitize message
+		const message = sanitizeString(formData.get('message') as string || '');
+		if (message.length > 1000) {
+			showValidationMessage(formMessage, 'รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร', true);
+			formMessage.classList.remove('hidden');
+			return;
+		}
+
 		const data = {
-			name: formData.get('name') as string,
-			phone: formData.get('phone') as string,
-			email: formData.get('email') as string,
-			service: formData.get('service') as string,
-			message: formData.get('message') as string,
+			name,
+			phone: phone.replace(/\s/g, ''),
+			email: email.trim().toLowerCase(),
+			service: service || '',
+			message,
 		};
 
 		// Show loading state
@@ -250,6 +348,9 @@ const contactInfo = {
 			const result = await response.json();
 
 			if (response.ok) {
+				localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
+				saveSubmissionTime(Date.now());
+
 				formMessage.textContent = 'ขอบคุณสำหรับข้อความของคุณ! เราจะติดต่อกลับโดยเร็วที่สุด';
 				formMessage.classList.remove('hidden', 'text-red-500');
 				formMessage.classList.add('text-green-600', 'font-semibold');
@@ -264,13 +365,11 @@ const contactInfo = {
 			formMessage.classList.remove('hidden', 'text-green-600');
 			formMessage.classList.add('text-red-500', 'font-semibold');
 		} finally {
-			// Reset button state
 			if (submitButton) {
 				submitButton.disabled = false;
 				submitButton.innerHTML = originalButtonText;
 			}
 
-			// Hide message after 5 seconds
 			setTimeout(() => {
 				formMessage.classList.add('hidden');
 			}, 5000);

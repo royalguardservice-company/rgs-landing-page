@@ -1,5 +1,3 @@
-// Shared types for Tech Showcase components
-
 export interface PhoneApp {
   id: string;
   title: string;

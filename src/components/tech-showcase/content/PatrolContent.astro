@@ -1,7 +1,4 @@
 ---
-/**
- * PatrolContent - QR patrol checkpoint tracking content
- */
 import type { PhoneApp } from '../types';
 
 interface Props {
@@ -12,7 +9,6 @@ const { app } = Astro.props;
 ---
 
 <div class="flex flex-col bg-gray-50 relative h-full overflow-hidden">
-	<!-- Top Summary Card -->
 	<div class="bg-white mx-3 mt-3 rounded-xl p-3 shadow-sm flex-shrink-0">
 		<div class="flex justify-between items-start mb-2">
 			<div class="flex-1">
@@ -35,7 +31,6 @@ const { app } = Astro.props;
 		</div>
 	</div>
 
-	<!-- Timeline with Scroll -->
 	<div class="flex-1 overflow-y-auto px-3 py-3 min-h-0">
 		<div class="relative">
 			<div class="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gray-200"></div>
@@ -92,7 +87,6 @@ const { app } = Astro.props;
 		</div>
 	</div>
 
-	<!-- Scan QR Button -->
 	<div class="flex-shrink-0 p-3 bg-white border-t border-gray-100">
 		<button class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-200 active:scale-95 transition-transform flex items-center justify-center gap-2 text-xs">
 			<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

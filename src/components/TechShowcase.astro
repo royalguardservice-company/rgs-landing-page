@@ -74,7 +74,6 @@ const phoneApps: PhoneApp[] = [
 	}
 ];
 
-// Helper function to get app-specific colors
 const getAppColors = (index: number) => {
 	const colors = [
 		{ badge: 'bg-blue-500/20 text-blue-400', title: 'text-blue-400' },
@@ -86,10 +85,8 @@ const getAppColors = (index: number) => {
 };
 ---
 
-<!-- Tech Showcase Section - Zig Zag Layout -->
 <div class="relative">
-	<!-- Connecting Line (Background) -->
-	<div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/30 via-emerald-500/30 via-blue-500/30 to-orange-500/30 -translate-x-1/2 hidden lg:block"></div>
+	<div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/30  via-blue-500/30 to-orange-500/30 -translate-x-1/2 hidden lg:block"></div>
 
 	{phoneApps.map((app, index) => {
 		const colors = getAppColors(index);
@@ -99,7 +96,6 @@ const getAppColors = (index: number) => {
 			<div class="relative py-16 lg:py-20" id={`phone-${app.id}`}>
 				<div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
-					<!-- Phone Column -->
 					{app.isCommandCenter ? (
 						<CommandCenter data={app.data!} isEven={isEven} />
 					) : (
@@ -108,7 +104,6 @@ const getAppColors = (index: number) => {
 						</div>
 					)}
 
-					<!-- Text Column -->
 					<div class={isEven ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}>
 						<TechShowcaseCard {app} {index} {colors} />
 					</div>
