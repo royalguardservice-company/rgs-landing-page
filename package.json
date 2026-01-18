@@ -9,9 +9,6 @@
     "preview": "astro preview",
     "astro": "astro"
   },
-  "engines": {
-    "node": "18"
-  },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@astrojs/vercel": "^8.0.4",
