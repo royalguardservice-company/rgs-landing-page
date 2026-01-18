@@ -1,70 +1,9 @@
-import { bold } from 'kleur/colors';
-import { A as AstroError, E as EndpointDidNotReturnAResponse, I as InvalidComponentArgs, a as AstroGlobUsedOutside, b as AstroGlobNoMatch, M as MissingMediaQueryDirective, N as NoMatchingImport, O as OnlyResponseCanBeReturned, R as ResponseSentError, c as NoMatchingRenderer, d as NoClientOnlyHint, e as NoClientEntrypoint } from './assets-service_CCzoT_SL.mjs';
-import { clsx } from 'clsx';
+import { A as AstroError, I as InvalidComponentArgs, a as AstroGlobUsedOutside, b as AstroGlobNoMatch, M as MissingMediaQueryDirective, N as NoMatchingImport, c as NoMatchingRenderer, d as NoClientOnlyHint, e as NoClientEntrypoint } from './assets-service_CGzmfIre.mjs';
+import 'kleur/colors';
 import { escape } from 'html-escaper';
-import { decodeBase64, encodeHexUpperCase, encodeBase64, decodeHex } from '@oslojs/encoding';
+import { clsx } from 'clsx';
+import { encodeHexUpperCase, encodeBase64, decodeBase64 } from '@oslojs/encoding';
 import 'cssesc';
-
-const ASTRO_VERSION = "4.16.19";
-const REROUTE_DIRECTIVE_HEADER = "X-Astro-Reroute";
-const REWRITE_DIRECTIVE_HEADER_KEY = "X-Astro-Rewrite";
-const REWRITE_DIRECTIVE_HEADER_VALUE = "yes";
-const NOOP_MIDDLEWARE_HEADER = "X-Astro-Noop";
-const ROUTE_TYPE_HEADER = "X-Astro-Route-Type";
-const DEFAULT_404_COMPONENT = "astro-default-404.astro";
-const REROUTABLE_STATUS_CODES = [404, 500];
-const clientAddressSymbol = Symbol.for("astro.clientAddress");
-const clientLocalsSymbol = Symbol.for("astro.locals");
-const originPathnameSymbol = Symbol.for("astro.originPathname");
-const responseSentSymbol = Symbol.for("astro.responseSent");
-
-async function renderEndpoint(mod, context, ssr, logger) {
-  const { request, url } = context;
-  const method = request.method.toUpperCase();
-  const handler = mod[method] ?? mod["ALL"];
-  if (!ssr && ssr === false && method !== "GET") {
-    logger.warn(
-      "router",
-      `${url.pathname} ${bold(
-        method
-      )} requests are not available for a static site. Update your config to \`output: 'server'\` or \`output: 'hybrid'\` to enable.`
-    );
-  }
-  if (handler === void 0) {
-    logger.warn(
-      "router",
-      `No API Route handler exists for the method "${method}" for the route "${url.pathname}".
-Found handlers: ${Object.keys(mod).map((exp) => JSON.stringify(exp)).join(", ")}
-` + ("all" in mod ? `One of the exported handlers is "all" (lowercase), did you mean to export 'ALL'?
-` : "")
-    );
-    return new Response(null, { status: 404 });
-  }
-  if (typeof handler !== "function") {
-    logger.error(
-      "router",
-      `The route "${url.pathname}" exports a value for the method "${method}", but it is of the type ${typeof handler} instead of a function.`
-    );
-    return new Response(null, { status: 500 });
-  }
-  let response = await handler.call(mod, context);
-  if (!response || response instanceof Response === false) {
-    throw new AstroError(EndpointDidNotReturnAResponse);
-  }
-  if (REROUTABLE_STATUS_CODES.includes(response.status)) {
-    try {
-      response.headers.set(REROUTE_DIRECTIVE_HEADER, "no");
-    } catch (err) {
-      if (err.message?.includes("immutable")) {
-        response = new Response(response.body, response);
-        response.headers.set(REROUTE_DIRECTIVE_HEADER, "no");
-      } else {
-        throw err;
-      }
-    }
-  }
-  return response;
-}
 
 function validateArgs(args) {
   if (args.length !== 3) return false;
@@ -100,6 +39,9 @@ function createComponent(arg1, moduleId, propagation) {
   }
 }
 
+const ASTRO_VERSION = "4.16.19";
+const NOOP_MIDDLEWARE_HEADER = "X-Astro-Noop";
+
 function createAstroGlobFn() {
   const globHandler = (importMetaGlobResult) => {
     if (typeof importMetaGlobResult === "string") {
@@ -132,27 +74,8 @@ function createAstro(site) {
 function isPromise(value) {
   return !!value && typeof value === "object" && "then" in value && typeof value.then === "function";
 }
-async function* streamAsyncIterator(stream) {
-  const reader = stream.getReader();
-  try {
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) return;
-      yield value;
-    }
-  } finally {
-    reader.releaseLock();
-  }
-}
 
 const escapeHTML = escape;
-class HTMLBytes extends Uint8Array {
-}
-Object.defineProperty(HTMLBytes.prototype, Symbol.toStringTag, {
-  get() {
-    return "HTMLBytes";
-  }
-});
 class HTMLString extends String {
   get [Symbol.toStringTag]() {
     return "HTMLString";
@@ -169,54 +92,6 @@ const markHTMLString = (value) => {
 };
 function isHTMLString(value) {
   return Object.prototype.toString.call(value) === "[object HTMLString]";
-}
-function markHTMLBytes(bytes) {
-  return new HTMLBytes(bytes);
-}
-function hasGetReader(obj) {
-  return typeof obj.getReader === "function";
-}
-async function* unescapeChunksAsync(iterable) {
-  if (hasGetReader(iterable)) {
-    for await (const chunk of streamAsyncIterator(iterable)) {
-      yield unescapeHTML(chunk);
-    }
-  } else {
-    for await (const chunk of iterable) {
-      yield unescapeHTML(chunk);
-    }
-  }
-}
-function* unescapeChunks(iterable) {
-  for (const chunk of iterable) {
-    yield unescapeHTML(chunk);
-  }
-}
-function unescapeHTML(str) {
-  if (!!str && typeof str === "object") {
-    if (str instanceof Uint8Array) {
-      return markHTMLBytes(str);
-    } else if (str instanceof Response && str.body) {
-      const body = str.body;
-      return unescapeChunksAsync(body);
-    } else if (typeof str.then === "function") {
-      return Promise.resolve(str).then((value) => {
-        return unescapeHTML(value);
-      });
-    } else if (str[Symbol.for("astro:slot-string")]) {
-      return str;
-    } else if (Symbol.iterator in str) {
-      return unescapeChunks(str);
-    } else if (Symbol.asyncIterator in str || hasGetReader(str)) {
-      return unescapeChunksAsync(str);
-    }
-  }
-  return markHTMLString(str);
-}
-
-const AstroJSX = "astro:jsx";
-function isVNode(vnode) {
-  return vnode && typeof vnode === "object" && vnode[AstroJSX];
 }
 
 const RenderInstructionSymbol = Symbol.for("astro:render");
@@ -641,7 +516,7 @@ function internalSpreadAttributes(values, shouldEscape = true) {
   }
   return markHTMLString(output);
 }
-function renderElement$1(name, { props: _props, children = "" }, shouldEscape = true) {
+function renderElement(name, { props: _props, children = "" }, shouldEscape = true) {
   const { lang: _, "data-astro-id": astroId, "define:vars": defineVars, ...props } = _props;
   if (defineVars) {
     if (name === "style") {
@@ -687,20 +562,7 @@ function renderToBufferDestination(bufferRenderFunction) {
   const renderer = new BufferedRenderer(bufferRenderFunction);
   return renderer;
 }
-const isNode = typeof process !== "undefined" && Object.prototype.toString.call(process) === "[object process]";
-const isDeno = typeof Deno !== "undefined";
-function promiseWithResolvers() {
-  let resolve, reject;
-  const promise = new Promise((_resolve, _reject) => {
-    resolve = _resolve;
-    reject = _reject;
-  });
-  return {
-    promise,
-    resolve,
-    reject
-  };
-}
+typeof process !== "undefined" && Object.prototype.toString.call(process) === "[object process]";
 const VALID_PROTOCOLS = ["http:", "https:"];
 function isHttpUrl(url) {
   try {
@@ -719,13 +581,13 @@ const uniqueElements = (item, index, all) => {
 function renderAllHeadContent(result) {
   result._metadata.hasRenderedHead = true;
   const styles = Array.from(result.styles).filter(uniqueElements).map(
-    (style) => style.props.rel === "stylesheet" ? renderElement$1("link", style) : renderElement$1("style", style)
+    (style) => style.props.rel === "stylesheet" ? renderElement("link", style) : renderElement("style", style)
   );
   result.styles.clear();
   const scripts = Array.from(result.scripts).filter(uniqueElements).map((script) => {
-    return renderElement$1("script", script, false);
+    return renderElement("script", script, false);
   });
-  const links = Array.from(result.links).filter(uniqueElements).map((link) => renderElement$1("link", link, false));
+  const links = Array.from(result.links).filter(uniqueElements).map((link) => renderElement("link", link, false));
   let content = styles.join("\n") + links.join("\n") + scripts.join("\n");
   if (result._metadata.extraHead.length > 0) {
     for (const part of result._metadata.extraHead) {
@@ -856,16 +718,11 @@ async function renderSlots(result, slots = {}) {
   }
   return { slotInstructions, children };
 }
-function createSlotValueFromString(content) {
-  return function() {
-    return renderTemplate`${unescapeHTML(content)}`;
-  };
-}
 
 const Fragment = Symbol.for("astro:fragment");
 const Renderer = Symbol.for("astro:renderer");
-const encoder$1 = new TextEncoder();
-const decoder$1 = new TextDecoder();
+new TextEncoder();
+const decoder = new TextDecoder();
 function stringifyChunk(result, chunk) {
   if (isRenderInstruction(chunk)) {
     const instruction = chunk;
@@ -924,17 +781,9 @@ function stringifyChunk(result, chunk) {
 }
 function chunkToString(result, chunk) {
   if (ArrayBuffer.isView(chunk)) {
-    return decoder$1.decode(chunk);
+    return decoder.decode(chunk);
   } else {
     return stringifyChunk(result, chunk);
-  }
-}
-function chunkToByteArray(result, chunk) {
-  if (ArrayBuffer.isView(chunk)) {
-    return chunk;
-  } else {
-    const stringified = stringifyChunk(result, chunk);
-    return encoder$1.encode(stringified.toString());
   }
 }
 function isRenderInstance(obj) {
@@ -1048,225 +897,6 @@ function isAstroComponentInstance(obj) {
   return typeof obj === "object" && obj !== null && !!obj[astroComponentInstanceSym];
 }
 
-const DOCTYPE_EXP = /<!doctype html/i;
-async function renderToString(result, componentFactory, props, children, isPage = false, route) {
-  const templateResult = await callComponentAsTemplateResultOrResponse(
-    result,
-    componentFactory,
-    props,
-    children,
-    route
-  );
-  if (templateResult instanceof Response) return templateResult;
-  let str = "";
-  let renderedFirstPageChunk = false;
-  if (isPage) {
-    await bufferHeadContent(result);
-  }
-  const destination = {
-    write(chunk) {
-      if (isPage && !renderedFirstPageChunk) {
-        renderedFirstPageChunk = true;
-        if (!result.partial && !DOCTYPE_EXP.test(String(chunk))) {
-          const doctype = result.compressHTML ? "<!DOCTYPE html>" : "<!DOCTYPE html>\n";
-          str += doctype;
-        }
-      }
-      if (chunk instanceof Response) return;
-      str += chunkToString(result, chunk);
-    }
-  };
-  await templateResult.render(destination);
-  return str;
-}
-async function renderToReadableStream(result, componentFactory, props, children, isPage = false, route) {
-  const templateResult = await callComponentAsTemplateResultOrResponse(
-    result,
-    componentFactory,
-    props,
-    children,
-    route
-  );
-  if (templateResult instanceof Response) return templateResult;
-  let renderedFirstPageChunk = false;
-  if (isPage) {
-    await bufferHeadContent(result);
-  }
-  return new ReadableStream({
-    start(controller) {
-      const destination = {
-        write(chunk) {
-          if (isPage && !renderedFirstPageChunk) {
-            renderedFirstPageChunk = true;
-            if (!result.partial && !DOCTYPE_EXP.test(String(chunk))) {
-              const doctype = result.compressHTML ? "<!DOCTYPE html>" : "<!DOCTYPE html>\n";
-              controller.enqueue(encoder$1.encode(doctype));
-            }
-          }
-          if (chunk instanceof Response) {
-            throw new AstroError({
-              ...ResponseSentError
-            });
-          }
-          const bytes = chunkToByteArray(result, chunk);
-          controller.enqueue(bytes);
-        }
-      };
-      (async () => {
-        try {
-          await templateResult.render(destination);
-          controller.close();
-        } catch (e) {
-          if (AstroError.is(e) && !e.loc) {
-            e.setLocation({
-              file: route?.component
-            });
-          }
-          setTimeout(() => controller.error(e), 0);
-        }
-      })();
-    },
-    cancel() {
-      result.cancelled = true;
-    }
-  });
-}
-async function callComponentAsTemplateResultOrResponse(result, componentFactory, props, children, route) {
-  const factoryResult = await componentFactory(result, props, children);
-  if (factoryResult instanceof Response) {
-    return factoryResult;
-  } else if (isHeadAndContent(factoryResult)) {
-    if (!isRenderTemplateResult(factoryResult.content)) {
-      throw new AstroError({
-        ...OnlyResponseCanBeReturned,
-        message: OnlyResponseCanBeReturned.message(
-          route?.route,
-          typeof factoryResult
-        ),
-        location: {
-          file: route?.component
-        }
-      });
-    }
-    return factoryResult.content;
-  } else if (!isRenderTemplateResult(factoryResult)) {
-    throw new AstroError({
-      ...OnlyResponseCanBeReturned,
-      message: OnlyResponseCanBeReturned.message(route?.route, typeof factoryResult),
-      location: {
-        file: route?.component
-      }
-    });
-  }
-  return factoryResult;
-}
-async function bufferHeadContent(result) {
-  const iterator = result._metadata.propagators.values();
-  while (true) {
-    const { value, done } = iterator.next();
-    if (done) {
-      break;
-    }
-    const returnValue = await value.init(result);
-    if (isHeadAndContent(returnValue)) {
-      result._metadata.extraHead.push(returnValue.head);
-    }
-  }
-}
-async function renderToAsyncIterable(result, componentFactory, props, children, isPage = false, route) {
-  const templateResult = await callComponentAsTemplateResultOrResponse(
-    result,
-    componentFactory,
-    props,
-    children,
-    route
-  );
-  if (templateResult instanceof Response) return templateResult;
-  let renderedFirstPageChunk = false;
-  if (isPage) {
-    await bufferHeadContent(result);
-  }
-  let error = null;
-  let next = null;
-  const buffer = [];
-  let renderingComplete = false;
-  const iterator = {
-    async next() {
-      if (result.cancelled) return { done: true, value: void 0 };
-      if (next !== null) {
-        await next.promise;
-      } else if (!renderingComplete && !buffer.length) {
-        next = promiseWithResolvers();
-        await next.promise;
-      }
-      if (!renderingComplete) {
-        next = promiseWithResolvers();
-      }
-      if (error) {
-        throw error;
-      }
-      let length = 0;
-      for (let i = 0, len = buffer.length; i < len; i++) {
-        length += buffer[i].length;
-      }
-      let mergedArray = new Uint8Array(length);
-      let offset = 0;
-      for (let i = 0, len = buffer.length; i < len; i++) {
-        const item = buffer[i];
-        mergedArray.set(item, offset);
-        offset += item.length;
-      }
-      buffer.length = 0;
-      const returnValue = {
-        // The iterator is done when rendering has finished
-        // and there are no more chunks to return.
-        done: length === 0 && renderingComplete,
-        value: mergedArray
-      };
-      return returnValue;
-    },
-    async return() {
-      result.cancelled = true;
-      return { done: true, value: void 0 };
-    }
-  };
-  const destination = {
-    write(chunk) {
-      if (isPage && !renderedFirstPageChunk) {
-        renderedFirstPageChunk = true;
-        if (!result.partial && !DOCTYPE_EXP.test(String(chunk))) {
-          const doctype = result.compressHTML ? "<!DOCTYPE html>" : "<!DOCTYPE html>\n";
-          buffer.push(encoder$1.encode(doctype));
-        }
-      }
-      if (chunk instanceof Response) {
-        throw new AstroError(ResponseSentError);
-      }
-      const bytes = chunkToByteArray(result, chunk);
-      if (bytes.length > 0) {
-        buffer.push(bytes);
-        next?.resolve();
-      } else if (buffer.length > 0) {
-        next?.resolve();
-      }
-    }
-  };
-  const renderPromise = templateResult.render(destination);
-  renderPromise.then(() => {
-    renderingComplete = true;
-    next?.resolve();
-  }).catch((err) => {
-    error = err;
-    renderingComplete = true;
-    next?.resolve();
-  });
-  return {
-    [Symbol.asyncIterator]() {
-      return iterator;
-    }
-  };
-}
-
 function componentIsHTMLElement(Component) {
   return typeof HTMLElement !== "undefined" && HTMLElement.isPrototypeOf(Component);
 }
@@ -1293,7 +923,7 @@ async function decodeKey(encoded) {
   return crypto.subtle.importKey("raw", bytes, ALGORITHM, true, ["encrypt", "decrypt"]);
 }
 const encoder = new TextEncoder();
-const decoder = new TextDecoder();
+new TextDecoder();
 const IV_LENGTH = 24;
 async function encryptString(key, raw) {
   const iv = crypto.getRandomValues(new Uint8Array(IV_LENGTH / 2));
@@ -1307,20 +937,6 @@ async function encryptString(key, raw) {
     data
   );
   return encodeHexUpperCase(iv) + encodeBase64(new Uint8Array(buffer));
-}
-async function decryptString(key, encoded) {
-  const iv = decodeHex(encoded.slice(0, IV_LENGTH));
-  const dataArray = decodeBase64(encoded.slice(IV_LENGTH));
-  const decryptedBuffer = await crypto.subtle.decrypt(
-    {
-      name: ALGORITHM,
-      iv
-    },
-    key,
-    dataArray
-  );
-  const decryptedString = decoder.decode(decryptedBuffer);
-  return decryptedString;
 }
 
 const internalProps = /* @__PURE__ */ new Set([
@@ -1400,7 +1016,6 @@ script.remove();
   };
 }
 
-const needsHeadRenderingSymbol = Symbol.for("astro.needsHeadRendering");
 const rendererAliases = /* @__PURE__ */ new Map([["solid", "solid-js"]]);
 const clientOnlyValues = /* @__PURE__ */ new Set(["solid-js", "react", "preact", "vue", "svelte", "lit"]);
 function guessRenderers(componentUrl) {
@@ -1709,7 +1324,7 @@ ${serializeProps(
           })
         );
       }
-      const renderedElement = renderElement$1("astro-island", island, false);
+      const renderedElement = renderElement("astro-island", island, false);
       destination.write(markHTMLString(renderedElement));
     }
   };
@@ -1786,251 +1401,6 @@ function normalizeProps(props) {
   }
   return props;
 }
-async function renderComponentToString(result, displayName, Component, props, slots = {}, isPage = false, route) {
-  let str = "";
-  let renderedFirstPageChunk = false;
-  let head = "";
-  if (isPage && !result.partial && nonAstroPageNeedsHeadInjection(Component)) {
-    head += chunkToString(result, maybeRenderHead());
-  }
-  try {
-    const destination = {
-      write(chunk) {
-        if (isPage && !result.partial && !renderedFirstPageChunk) {
-          renderedFirstPageChunk = true;
-          if (!/<!doctype html/i.test(String(chunk))) {
-            const doctype = result.compressHTML ? "<!DOCTYPE html>" : "<!DOCTYPE html>\n";
-            str += doctype + head;
-          }
-        }
-        if (chunk instanceof Response) return;
-        str += chunkToString(result, chunk);
-      }
-    };
-    const renderInstance = await renderComponent(result, displayName, Component, props, slots);
-    await renderInstance.render(destination);
-  } catch (e) {
-    if (AstroError.is(e) && !e.loc) {
-      e.setLocation({
-        file: route?.component
-      });
-    }
-    throw e;
-  }
-  return str;
-}
-function nonAstroPageNeedsHeadInjection(pageComponent) {
-  return !!pageComponent?.[needsHeadRenderingSymbol];
-}
-
-const ClientOnlyPlaceholder = "astro-client-only";
-const hasTriedRenderComponentSymbol = Symbol("hasTriedRenderComponent");
-async function renderJSX(result, vnode) {
-  switch (true) {
-    case vnode instanceof HTMLString:
-      if (vnode.toString().trim() === "") {
-        return "";
-      }
-      return vnode;
-    case typeof vnode === "string":
-      return markHTMLString(escapeHTML(vnode));
-    case typeof vnode === "function":
-      return vnode;
-    case (!vnode && vnode !== 0):
-      return "";
-    case Array.isArray(vnode):
-      return markHTMLString(
-        (await Promise.all(vnode.map((v) => renderJSX(result, v)))).join("")
-      );
-  }
-  return renderJSXVNode(result, vnode);
-}
-async function renderJSXVNode(result, vnode) {
-  if (isVNode(vnode)) {
-    switch (true) {
-      case !vnode.type: {
-        throw new Error(`Unable to render ${result.pathname} because it contains an undefined Component!
-Did you forget to import the component or is it possible there is a typo?`);
-      }
-      case vnode.type === Symbol.for("astro:fragment"):
-        return renderJSX(result, vnode.props.children);
-      case vnode.type.isAstroComponentFactory: {
-        let props = {};
-        let slots = {};
-        for (const [key, value] of Object.entries(vnode.props ?? {})) {
-          if (key === "children" || value && typeof value === "object" && value["$$slot"]) {
-            slots[key === "children" ? "default" : key] = () => renderJSX(result, value);
-          } else {
-            props[key] = value;
-          }
-        }
-        const str = await renderToString(result, vnode.type, props, slots);
-        if (str instanceof Response) {
-          throw str;
-        }
-        const html = markHTMLString(str);
-        return html;
-      }
-      case (!vnode.type && vnode.type !== 0):
-        return "";
-      case (typeof vnode.type === "string" && vnode.type !== ClientOnlyPlaceholder):
-        return markHTMLString(await renderElement(result, vnode.type, vnode.props ?? {}));
-    }
-    if (vnode.type) {
-      let extractSlots2 = function(child) {
-        if (Array.isArray(child)) {
-          return child.map((c) => extractSlots2(c));
-        }
-        if (!isVNode(child)) {
-          _slots.default.push(child);
-          return;
-        }
-        if ("slot" in child.props) {
-          _slots[child.props.slot] = [..._slots[child.props.slot] ?? [], child];
-          delete child.props.slot;
-          return;
-        }
-        _slots.default.push(child);
-      };
-      if (typeof vnode.type === "function" && vnode.props["server:root"]) {
-        const output2 = await vnode.type(vnode.props ?? {});
-        return await renderJSX(result, output2);
-      }
-      if (typeof vnode.type === "function") {
-        if (vnode.props[hasTriedRenderComponentSymbol]) {
-          delete vnode.props[hasTriedRenderComponentSymbol];
-          const output2 = await vnode.type(vnode.props ?? {});
-          if (output2?.[AstroJSX] || !output2) {
-            return await renderJSXVNode(result, output2);
-          } else {
-            return;
-          }
-        } else {
-          vnode.props[hasTriedRenderComponentSymbol] = true;
-        }
-      }
-      const { children = null, ...props } = vnode.props ?? {};
-      const _slots = {
-        default: []
-      };
-      extractSlots2(children);
-      for (const [key, value] of Object.entries(props)) {
-        if (value?.["$$slot"]) {
-          _slots[key] = value;
-          delete props[key];
-        }
-      }
-      const slotPromises = [];
-      const slots = {};
-      for (const [key, value] of Object.entries(_slots)) {
-        slotPromises.push(
-          renderJSX(result, value).then((output2) => {
-            if (output2.toString().trim().length === 0) return;
-            slots[key] = () => output2;
-          })
-        );
-      }
-      await Promise.all(slotPromises);
-      let output;
-      if (vnode.type === ClientOnlyPlaceholder && vnode.props["client:only"]) {
-        output = await renderComponentToString(
-          result,
-          vnode.props["client:display-name"] ?? "",
-          null,
-          props,
-          slots
-        );
-      } else {
-        output = await renderComponentToString(
-          result,
-          typeof vnode.type === "function" ? vnode.type.name : vnode.type,
-          vnode.type,
-          props,
-          slots
-        );
-      }
-      return markHTMLString(output);
-    }
-  }
-  return markHTMLString(`${vnode}`);
-}
-async function renderElement(result, tag, { children, ...props }) {
-  return markHTMLString(
-    `<${tag}${spreadAttributes(props)}${markHTMLString(
-      (children == null || children == "") && voidElementNames.test(tag) ? `/>` : `>${children == null ? "" : await renderJSX(result, prerenderElementChildren(tag, children))}</${tag}>`
-    )}`
-  );
-}
-function prerenderElementChildren(tag, children) {
-  if (typeof children === "string" && (tag === "style" || tag === "script")) {
-    return markHTMLString(children);
-  } else {
-    return children;
-  }
-}
-
-async function renderPage(result, componentFactory, props, children, streaming, route) {
-  if (!isAstroComponentFactory(componentFactory)) {
-    result._metadata.headInTree = result.componentMetadata.get(componentFactory.moduleId)?.containsHead ?? false;
-    const pageProps = { ...props ?? {}, "server:root": true };
-    const str = await renderComponentToString(
-      result,
-      componentFactory.name,
-      componentFactory,
-      pageProps,
-      {},
-      true,
-      route
-    );
-    const bytes = encoder$1.encode(str);
-    return new Response(bytes, {
-      headers: new Headers([
-        ["Content-Type", "text/html; charset=utf-8"],
-        ["Content-Length", bytes.byteLength.toString()]
-      ])
-    });
-  }
-  result._metadata.headInTree = result.componentMetadata.get(componentFactory.moduleId)?.containsHead ?? false;
-  let body;
-  if (streaming) {
-    if (isNode && !isDeno) {
-      const nodeBody = await renderToAsyncIterable(
-        result,
-        componentFactory,
-        props,
-        children,
-        true,
-        route
-      );
-      body = nodeBody;
-    } else {
-      body = await renderToReadableStream(result, componentFactory, props, children, true, route);
-    }
-  } else {
-    body = await renderToString(result, componentFactory, props, children, true, route);
-  }
-  if (body instanceof Response) return body;
-  const init = result.response;
-  const headers = new Headers(init.headers);
-  if (!streaming && typeof body === "string") {
-    body = encoder$1.encode(body);
-    headers.set("Content-Length", body.byteLength.toString());
-  }
-  if (route?.component.endsWith(".md")) {
-    headers.set("Content-Type", "text/html; charset=utf-8");
-  }
-  let status = init.status;
-  if (route?.route === "/404") {
-    status = 404;
-  } else if (route?.route === "/500") {
-    status = 500;
-  }
-  if (status) {
-    return new Response(body, { ...init, headers, status });
-  } else {
-    return new Response(body, { ...init, headers });
-  }
-}
 
 "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_".split("").reduce((v, c) => (v[c.charCodeAt(0)] = c, v), []);
 "-0123456789_".split("").reduce((v, c) => (v[c.charCodeAt(0)] = c, v), []);
@@ -2052,4 +1422,4 @@ function spreadAttributes(values = {}, _name, { class: scopedClassName } = {}) {
   return markHTMLString(output);
 }
 
-export { ASTRO_VERSION as A, DEFAULT_404_COMPONENT as D, NOOP_MIDDLEWARE_HEADER as N, ROUTE_TYPE_HEADER as R, createAstro as a, addAttribute as b, createComponent as c, decodeKey as d, REROUTE_DIRECTIVE_HEADER as e, decryptString as f, createSlotValueFromString as g, renderComponent as h, renderSlotToString as i, renderJSX as j, chunkToString as k, isRenderInstruction as l, maybeRenderHead as m, clientLocalsSymbol as n, originPathnameSymbol as o, clientAddressSymbol as p, responseSentSymbol as q, renderTemplate as r, spreadAttributes as s, renderPage as t, REWRITE_DIRECTIVE_HEADER_KEY as u, REWRITE_DIRECTIVE_HEADER_VALUE as v, renderEndpoint as w, REROUTABLE_STATUS_CODES as x, renderHead as y, renderSlot as z };
+export { NOOP_MIDDLEWARE_HEADER as N, createAstro as a, addAttribute as b, createComponent as c, renderSlot as d, renderTemplate as e, renderComponent as f, decodeKey as g, maybeRenderHead as m, renderHead as r, spreadAttributes as s };

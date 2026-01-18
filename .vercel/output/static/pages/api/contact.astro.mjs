@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import DOMPurify from 'isomorphic-dompurify';
 export { renderers } from '../../renderers.mjs';
 
+const prerender = false;
 const TURNSTILE_SECRET_KEY = "your-secret-key-here";
 async function verifyTurnstileToken(token) {
   const secretKey = TURNSTILE_SECRET_KEY;
@@ -96,8 +97,8 @@ const POST = async ({ request }) => {
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
-    const sanitizedName = sanitizeString(name, 100);
-    if (sanitizedName.length < 2) {
+    const trimmedName = name.trim();
+    if (trimmedName.length < 2 || trimmedName.length > 100) {
       return new Response(
         JSON.stringify({
           error: "กรุณาระบุชื่อผู้ติดต่อให้ถูกต้อง (2-100 ตัวอักษร)"
@@ -105,6 +106,7 @@ const POST = async ({ request }) => {
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
+    const sanitizedName = sanitizeString(name, 100);
     if (!validateThaiPhone(phone)) {
       return new Response(
         JSON.stringify({
@@ -125,6 +127,13 @@ const POST = async ({ request }) => {
     if (service && !allowedServices.includes(service)) {
       return new Response(
         JSON.stringify({ error: "กรุณาเลือกบริการให้ถูกต้อง" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+    const trimmedMessage = (message || "").trim();
+    if (trimmedMessage.length > 1e3) {
+      return new Response(
+        JSON.stringify({ error: "รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร" }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
     }
@@ -255,7 +264,8 @@ const POST = async ({ request }) => {
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
-  POST
+  POST,
+  prerender
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const page = () => _page;

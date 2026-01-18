@@ -120,7 +120,6 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 							autocomplete="off"
 							aria-hidden="true"
 							style="position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
-							aria-hidden="true"
 						/>
 
 						<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -243,7 +242,6 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 			ALLOWED_TAGS: [], // Remove all HTML tags
 			ALLOWED_ATTR: [], // Remove all attributes
 			KEEP_CONTENT: true, // Keep text content
-
 		});
 		return clean.trim().slice(0, maxLength);
 	}
@@ -301,12 +299,16 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 		}
 
 		// Extract and validate name
-		const name = sanitizeString(formData.get('name') as string, 1000);
-		if (name.length < 2 || name.length > 100) {
+		const rawName = formData.get('name') as string;
+		// Check original length first (before sanitization removes characters)
+		const trimmedName = rawName.trim();
+		if (trimmedName.length < 2 || trimmedName.length > 100) {
 			showValidationMessage(formMessage, 'กรุณาระบุชื่อผู้ติดต่อให้ถูกต้อง (2-100 ตัวอักษร)', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
+		// Then sanitize for security
+		const name = sanitizeString(rawName, 100);
 
 		// Extract and validate phone
 		const phone = formData.get('phone') as string;
@@ -334,12 +336,15 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 		}
 
 		// Extract and sanitize message
-		const message = sanitizeString(formData.get('message') as string || '', 1000);
-		if (message.length > 1000) {
+		const rawMessage = formData.get('message') as string || '';
+		// Check original length first (before sanitization removes characters)
+		if (rawMessage.trim().length > 1000) {
 			showValidationMessage(formMessage, 'รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
+		// Then sanitize for security
+		const message = sanitizeString(rawMessage, 1000);
 
 		const data = {
 			name,
