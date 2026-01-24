@@ -29,7 +29,7 @@ async function verifyTurnstileToken(
     const result = await response.json();
     return result.success === true;
   } catch (error) {
-    console.error("Turnstile verification error:", error);
+    console.error("[CONTACT API] TURNSTILE ERROR: Failed to verify token -", error);
     return false;
   }
 }
@@ -62,6 +62,7 @@ function sanitizeString(input: string, maxLength: number = 1000): string {
 }
 
 export const POST: APIRoute = async ({ request, locals }) => {
+  console.log("[CONTACT API] REQUEST: New contact form submission received");
   try {
     // Access environment variables from Cloudflare runtime
     const env = locals.runtime.env;
@@ -73,7 +74,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate Resend API key is configured
     if (!RESEND_API_KEY) {
-      console.error("Resend API key not configured");
+      console.error("[CONTACT API] ERROR: Resend API key not configured in environment");
       return new Response(
         JSON.stringify({
           error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
@@ -96,6 +97,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Check honeypot field - if filled, it's a bot
     // Return generic success message to trick bots
     if (website_url && website_url.trim().length > 0) {
+      console.log("[CONTACT API] HONEYPOT: Bot detected - website_url field was filled:", website_url);
       return new Response(
         JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }),
         {
@@ -107,6 +109,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Verify Turnstile token - use generic error message
     if (!turnstileToken) {
+      console.error("[CONTACT API] VALIDATION ERROR: Turnstile token is missing from request");
       return new Response(
         JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -118,6 +121,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       TURNSTILE_SECRET_KEY,
     );
     if (!isValidTurnstile) {
+      console.error("[CONTACT API] VALIDATION ERROR: Turnstile token verification failed - invalid or expired token");
       return new Response(
         JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -126,6 +130,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate required fields exist
     if (!name || !phone || !email) {
+      console.error("[CONTACT API] VALIDATION ERROR: Missing required fields - name:", !!name, "phone:", !!phone, "email:", !!email);
       return new Response(
         JSON.stringify({ error: "กรุณากรอกข้อมูลให้ครบถ้วน" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -136,6 +141,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Check original length first (before sanitization removes characters)
     const trimmedName = name.trim();
     if (trimmedName.length < 2 || trimmedName.length > 100) {
+      console.error("[CONTACT API] VALIDATION ERROR: Invalid name length - got", trimmedName.length, "chars, required 2-100 chars");
       return new Response(
         JSON.stringify({
           error: "กรุณาระบุชื่อผู้ติดต่อให้ถูกต้อง (2-100 ตัวอักษร)",
@@ -148,6 +154,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate phone format
     if (!validateThaiPhone(phone)) {
+      console.error("[CONTACT API] VALIDATION ERROR: Invalid phone number format - got:", phone);
       return new Response(
         JSON.stringify({
           error: "กรุณาระบุเบอร์โทรศัพท์ให้ถูกต้อง (เช่น 0xx-xxx-xxxx)",
@@ -159,6 +166,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     // Validate email format
     if (!validateEmail(email)) {
+      console.error("[CONTACT API] VALIDATION ERROR: Invalid email format - got:", email);
       return new Response(
         JSON.stringify({ error: "กรุณาระบุอีเมลให้ถูกต้อง" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -169,6 +177,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Validate service value if provided
     const allowedServices = ["security", "cleaning", "duo", "smart", "other"];
     if (service && !allowedServices.includes(service)) {
+      console.error("[CONTACT API] VALIDATION ERROR: Invalid service type - got:", service, "allowed:", allowedServices);
       return new Response(
         JSON.stringify({ error: "กรุณาเลือกบริการให้ถูกต้อง" }),
         { status: 400, headers: { "Content-Type": "application/json" } },
@@ -179,6 +188,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     // Check original length first (before sanitization removes characters)
     const trimmedMessage = (message || "").trim();
     if (trimmedMessage.length > 1000) {
+      console.error("[CONTACT API] VALIDATION ERROR: Message too long - got", trimmedMessage.length, "chars, max 1000 chars");
       return new Response(
         JSON.stringify({
           error: "รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร",
@@ -199,6 +209,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
     };
 
     const serviceName = service ? serviceNames[service] || service : "ไม่ระบุ";
+
+    console.log("[CONTACT API] VALIDATED: Form data validated - name:", sanitizedName, "email:", sanitizedEmail, "service:", serviceName);
 
     try {
       // Initialize Resend client
@@ -259,11 +271,11 @@ export const POST: APIRoute = async ({ request, locals }) => {
       });
 
       if (error) {
-        console.error("Resend API error:", error);
+        console.error("[CONTACT API] RESEND ERROR: Failed to send email -", error);
         throw new Error(`Resend error: ${error.message}`);
       }
 
-      console.log("Email sent successfully via Resend:", data);
+      console.log("[CONTACT API] SUCCESS: Email sent successfully via Resend - ID:", data?.id);
     } catch (emailError: unknown) {
       // Determine error type for better debugging and monitoring
       const error = emailError as {
@@ -272,7 +284,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         name?: string;
       };
 
-      console.error("Email sending error:", {
+      console.error("[CONTACT API] EMAIL ERROR: Failed to send email -", {
         name: error.name,
         message: error.message,
         code: error.code,
@@ -280,12 +292,13 @@ export const POST: APIRoute = async ({ request, locals }) => {
       throw new Error("Failed to send email");
     }
 
+    console.log("[CONTACT API] SUCCESS: Contact form processed successfully for:", sanitizedEmail);
     return new Response(JSON.stringify({ message: "ส่งข้อมูลเรียบร้อยแล้ว" }), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Error in contact API:", error);
+    console.error("[CONTACT API] UNEXPECTED ERROR: Caught in top-level handler -", error);
     return new Response(
       JSON.stringify({
         error: "เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง",
