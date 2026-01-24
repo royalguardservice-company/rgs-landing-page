@@ -271,6 +271,12 @@ is:inline
 		}
 	};
 
+	// Check if Turnstile is loaded and get token on form submit
+	(window as any).getTurnstileToken = (): string | null => {
+		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
+		return hiddenInput?.value || null;
+	};
+
 	(window as any).turnstileErrorCallback = () => {
 		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
 		if (hiddenInput) {
@@ -303,8 +309,23 @@ is:inline
 
 		// Get Turnstile token from hidden input field
 		const turnstileToken = formData.get('turnstileToken') as string;
+
+		// Debug: Check Turnstile status
+		const turnstileLoaded = typeof (window as any).turnstile !== 'undefined';
+		const turnstileWidget = form.querySelector('.cf-turnstile');
+
 		if (!turnstileToken) {
-			showValidationMessage(formMessage, '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง turnstileToken', true);
+			console.error('Turnstile token missing:', {
+				turnstileLoaded,
+				turnstileWidgetExists: !!turnstileWidget,
+				hiddenInputValue: (document.getElementById('turnstileToken') as HTMLInputElement)?.value
+			});
+
+			let errorMsg = '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง';
+			if (!turnstileLoaded) {
+				errorMsg += ' (Turnstile ยังไม่โหลด)';
+			}
+			showValidationMessage(formMessage, errorMsg, true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
