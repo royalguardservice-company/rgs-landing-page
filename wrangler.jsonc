@@ -1,6 +1,6 @@
 {
 	"main": "dist/_worker.js/index.js",
-	"name": "royal-guard-security",
+	"name": "rgs-landing-page",
   "compatibility_date": "2026-01-24",
   "compatibility_flags": [
     "nodejs_compat",
