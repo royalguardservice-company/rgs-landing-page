@@ -51,12 +51,14 @@ const {
 		<script is:inline type="text/partytown"  src="https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21"></script>
 		<script is:inline data-category="analytics">
   window.updateConsents = function() {
-    gtag('consent', 'update', {
-      ad_storage: 'granted',
-      ad_user_data: 'granted',
-      ad_personalization: 'granted',
-      analytics_storage: 'granted',
-    });
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+      });
+    }
   };
 </script>
         <script is:inline type="text/partytown">
