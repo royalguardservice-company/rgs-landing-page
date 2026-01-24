@@ -7,7 +7,6 @@ interface Env {
   RESEND_API_KEY: string;
   RESEND_FROM_EMAIL?: string;
   RESEND_TO_EMAIL?: string;
-  PRD?: string;
 }
 
 // Extend App.Locals with Cloudflare Runtime type
