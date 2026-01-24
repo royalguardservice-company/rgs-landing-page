@@ -5,12 +5,10 @@ import DOMPurify from "isomorphic-dompurify";
 // Opt out of prerendering - this API route will be server-rendered
 export const prerender = false;
 
-const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY as string;
-const RESEND_API_KEY = import.meta.env.RESEND_API_KEY as string;
-
-async function verifyTurnstileToken(token: string): Promise<boolean> {
-  const secretKey = TURNSTILE_SECRET_KEY;
-
+async function verifyTurnstileToken(
+  token: string,
+  secretKey: string,
+): Promise<boolean> {
   try {
     const response = await fetch(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -61,8 +59,16 @@ function sanitizeString(input: string, maxLength: number = 1000): string {
   return clean.trim().slice(0, maxLength);
 }
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
   try {
+    // Access environment variables from Cloudflare runtime
+    const env = locals.runtime.env;
+
+    const TURNSTILE_SECRET_KEY = env.TURNSTILE_SECRET_KEY as string;
+    const RESEND_API_KEY = env.RESEND_API_KEY as string;
+    const fromEmail = env.RESEND_FROM_EMAIL as string;
+    const toEmail = env.RESEND_TO_EMAIL as string;
+
     // Validate Resend API key is configured
     if (!RESEND_API_KEY) {
       console.error("Resend API key not configured");
@@ -105,7 +111,10 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const isValidTurnstile = await verifyTurnstileToken(turnstileToken);
+    const isValidTurnstile = await verifyTurnstileToken(
+      turnstileToken,
+      TURNSTILE_SECRET_KEY,
+    );
     if (!isValidTurnstile) {
       return new Response(
         JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
@@ -169,7 +178,9 @@ export const POST: APIRoute = async ({ request }) => {
     const trimmedMessage = (message || "").trim();
     if (trimmedMessage.length > 1000) {
       return new Response(
-        JSON.stringify({ error: "รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร" }),
+        JSON.stringify({
+          error: "รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร",
+        }),
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
@@ -186,11 +197,6 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     const serviceName = service ? serviceNames[service] || service : "ไม่ระบุ";
-
-    // Get the "from" email for Resend
-    // This should be a verified domain in your Resend account
-    const fromEmail = import.meta.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-    const toEmail = import.meta.env.RESEND_TO_EMAIL || "royalguardservices2016@gmail.com";
 
     try {
       // Initialize Resend client

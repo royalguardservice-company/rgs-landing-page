@@ -17,4 +17,9 @@
   "observability": {
     "enabled": true,
   },
+  "vars": {
+    "TURNSTILE_SITE_KEY": "0x4AAAAAACOrYXr0wC0JXGc2",
+    "RESEND_FROM_EMAIL": "royalguardservice@rgs-guard.com",
+    "RESEND_TO_EMAIL": "royalguardservices2016@gmail.com",
+  },
 }
