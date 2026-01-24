@@ -12,7 +12,8 @@ const contactInfo = {
 	license: 'ตภ.2600068'
 };
 
-const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
+const { locals } = Astro;
+const TURNSTILE_SITE_KEY = locals.runtime.env.TURNSTILE_SITE_KEY as string;
 
 // Validate Turnstile site key is configured
 if (!TURNSTILE_SITE_KEY || typeof TURNSTILE_SITE_KEY !== 'string') {
