@@ -21,6 +21,31 @@ if (!TURNSTILE_SITE_KEY || typeof TURNSTILE_SITE_KEY !== 'string') {
 }
 ---
 
+<!-- Define Turnstile callbacks BEFORE loading the API script -->
+<script is:inline>
+	window.turnstileCallback = function(token) {
+		const hiddenInput = document.getElementById('turnstileToken');
+		if (hiddenInput) {
+			hiddenInput.value = token;
+			console.log('Turnstile token received');
+		}
+	};
+
+	window.turnstileErrorCallback = function() {
+		const hiddenInput = document.getElementById('turnstileToken');
+		if (hiddenInput) {
+			hiddenInput.value = '';
+		}
+		const formMessage = document.getElementById('form-message');
+		if (formMessage) {
+			formMessage.textContent = '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง';
+			formMessage.classList.remove('hidden');
+			formMessage.classList.add('text-red-500', 'font-semibold');
+		}
+		console.error('Turnstile error callback triggered');
+	};
+</script>
+
 <script
 is:inline
   src="https://challenges.cloudflare.com/turnstile/v0/api.js"
@@ -262,32 +287,6 @@ is:inline
 		formMessage.classList.remove('hidden', 'text-red-500', 'text-green-600');
 		formMessage.classList.add(isError ? 'text-red-500' : 'text-green-600', 'font-semibold');
 	}
-
-	// Cloudflare Turnstile callback functions
-	(window as any).turnstileCallback = (token: string) => {
-		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
-		if (hiddenInput) {
-			hiddenInput.value = token;
-		}
-	};
-
-	// Check if Turnstile is loaded and get token on form submit
-	(window as any).getTurnstileToken = (): string | null => {
-		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
-		return hiddenInput?.value || null;
-	};
-
-	(window as any).turnstileErrorCallback = () => {
-		const hiddenInput = document.getElementById('turnstileToken') as HTMLInputElement;
-		if (hiddenInput) {
-			hiddenInput.value = '';
-		}
-		const formMessage = document.getElementById('form-message');
-		if (formMessage) {
-			showValidationMessage(formMessage, '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง', true);
-			formMessage.classList.remove('hidden');
-		}
-	};
 
 	const form = document.getElementById('contact-form') as HTMLFormElement | null;
 	const formMessage = document.getElementById('form-message');
