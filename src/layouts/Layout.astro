@@ -1,6 +1,5 @@
 ---
 import logo from '../assets/images/logo.png';
-import CookieConsent from '../components/CookieConsent.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -93,8 +92,7 @@ const {
 	<body>
 
 		<slot />
-		<CookieConsent />
-  <script is:inline type="module" src="/src/scripts/cookieconsent-config.js"></script>
+		<script is:inline type="module" src="/scripts/cookieconsent-config.js"></script>
 
 	</body>
 </html>
