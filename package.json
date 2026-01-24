@@ -10,12 +10,13 @@
     "astro": "astro"
   },
   "engines": {
-    "node": "24"
+    "node": "25"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@astrojs/cloudflare": "^12.6.12",
     "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^25.0.10",
     "astro": "^5.16.11",
     "astro-icon": "^1.1.5",
     "isomorphic-dompurify": "^2.35.0",
@@ -26,5 +27,9 @@
   "devDependencies": {
     "@types/dompurify": "^3.0.5",
     "wrangler": "^4.60.0"
+  },
+  "overrides": {
+    "wrangler": "^4.60.0",
+    "undici": "^7.18.2"
   }
 }
