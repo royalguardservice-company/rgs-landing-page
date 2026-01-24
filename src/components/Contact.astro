@@ -13,6 +13,11 @@ const contactInfo = {
 };
 
 const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
+
+// Validate Turnstile site key is configured
+if (!TURNSTILE_SITE_KEY || typeof TURNSTILE_SITE_KEY !== 'string') {
+	console.error('TURNSTILE_SITE_KEY is not configured or invalid');
+}
 ---
 
 <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
@@ -189,9 +194,11 @@ const TURNSTILE_SITE_KEY = import.meta.env.TURNSTILE_SITE_KEY as string;
 						</div>
 
 						<!-- Cloudflare Turnstile Widget -->
-						<div class="flex justify-start">
-							<div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-callback="turnstileCallback" data-error-callback="turnstileErrorCallback"></div>
-						</div>
+						{TURNSTILE_SITE_KEY && (
+							<div class="flex justify-start">
+								<div class="cf-turnstile" data-sitekey={TURNSTILE_SITE_KEY} data-callback="turnstileCallback" data-error-callback="turnstileErrorCallback"></div>
+							</div>
+						)}
 						<input type="hidden" name="turnstileToken" id="turnstileToken" />
 
 						<button
