@@ -1,8 +1,6 @@
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
-import createDOMPurify from "isomorphic-dompurify";
-
-const DOMPurify = createDOMPurify();
+import DOMPurify from "isomorphic-dompurify";
 
 // Opt out of prerendering - this API route will be server-rendered
 export const prerender = false;
