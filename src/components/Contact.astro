@@ -304,7 +304,7 @@ is:inline
 		// Get Turnstile token from hidden input field
 		const turnstileToken = formData.get('turnstileToken') as string;
 		if (!turnstileToken) {
-			showValidationMessage(formMessage, '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง', true);
+			showValidationMessage(formMessage, '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง turnstileToken', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
