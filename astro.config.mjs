@@ -6,7 +6,17 @@ import cloudflare from "@astrojs/cloudflare";
 import partytown from "@astrojs/partytown";
 
 export default defineConfig({
-  integrations: [partytown()],
+  integrations: [
+    partytown({
+      config: {
+        forward: [
+          { "dataLayer.push": "dataLayerPush" },
+          "https://www.googletagmanager.com/gtag/js",
+          "https://www.google-analytics.com/analytics.js",
+        ],
+      },
+    }),
+  ],
   output: "static",
 
   vite: {
