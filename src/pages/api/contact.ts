@@ -1,6 +1,5 @@
 import type { APIRoute } from "astro";
 import { Resend } from "resend";
-import DOMPurify from "isomorphic-dompurify";
 
 // Opt out of prerendering - this API route will be server-rendered
 export const prerender = false;
@@ -45,17 +44,21 @@ function validateThaiPhone(phone: string): boolean {
 }
 
 /**
- * Sanitize string input using DOMPurify to prevent XSS attacks.
+ * Sanitize string input to prevent XSS attacks.
  * Removes all HTML tags and dangerous content while preserving plain text.
+ * Uses a simple regex approach compatible with Cloudflare Workers runtime.
  */
 function sanitizeString(input: string, maxLength: number = 1000): string {
-  // Use DOMPurify with config to strip ALL HTML (not just sanitize)
-
-  const clean = DOMPurify.sanitize(input, {
-    ALLOWED_TAGS: [], // Remove all HTML tags
-    ALLOWED_ATTR: [], // Remove all attributes
-    KEEP_CONTENT: true, // Keep text content
-  });
+  // Remove HTML tags - this is a simple approach that works in Cloudflare Workers
+  // For more complex sanitization needs, consider using a library with Workers support
+  let clean = input
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/&lt;/g, '<') // Decode HTML entities
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, ' ');
 
   // Trim and enforce max length
   return clean.trim().slice(0, maxLength);
