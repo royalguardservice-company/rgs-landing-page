@@ -64,5 +64,19 @@ CookieConsent.run({
                 }
             }
         }
+    },
+    onConsent: () => {
+        if (CookieConsent.acceptedCategory('analytics')) {
+            if (typeof window.updateConsents === 'function') {
+                window.updateConsents();
+            }
+        }
+    },
+    onFirstConsent: () => {
+        if (CookieConsent.acceptedCategory('analytics')) {
+            if (typeof window.updateConsents === 'function') {
+                window.updateConsents();
+            }
+        }
     }
 });
