@@ -72,7 +72,7 @@ const {
             ad_personalization: "denied",
             analytics_storage: "denied",
         });
-        gtag("config", "G-XXXXXXXXXX");
+        gtag("config", "G-YYL97TTE21");
         </script>
 		</>
 		)
@@ -84,17 +84,18 @@ const {
   }
   gtag("js", new Date());
 
-  gtag("config", "G-XXXXXXXXXX");
+  gtag("config", "G-YYL97TTE21");
 </script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css">
 
 	</head>
 
 	<body>
-	<script type="module" src="../scripts/cookieconsent-config.js"></script>
 
 		<slot />
 		<CookieConsent />
+  <script is:inline type="module" src="/src/scripts/cookieconsent-config.js"></script>
+
 	</body>
 </html>
 
