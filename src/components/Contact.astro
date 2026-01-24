@@ -231,10 +231,6 @@ is:inline
 </section>
 
 <script>
-	import createDOMPurify from 'isomorphic-dompurify';
-
-	const DOMPurify = createDOMPurify();
-
 	// Input validation utilities
 	function validateEmail(email: string): boolean {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -248,16 +244,16 @@ is:inline
 	}
 
 	/**
-	 * Sanitize string input using DOMPurify to prevent XSS attacks.
-	 * Removes all HTML tags and dangerous content while preserving plain text.
+	 * Sanitize string input to prevent XSS attacks.
+	 * Removes HTML tags and dangerous content while preserving plain text.
 	 */
 	function sanitizeString(input: string, maxLength: number): string {
-		// Use DOMPurify with config to strip ALL HTML (not just sanitize)
-		const clean = DOMPurify.sanitize(input, {
-			ALLOWED_TAGS: [], // Remove all HTML tags
-			ALLOWED_ATTR: [], // Remove all attributes
-			KEEP_CONTENT: true, // Keep text content
-		});
+		// Remove HTML tags by replacing them with empty string
+		let clean = input.replace(/<[^>]*>/g, '');
+		// Remove dangerous patterns (javascript:, data:, etc.)
+		clean = clean.replace(/javascript:/gi, '');
+		clean = clean.replace(/data:/gi, '');
+		clean = clean.replace(/on\w+\s*=/gi, ''); // Remove event handlers like onclick=
 		return clean.trim().slice(0, maxLength);
 	}
 
