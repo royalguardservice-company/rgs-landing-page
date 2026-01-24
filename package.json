@@ -13,18 +13,17 @@
     "node": "24"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.6",
-    "@astrojs/vercel": "^9.0.4",
+    "@astrojs/cloudflare": "^12.6.12",
     "@tailwindcss/vite": "^4.1.18",
-    "@types/nodemailer": "^7.0.5",
     "astro": "^5.16.11",
     "astro-icon": "^1.1.5",
     "isomorphic-dompurify": "^2.35.0",
-    "nodemailer": "^7.0.12",
+    "resend": "^6.8.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/dompurify": "^3.0.5"
+    "@types/dompurify": "^3.0.5",
+    "wrangler": "^4.60.0"
   }
 }

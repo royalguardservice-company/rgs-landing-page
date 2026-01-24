@@ -1,9 +1,10 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import DOMPurify from 'isomorphic-dompurify';
 export { renderers } from '../../renderers.mjs';
 
 const prerender = false;
-const TURNSTILE_SECRET_KEY = "your-secret-key-here";
+const TURNSTILE_SECRET_KEY = "0x4AAAAAACOrYUh7bwjkesYKWvHP541oB4s";
+const RESEND_API_KEY = "re_7wjps4zy_CfcCVjFEdUHGSuG1SKEXz7mo";
 async function verifyTurnstileToken(token) {
   const secretKey = TURNSTILE_SECRET_KEY;
   try {
@@ -48,17 +49,7 @@ function sanitizeString(input, maxLength = 1e3) {
 }
 const POST = async ({ request }) => {
   try {
-    const gmailEmail = undefined                               ;
-    const gmailPassword = undefined                                  ;
-    if (!gmailEmail || !gmailPassword) {
-      console.error("Email credentials not configured");
-      return new Response(
-        JSON.stringify({
-          error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง"
-        }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
-      );
-    }
+    if (!RESEND_API_KEY) ;
     const data = await request.json();
     const {
       name,
@@ -146,17 +137,13 @@ const POST = async ({ request }) => {
       other: "อื่นๆ"
     };
     const serviceName = service ? serviceNames[service] || service : "ไม่ระบุ";
+    const fromEmail = undefined                                  || "onboarding@resend.dev";
+    const toEmail = undefined                                || "royalguardservices2016@gmail.com";
     try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: gmailEmail,
-          pass: gmailPassword
-        }
-      });
-      const mailOptions = {
-        from: gmailEmail,
-        to: gmailEmail,
+      const resend = new Resend(RESEND_API_KEY);
+      const { data: data2, error } = await resend.emails.send({
+        from: fromEmail,
+        to: [toEmail],
         subject: `[ใบเสนอราคาใหม่] จาก ${sanitizedName}`,
         html: `
 				<div style="font-family: 'Sarabun', sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 20px;">
@@ -204,46 +191,19 @@ const POST = async ({ request }) => {
 						</div>
 					</div>
 				</div>
-			`,
-        text: `
-				รายละเอียดการติดต่อใหม่จากเว็บไซต์
-
-				ชื่อ-นามสกุล: ${sanitizedName}
-				เบอร์โทรศัพท์: ${sanitizedPhone}
-				อีเมล: ${sanitizedEmail}
-				บริการที่สนใจ: ${serviceName}
-				รายละเอียดเพิ่มเติม: ${sanitizedMessage || "ไม่ระบุ"}
 			`
-      };
-      await transporter.sendMail(mailOptions);
+      });
+      if (error) {
+        console.error("Resend API error:", error);
+        throw new Error(`Resend error: ${error.message}`);
+      }
+      console.log("Email sent successfully via Resend:", data2);
     } catch (emailError) {
       const error = emailError;
-      if (error.code === "EAUTH") {
-        console.error("Email authentication failed:", {
-          code: error.code,
-          message: "Invalid Gmail credentials or App Password"
-        });
-        throw new Error("Email authentication failed");
-      }
-      if (error.code === "ECONNECTION" || error.code === "ETIMEDOUT") {
-        console.error("Email connection error:", {
-          code: error.code,
-          message: error.message
-        });
-        throw new Error("Email service unavailable");
-      }
-      if (error.responseCode && error.responseCode >= 500) {
-        console.error("Email server error:", {
-          responseCode: error.responseCode,
-          response: error.response
-        });
-        throw new Error("Email server error");
-      }
-      console.error("Nodemailer error:", {
-        code: error.code,
-        command: error.command,
-        responseCode: error.responseCode,
-        message: error.message
+      console.error("Email sending error:", {
+        name: error.name,
+        message: error.message,
+        code: error.code
       });
       throw new Error("Failed to send email");
     }
@@ -252,7 +212,7 @@ const POST = async ({ request }) => {
       headers: { "Content-Type": "application/json" }
     });
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Error in contact API:", error);
     return new Response(
       JSON.stringify({
         error: "เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง"

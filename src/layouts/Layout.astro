@@ -1,5 +1,7 @@
 ---
 import logo from '../assets/images/logo.png';
+import CookieConsent from '../components/CookieConsent.astro';
+import '../styles/global.css';
 
 interface Props {
 	title?: string;
@@ -45,6 +47,7 @@ const {
 	</head>
 	<body>
 		<slot />
+		<CookieConsent />
 	</body>
 </html>
 

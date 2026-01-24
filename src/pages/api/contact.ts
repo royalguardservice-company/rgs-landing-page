@@ -1,11 +1,12 @@
 import type { APIRoute } from "astro";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import DOMPurify from "isomorphic-dompurify";
 
 // Opt out of prerendering - this API route will be server-rendered
 export const prerender = false;
 
 const TURNSTILE_SECRET_KEY = import.meta.env.TURNSTILE_SECRET_KEY as string;
+const RESEND_API_KEY = import.meta.env.RESEND_API_KEY as string;
 
 async function verifyTurnstileToken(token: string): Promise<boolean> {
   const secretKey = TURNSTILE_SECRET_KEY;
@@ -62,12 +63,9 @@ function sanitizeString(input: string, maxLength: number = 1000): string {
 
 export const POST: APIRoute = async ({ request }) => {
   try {
-    // Validate email credentials are configured
-    const gmailEmail = import.meta.env.GMAIL_APP_EMAIL;
-    const gmailPassword = import.meta.env.GMAIL_APP_PASSWORD;
-
-    if (!gmailEmail || !gmailPassword) {
-      console.error("Email credentials not configured");
+    // Validate Resend API key is configured
+    if (!RESEND_API_KEY) {
+      console.error("Resend API key not configured");
       return new Response(
         JSON.stringify({
           error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
@@ -188,19 +186,20 @@ export const POST: APIRoute = async ({ request }) => {
     };
 
     const serviceName = service ? serviceNames[service] || service : "ไม่ระบุ";
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "gmail",
-        auth: {
-          user: gmailEmail as string,
-          pass: gmailPassword as string,
-        },
-      });
 
-      // Email content
-      const mailOptions = {
-        from: gmailEmail as string,
-        to: gmailEmail as string,
+    // Get the "from" email for Resend
+    // This should be a verified domain in your Resend account
+    const fromEmail = import.meta.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+    const toEmail = import.meta.env.RESEND_TO_EMAIL || "royalguardservices2016@gmail.com";
+
+    try {
+      // Initialize Resend client
+      const resend = new Resend(RESEND_API_KEY);
+
+      // Send email using Resend
+      const { data, error } = await resend.emails.send({
+        from: fromEmail,
+        to: [toEmail],
         subject: `[ใบเสนอราคาใหม่] จาก ${sanitizedName}`,
         html: `
 				<div style="font-family: 'Sarabun', sans-serif; max-width: 600px; margin: 0 auto; background-color: #f4f4f4; padding: 20px;">
@@ -249,59 +248,26 @@ export const POST: APIRoute = async ({ request }) => {
 					</div>
 				</div>
 			`,
-        text: `
-				รายละเอียดการติดต่อใหม่จากเว็บไซต์
+      });
 
-				ชื่อ-นามสกุล: ${sanitizedName}
-				เบอร์โทรศัพท์: ${sanitizedPhone}
-				อีเมล: ${sanitizedEmail}
-				บริการที่สนใจ: ${serviceName}
-				รายละเอียดเพิ่มเติม: ${sanitizedMessage || "ไม่ระบุ"}
-			`,
-      };
+      if (error) {
+        console.error("Resend API error:", error);
+        throw new Error(`Resend error: ${error.message}`);
+      }
 
-      // Send email
-      await transporter.sendMail(mailOptions);
+      console.log("Email sent successfully via Resend:", data);
     } catch (emailError: unknown) {
       // Determine error type for better debugging and monitoring
       const error = emailError as {
         code?: string;
-        command?: string;
-        responseCode?: number;
-        response?: string;
         message: string;
+        name?: string;
       };
 
-      if (error.code === "EAUTH") {
-        console.error("Email authentication failed:", {
-          code: error.code,
-          message: "Invalid Gmail credentials or App Password",
-        });
-        throw new Error("Email authentication failed");
-      }
-
-      if (error.code === "ECONNECTION" || error.code === "ETIMEDOUT") {
-        console.error("Email connection error:", {
-          code: error.code,
-          message: error.message,
-        });
-        throw new Error("Email service unavailable");
-      }
-
-      if (error.responseCode && error.responseCode >= 500) {
-        console.error("Email server error:", {
-          responseCode: error.responseCode,
-          response: error.response,
-        });
-        throw new Error("Email server error");
-      }
-
-      // Generic email error - log full details for debugging
-      console.error("Nodemailer error:", {
-        code: error.code,
-        command: error.command,
-        responseCode: error.responseCode,
+      console.error("Email sending error:", {
+        name: error.name,
         message: error.message,
+        code: error.code,
       });
       throw new Error("Failed to send email");
     }
@@ -311,7 +277,7 @@ export const POST: APIRoute = async ({ request }) => {
       headers: { "Content-Type": "application/json" },
     });
   } catch (error) {
-    console.error("Error sending email:", error);
+    console.error("Error in contact API:", error);
     return new Response(
       JSON.stringify({
         error: "เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง",
