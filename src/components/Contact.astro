@@ -278,7 +278,7 @@ is:inline
 		}
 		const formMessage = document.getElementById('form-message');
 		if (formMessage) {
-			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
+			showValidationMessage(formMessage, '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง', true);
 			formMessage.classList.remove('hidden');
 		}
 	};
@@ -304,7 +304,7 @@ is:inline
 		// Get Turnstile token from hidden input field
 		const turnstileToken = formData.get('turnstileToken') as string;
 		if (!turnstileToken) {
-			showValidationMessage(formMessage, 'เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', true);
+			showValidationMessage(formMessage, '❌ ยืนยันตัวตนไม่สำเร็จ กรุณาทำใหม่อีกครั้ง', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
@@ -314,7 +314,7 @@ is:inline
 		// Check original length first (before sanitization removes characters)
 		const trimmedName = rawName.trim();
 		if (trimmedName.length < 2 || trimmedName.length > 100) {
-			showValidationMessage(formMessage, 'กรุณาระบุชื่อผู้ติดต่อให้ถูกต้อง (2-100 ตัวอักษร)', true);
+			showValidationMessage(formMessage, '❌ ชื่อผู้ติดต่อต้องมี 2-100 ตัวอักษร', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
@@ -324,7 +324,7 @@ is:inline
 		// Extract and validate phone
 		const phone = formData.get('phone') as string;
 		if (!validateThaiPhone(phone)) {
-			showValidationMessage(formMessage, 'กรุณาระบุเบอร์โทรศัพท์ให้ถูกต้อง (เช่น 0xx-xxx-xxxx)', true);
+			showValidationMessage(formMessage, '❌ รูปแบบเบอร์โทรศัพท์ไม่ถูกต้อง (เช่น 0xx-xxx-xxxx)', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
@@ -332,7 +332,7 @@ is:inline
 		// Extract and validate email
 		const email = formData.get('email') as string;
 		if (!validateEmail(email)) {
-			showValidationMessage(formMessage, 'กรุณาระบุอีเมลให้ถูกต้อง', true);
+			showValidationMessage(formMessage, '❌ รูปแบบอีเมลไม่ถูกต้อง (ตัวอย่าง: name@example.com)', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
@@ -341,7 +341,7 @@ is:inline
 		const service = formData.get('service') as string;
 		const allowedServices = ['security', 'cleaning', 'duo', 'smart', 'other'];
 		if (service && !allowedServices.includes(service)) {
-			showValidationMessage(formMessage, 'กรุณาเลือกบริการให้ถูกต้อง', true);
+			showValidationMessage(formMessage, '❌ กรุณาเลือกประเภทบริการที่ต้องการ', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
@@ -350,7 +350,7 @@ is:inline
 		const rawMessage = formData.get('message') as string || '';
 		// Check original length first (before sanitization removes characters)
 		if (rawMessage.trim().length > 1000) {
-			showValidationMessage(formMessage, 'รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร', true);
+			showValidationMessage(formMessage, '❌ รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร', true);
 			formMessage.classList.remove('hidden');
 			return;
 		}
@@ -408,7 +408,7 @@ is:inline
 				formMessage.classList.add('text-red-500', 'font-semibold');
 			}
 		} catch (error) {
-			formMessage.textContent = 'เกิดข้อผิดพลาดในการเชื่อมต่อ กรุณาลองใหม่อีกครั้ง';
+			formMessage.textContent = '❌ การเชื่อมต่อขัดข้อง กรุณาตรวจสอบอินเทอร์เน็ตและลองใหม่';
 			formMessage.classList.remove('hidden', 'text-green-600');
 			formMessage.classList.add('text-red-500', 'font-semibold');
 		} finally {
