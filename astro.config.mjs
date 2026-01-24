@@ -3,8 +3,10 @@ import tailwindcss from "@tailwindcss/vite";
 
 import cloudflare from "@astrojs/cloudflare";
 
+import partytown from "@astrojs/partytown";
+
 export default defineConfig({
-  integrations: [],
+  integrations: [partytown()],
   output: "static",
 
   vite: {
