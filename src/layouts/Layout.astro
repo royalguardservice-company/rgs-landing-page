@@ -44,40 +44,19 @@ const {
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-		<!-- Google Analytics -->
-		{
-		import.meta.env.PROD && (
-		<>
-		<script is:inline type="text/partytown"  src="https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21"></script>
-		<script is:inline data-category="analytics">
-  window.updateConsents = function() {
-    if (typeof gtag === 'function') {
-      gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-      });
-    }
-  };
-</script>
-        <script is:inline type="text/partytown">
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
-        gtag("consent", "default", {
-            ad_storage: "denied",
-            ad_user_data: "denied",
-            ad_personalization: "denied",
-            analytics_storage: "denied",
-        });
-        gtag("config", "G-YYL97TTE21");
-        </script>
-		</>
-		)
-		}
+
+		<!-- Google tag (gtag.js) -->
+		 {import.meta.env.PROD && (
+			<><script async src="https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-YYL97TTE21');
+</script> </>
+			)}
+
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css">
 
 	</head>

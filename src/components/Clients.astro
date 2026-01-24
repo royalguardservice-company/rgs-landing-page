@@ -104,6 +104,7 @@ for (let i = 0; i < featuredClients.length; i += itemsPerPage) {
 					id="sliderTrack"
 					class="flex transition-transform duration-500 ease-in-out"
 					style="transform: translateX(0%);"
+					data-total-pages={totalPages}
 				>
 					{clientPages.map((pageClients) => (
 						<div class="w-full flex-shrink-0 grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 px-2">
@@ -173,11 +174,11 @@ for (let i = 0; i < featuredClients.length; i += itemsPerPage) {
 </style>
 
 <script>
-	const totalPages = 20;
+	const sliderTrack = document.getElementById('sliderTrack') as HTMLElement;
+	const totalPages = parseInt(sliderTrack?.dataset.totalPages || '2', 10);
 	let currentPage = 0;
 	let autoPlayInterval: number | undefined;
 
-	const sliderTrack = document.getElementById('sliderTrack') as HTMLElement;
 	const prevBtn = document.getElementById('prevBtn') as HTMLButtonElement;
 	const nextBtn = document.getElementById('nextBtn') as HTMLButtonElement;
 	const dots = document.querySelectorAll('.pagination-dot');
