@@ -1,7 +1,4 @@
 ---
-/**
- * PatrolContent - QR patrol checkpoint tracking content
- */
 import type { PhoneApp } from '../types';
 
 interface Props {
@@ -12,8 +9,7 @@ const { app } = Astro.props;
 ---
 
 <div class="flex flex-col bg-gray-50 relative h-full overflow-hidden">
-	<!-- Top Summary Card -->
-	<div class="bg-white mx-3 mt-3 rounded-xl p-3 shadow-sm flex-shrink-0">
+	<div class="bg-white mx-3 mt-3 rounded-xl p-3 shadow-xs shrink-0">
 		<div class="flex justify-between items-start mb-2">
 			<div class="flex-1">
 				<p class="text-[8px] text-gray-400 font-semibold tracking-wide mb-1">ROUTE</p>
@@ -35,13 +31,12 @@ const { app } = Astro.props;
 		</div>
 	</div>
 
-	<!-- Timeline with Scroll -->
 	<div class="flex-1 overflow-y-auto px-3 py-3 min-h-0">
 		<div class="relative">
 			<div class="absolute left-[15px] top-2 bottom-2 w-0.5 bg-gray-200"></div>
 			{app.stops?.map((stop) => (
 				<div class="relative flex items-start mb-4 last:mb-0">
-					<div class={`relative z-10 flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+					<div class={`relative z-10 shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center ${
 						stop.status === 'completed'
 							? 'bg-blue-500 border-blue-500'
 							: stop.status === 'current'
@@ -58,7 +53,7 @@ const { app } = Astro.props;
 							<span class="text-[9px] font-bold text-gray-500">{stop.id}</span>
 						)}
 					</div>
-					<div class="ml-3 flex-1 bg-white rounded-lg p-2 border border-gray-100 shadow-sm">
+					<div class="ml-3 flex-1 bg-white rounded-lg p-2 border border-gray-100 shadow-xs">
 						<div class="flex justify-between items-start">
 							<div class="flex-1 min-w-0">
 								<p class={`text-[10px] font-bold mb-0.5 ${
@@ -92,8 +87,7 @@ const { app } = Astro.props;
 		</div>
 	</div>
 
-	<!-- Scan QR Button -->
-	<div class="flex-shrink-0 p-3 bg-white border-t border-gray-100">
+	<div class="shrink-0 p-3 bg-white border-t border-gray-100">
 		<button class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold shadow-lg shadow-blue-200 active:scale-95 transition-transform flex items-center justify-center gap-2 text-xs">
 			<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>

@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import heroBgImage from '../assets/images/hero_image.jpg';
 
 const heroContent = {
-	title: 'บริการรักษาความปลอดภัยและงานทำความสะอาดครบวงจร ระดับมืออาชีพ',
+	title_1: 'บริการรักษาความปลอดภัยและงานทำความสะอาด',
+	title_2: 'ครบวงจร ระดับมืออาชีพ',
 	subtitle: 'เราดูแลทั้งภายนอกและภายใน ด้วยมาตรฐานสากล (SOP, NSRS) ผสานเทคโนโลยีทันสมัย เพื่อความปลอดภัยสูงสุดของคุณ',
 	ctaText: 'บริการของเรา',
 	ctaLink: '#services',
@@ -22,10 +23,8 @@ const features = [
 ---
 
 <section class="relative min-h-screen flex items-center overflow-hidden">
-	<!-- Background Gradient -->
-	<div class="absolute inset-0 z-0 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950"></div>
+	<div class="absolute inset-0 z-0 bg-linear-to-br from-navy-950 via-navy-900 to-navy-950"></div>
 
-	<!-- Background Image with Overlay -->
 	<div class="absolute inset-0 z-0">
 		<div class="absolute inset-0 overflow-hidden">
 			<Image
@@ -37,24 +36,18 @@ const features = [
 				format="webp"
 			/>
 		</div>
-		<!-- Dark Overlay -->
 		<div class="absolute inset-0 bg-navy-950/75"></div>
-		<!-- Extra dark overlay behind text area for better readability -->
-		<div class="absolute inset-0 bg-gradient-to-r from-navy-950/90 via-navy-950/40 to-transparent"></div>
+		<div class="absolute inset-0 bg-linear-to-r from-navy-950/90 via-navy-950/40 to-transparent"></div>
 	</div>
 
-	<!-- Decorative Elements -->
 	<div class="absolute inset-0 z-0 opacity-10">
 		<div class="absolute top-20 right-10 w-72 h-72 bg-amber-400 rounded-full filter blur-3xl"></div>
 		<div class="absolute bottom-20 left-10 w-96 h-96 bg-blue-900 rounded-full filter blur-3xl"></div>
 	</div>
 
-	<!-- Content -->
 	<div class="relative z-10 container-custom pt-20">
-		<!-- Badges Container -->
 		<div class="stagger-fade-up" style="--delay: 0ms;">
-			<!-- Badge -->
-			<div class="inline-flex items-center gap-2 bg-navy-900/50 border border-amber-400/30 rounded-full px-4 py-2 mb-4 backdrop-blur-sm">
+			<div class="inline-flex items-center gap-2 bg-navy-900/50 border border-amber-400/30 rounded-full px-4 py-2 mb-4 backdrop-blur-xs">
 				<span class="w-2 h-2 bg-amber-400 rounded-full status-pulse"></span>
 				<span class="text-amber-400 text-sm font-medium tracking-wide">24/7 บริการรักษาความปลอดภัยมืออาชีพ</span>
 			</div>
@@ -62,17 +55,14 @@ const features = [
 
 		</div>
 
-		<!-- Main Headline -->
-		<h1 class="text-hero text-white mb-6 max-w-3xl stagger-fade-up" style="--delay: 200ms;">
-			{heroContent.title}
+		<h1 class="text-hero text-white mb-6 max-w-3xl stagger-fade-up wrap-break-word" style="--delay: 200ms;">
+			{heroContent.title_1} <br /> {heroContent.title_2}
 		</h1>
 
-		<!-- Sub-headline -->
 		<p class="text-xl text-gray-300 max-w-2xl mb-10 leading-relaxed stagger-fade-up" style="--delay: 400ms;">
 			{heroContent.subtitle}
 		</p>
 
-		<!-- Buttons -->
 		<div class="flex flex-col sm:flex-row items-start gap-4 mb-16 stagger-fade-up" style="--delay: 600ms;">
 			<a href={heroContent.ctaLink} class="btn-primary text-lg w-full sm:w-auto">
 				{heroContent.ctaText}
@@ -82,7 +72,6 @@ const features = [
 			</a>
 		</div>
 
-		<!-- Feature Highlights -->
 		<div class="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl stagger-fade-up" style="--delay: 800ms;">
 			{features.map((feature) => (
 				<div class="text-center">
@@ -96,7 +85,6 @@ const features = [
 		</div>
 	</div>
 
-	<!-- Scroll Indicator -->
 	<div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
 		<svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
@@ -151,11 +139,3 @@ const features = [
 		animation-delay: calc(var(--delay, 0ms) / 1000);
 	}
 </style>
-
-<script>
-	// Number Counter Animation
-
-
-	// Run animations when page loads
-
-</script>

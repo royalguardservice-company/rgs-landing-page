@@ -1,14 +1,9 @@
 ---
-/**
- * TechShowcase - Main component showcasing phone apps
- * Displays a zig-zag layout of phone mockups with feature descriptions
- */
 import type { PhoneApp } from './tech-showcase/types';
 import PhoneMockup from './tech-showcase/PhoneMockup.astro';
 import CommandCenter from './tech-showcase/CommandCenter.astro';
 import TechShowcaseCard from './tech-showcase/TechShowcaseCard.astro';
 
-// Tech showcase data for phone mockups
 const phoneApps: PhoneApp[] = [
 	{
 		id: 'attendance',
@@ -26,7 +21,8 @@ const phoneApps: PhoneApp[] = [
 	{
 		id: 'patrol',
 		title: 'ตรวจจุด',
-		thaiTitle: 'ระบบตรวจจุดผ่าน QR Code (Real-time Patrol)',
+		thaiTitle: 'ระบบตรวจจุดผ่าน QR Code',
+		engTitle: '(Real-time Patrol)',
 		subtitle: 'มั่นใจทุกจุดเสี่ยงได้รับการดูแล ตรวจสอบสถานะการเดินตรวจได้ทันที พร้อมแจ้งเตือนหากจุดใดถูกละเลย',
 		stage: 'ปฏิบัติหน้าที่',
 		icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z',
@@ -48,7 +44,8 @@ const phoneApps: PhoneApp[] = [
 	{
 		id: 'visitor',
 		title: 'Digital Visitor Log',
-		thaiTitle: 'บันทึกผู้มาติดต่อแบบดิจิทัล (Visitor Management)',
+		thaiTitle: 'บันทึกผู้มาติดต่อแบบดิจิทัล',
+		engTitle: '(Visitor Management)',
 		subtitle: 'ยกระดับความปลอดภัย บันทึกภาพถ่ายและทะเบียนรถผู้มาติดต่อเข้าระบบ Cloud ค้นหาง่าย แม่นยำกว่าสมุดจด',
 		stage: 'การบริการ',
 		icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z',
@@ -77,7 +74,6 @@ const phoneApps: PhoneApp[] = [
 	}
 ];
 
-// Helper function to get app-specific colors
 const getAppColors = (index: number) => {
 	const colors = [
 		{ badge: 'bg-blue-500/20 text-blue-400', title: 'text-blue-400' },
@@ -89,10 +85,8 @@ const getAppColors = (index: number) => {
 };
 ---
 
-<!-- Tech Showcase Section - Zig Zag Layout -->
 <div class="relative">
-	<!-- Connecting Line (Background) -->
-	<div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500/30 via-emerald-500/30 via-blue-500/30 to-orange-500/30 -translate-x-1/2 hidden lg:block"></div>
+	<div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-linear-to-b from-blue-500/30  via-blue-500/30 to-orange-500/30 -translate-x-1/2 hidden lg:block"></div>
 
 	{phoneApps.map((app, index) => {
 		const colors = getAppColors(index);
@@ -102,7 +96,6 @@ const getAppColors = (index: number) => {
 			<div class="relative py-16 lg:py-20" id={`phone-${app.id}`}>
 				<div class="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
 
-					<!-- Phone Column -->
 					{app.isCommandCenter ? (
 						<CommandCenter data={app.data!} isEven={isEven} />
 					) : (
@@ -111,7 +104,6 @@ const getAppColors = (index: number) => {
 						</div>
 					)}
 
-					<!-- Text Column -->
 					<div class={isEven ? 'order-1 lg:order-1' : 'order-1 lg:order-2'}>
 						<TechShowcaseCard {app} {index} {colors} />
 					</div>

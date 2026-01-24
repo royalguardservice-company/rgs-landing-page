@@ -1,8 +1,5 @@
 ---
-/**
- * PhoneMockup - Standard phone mockup component
- * Displays a phone frame with app-specific content
- */
+
 import type { PhoneMockupProps } from './types';
 import AttendanceContent from './content/AttendanceContent.astro';
 import PatrolContent from './content/PatrolContent.astro';
@@ -14,30 +11,25 @@ const { app } = Astro.props;
 ---
 
 <div class="relative group w-[240px]">
-	<!-- Glow Effect -->
-	<div class={`absolute inset-0 bg-gradient-to-br ${app.glowColor} rounded-[3rem] blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`}></div>
+	<div class={`absolute inset-0 bg-linear-to-br ${app.glowColor} rounded-[3rem] blur-3xl opacity-60 group-hover:opacity-100 transition-opacity duration-500`}></div>
 
-	<!-- Phone Frame -->
 	<div class="relative bg-gray-900 rounded-[2.5rem] p-2.5 shadow-2xl transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl" style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
-		<div class="relative bg-white rounded-[2rem] overflow-hidden transition-all duration-500 group-hover:scale-[1.02]" style="height: 480px;">
+		<div class="relative bg-white rounded-4xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02]" style="height: 480px;">
 			<div class="h-full overflow-hidden flex flex-col">
-				<!-- Header -->
 				<div class={`${app.headerColor} text-white px-3 py-2.5 flex items-center gap-2`}>
-					<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
 					</svg>
 					<h2 class="text-xs flex-1 font-medium truncate">{app.title}</h2>
-					<svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={app.icon} />
 					</svg>
 				</div>
 
-				<!-- App-Specific Content -->
 				{app.id === 'attendance' && <AttendanceContent {app} />}
 				{app.id === 'patrol' && <PatrolContent {app} />}
 				{app.id === 'visitor' && <VisitorContent {app} />}
 
-				<!-- Info Section (for attendance only) -->
 				{app.id === 'attendance' && (
 					<div class="bg-gray-50 px-2.5 py-1.5 flex items-center gap-2 text-[10px] border-b border-gray-200">
 						<div class="flex items-center gap-0.5">
@@ -55,7 +47,6 @@ const { app } = Astro.props;
 					</div>
 				)}
 
-				<!-- Content Section (for attendance only) -->
 				{app.id === 'attendance' && (
 					<div class="flex-1 p-3 bg-white overflow-auto">
 						<div class="mb-3">
@@ -77,11 +68,9 @@ const { app } = Astro.props;
 			</div>
 		</div>
 
-		<!-- Side Buttons -->
 		<div class="absolute right-0 top-16 w-0.5 h-8 bg-gray-700 rounded-r"></div>
 		<div class="absolute right-0 top-28 w-0.5 h-12 bg-gray-700 rounded-r"></div>
 
-		<!-- Notch -->
 		<div class="absolute top-3 left-1/2 transform -translate-x-1/2 w-16 h-4 bg-gray-900 rounded-b-lg"></div>
 	</div>
 </div>

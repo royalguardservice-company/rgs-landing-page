@@ -1,14 +1,18 @@
-import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import vercel from '@astrojs/vercel/static';
+import { defineConfig } from "astro/config";
+import tailwindcss from "@tailwindcss/vite";
+
+import cloudflare from "@astrojs/cloudflare";
 
 export default defineConfig({
-  integrations: [tailwind()],
-  output: 'static',
-  adapter: vercel(),
+  integrations: [],
+  output: "static",
+
   vite: {
+    plugins: [tailwindcss()],
     optimizeDeps: {
-      exclude: ['@astrojs/image'],
+      exclude: ["@astrojs/image"],
     },
   },
+
+  adapter: cloudflare(),
 });

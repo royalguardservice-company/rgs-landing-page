@@ -25,6 +25,22 @@ const portfolioItems = [
 		tall: false
 	},
 	{
+		category: 'security',
+		categoryLabel: 'รักษาความปลอดภัย',
+		title: 'บริษัทไทยนาโอกะ ฟาร์มาซูติคอล จำกัด',
+		location: 'Thainaoka phamaceutical co. ltd',
+		image: thainaokaCompany,
+		tall: false
+	},
+	{
+		category: 'practice',
+		categoryLabel: 'ฝึกซ้อม',
+		title: 'อบรมและฝึกซ้อมการปฏิบัติงาน',
+		location: 'Practice',
+		image: practiceImage,
+		tall: false
+	},
+	{
 		category: 'cleaning',
 		categoryLabel: 'ทำความสะอาด',
 		title: 'ดูแลรักษาพื้นที่ส่วนกลาง',
@@ -40,31 +56,13 @@ const portfolioItems = [
 		location: 'Specific Area Maintenance',
 		image: specificAreaMaintenance,
 		tall: false
-	},
-	{
-		category: 'security',
-		categoryLabel: 'รักษาความปลอดภัย',
-		title: 'บริษัทไทยนาโอกะ ฟาร์มาซูติคอล จำกัด',
-		location: 'Thainaoka phamaceutical co. ltd',
-		image: thainaokaCompany,
-		tall: false
-	},
-	{
-		category: 'practice',
-		categoryLabel: 'ฝึกซ้อม',
-		title: 'อบรมและฝึกซ้อมการปฏิบัติงาน',
-		location: 'Practice',
-		image: practiceImage,
-		tall: false
 	}
 ];
-
-
 ---
 
 <section id="portfolio" class="section-padding bg-white">
 	<div class="container-custom">
-		<!-- Section Header -->
+
 		<div class="text-center mb-16">
 			<p class="section-subtitle text-amber-600">ผลงานของเรา</p>
 			<h2 class="section-title text-navy-950">ภาพการปฏิบัติงานจริง</h2>
@@ -73,11 +71,9 @@ const portfolioItems = [
 			</p>
 		</div>
 
-		<!-- Masonry Gallery -->
 		<div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 mb-20">
 			{portfolioItems.map((item) => (
 			<div class={`break-inside-avoid group relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ${item.tall ? 'row-span-2' : ''}`}>
-					<!-- Image Container -->
 					<div class={`relative ${item.tall ? 'h-[500px]' : 'h-[280px]'} overflow-hidden`}>
 						<Image
 							src={item.image}
@@ -88,7 +84,6 @@ const portfolioItems = [
 							format="webp"
 						/>
 
-						<!-- Category Badge (Top Right) -->
 						<div class="absolute top-4 right-4">
 							<span class={`inline-block px-3 py-1.5 text-xs font-semibold rounded-full shadow-lg ${
 								item.category === 'security'
@@ -99,8 +94,7 @@ const portfolioItems = [
 							</span>
 						</div>
 
-						<!-- Bottom Label Overlay -->
-						<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-navy-950/95 via-navy-950/80 to-transparent p-5">
+						<div class="absolute inset-x-0 bottom-0 bg-linear-to-t from-navy-950/95 via-navy-950/80 to-transparent p-5">
 							<h3 class="text-white font-bold text-lg mb-1 group-hover:text-amber-400 transition-colors">
 								{item.title}
 							</h3>
@@ -115,7 +109,6 @@ const portfolioItems = [
 
 
 
-		<!-- CTA -->
 		<div class="text-center mt-16">
 			<a href="#contact" class="btn-primary text-lg">
 				สนใจบริการของเรา
