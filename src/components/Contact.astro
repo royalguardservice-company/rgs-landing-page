@@ -231,7 +231,9 @@ is:inline
 </section>
 
 <script>
-	import DOMPurify from 'isomorphic-dompurify';
+	import createDOMPurify from 'isomorphic-dompurify';
+
+	const DOMPurify = createDOMPurify();
 
 	// Input validation utilities
 	function validateEmail(email: string): boolean {
