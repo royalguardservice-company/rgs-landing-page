@@ -5,7 +5,10 @@ import DOMPurify from "isomorphic-dompurify";
 // Opt out of prerendering - this API route will be server-rendered
 export const prerender = false;
 
-async function verifyTurnstileToken(token: string, secretKey: string): Promise<boolean> {
+async function verifyTurnstileToken(
+  token: string,
+  secretKey: string,
+): Promise<boolean> {
   try {
     const response = await fetch(
       "https://challenges.cloudflare.com/turnstile/v0/siteverify",
@@ -59,17 +62,12 @@ function sanitizeString(input: string, maxLength: number = 1000): string {
 export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // Access environment variables from Cloudflare runtime
-    const { env } = locals.runtime as { env: {
-      TURNSTILE_SECRET_KEY: string;
-      RESEND_API_KEY: string;
-      RESEND_FROM_EMAIL?: string;
-      RESEND_TO_EMAIL?: string;
-    }};
+    const env = locals.runtime.env;
 
-    const TURNSTILE_SECRET_KEY = env.TURNSTILE_SECRET_KEY;
-    const RESEND_API_KEY = env.RESEND_API_KEY;
-    const fromEmail = env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
-    const toEmail = env.RESEND_TO_EMAIL || "royalguardservices2016@gmail.com";
+    const TURNSTILE_SECRET_KEY = env.TURNSTILE_SECRET_KEY as string;
+    const RESEND_API_KEY = env.RESEND_API_KEY as string;
+    const fromEmail = env.RESEND_FROM_EMAIL as string;
+    const toEmail = env.RESEND_TO_EMAIL as string;
 
     // Validate Resend API key is configured
     if (!RESEND_API_KEY) {
@@ -113,7 +111,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    const isValidTurnstile = await verifyTurnstileToken(turnstileToken, TURNSTILE_SECRET_KEY);
+    const isValidTurnstile = await verifyTurnstileToken(
+      turnstileToken,
+      TURNSTILE_SECRET_KEY,
+    );
     if (!isValidTurnstile) {
       return new Response(
         JSON.stringify({ error: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง" }),
@@ -177,7 +178,9 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const trimmedMessage = (message || "").trim();
     if (trimmedMessage.length > 1000) {
       return new Response(
-        JSON.stringify({ error: "รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร" }),
+        JSON.stringify({
+          error: "รายละเอียดเพิ่มเติมต้องไม่เกิน 1000 ตัวอักษร",
+        }),
         { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
