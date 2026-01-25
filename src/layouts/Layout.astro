@@ -48,11 +48,12 @@ const {
 		<!-- Google Analytics -->
 		{import.meta.env.PROD && (
 			<>
-				<script is:inline type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21"></script>
+				<script is:inline type="text/partytown" data-category="analytics" src="https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21"></script>
+
 				<script is:inline data-category="analytics">
 					window.updateConsents = function() {
-						if (typeof gtag === 'function') {
-							gtag('consent', 'update', {
+						if (typeof window.gtag === 'function') {
+							window.gtag('consent', 'update', {
 								ad_storage: 'granted',
 								ad_user_data: 'granted',
 								ad_personalization: 'granted',
@@ -61,6 +62,7 @@ const {
 						}
 					};
 				</script>
+
 				<script is:inline type="text/partytown">
 					window.dataLayer = window.dataLayer || [];
 					function gtag() {

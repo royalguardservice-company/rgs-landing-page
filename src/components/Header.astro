@@ -16,12 +16,12 @@ const phoneNumber = '02-379-1713-4';
 	<div id="navbar-inner" class="container-custom transition-all duration-500">
 		<nav class="flex items-center justify-between h-20">
 			<a href="/" class="flex items-center gap-3 group">
-				<Image src={logo} alt="RGS Logo" class="rounded-lg h-12 w-auto object-contain group-hover:scale-105 transition-transform" format="webp" />
+				<Image src={logo} alt="RGS Logo" class="rounded-lg h-12 w-auto object-contain group-hover:scale-105 active:scale-95 transition-transform" format="webp" />
 			</a>
 
 			<div id="desktop-nav" class="hidden md:flex items-center gap-8 transition-all duration-500">
 				{navItems.map(item => (
-					<a href={item.href} class="text-white/80 hover:text-white transition-colors text-sm font-medium tracking-wide">
+					<a href={item.href} class="text-white/80 hover:text-white active:text-amber-400 active:scale-95 transition-all text-sm font-medium tracking-wide">
 						{item.name}
 					</a>
 				))}
@@ -34,7 +34,7 @@ const phoneNumber = '02-379-1713-4';
 				{phoneNumber}
 			</a>
 
-			<button id="mobile-menu-btn" class="md:hidden text-white p-2" aria-label="Toggle menu">
+			<button id="mobile-menu-btn" class="md:hidden text-white p-2 active:bg-white/10 active:scale-90 rounded-lg transition-all" aria-label="Toggle menu">
 				<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
 				</svg>
@@ -45,7 +45,7 @@ const phoneNumber = '02-379-1713-4';
 	<div id="mobile-menu" class="hidden md:hidden bg-navy-900/95 backdrop-blur-xs border-t border-white/10 mt-20">
 		<div class="container-custom py-4 space-y-4">
 			{navItems.map(item => (
-				<a href={item.href} class="block text-white/80 hover:text-white transition-colors text-sm font-medium tracking-wide py-2">
+				<a href={item.href} class="block text-white/80 hover:text-white active:text-amber-400 active:bg-white/5 active:scale-[0.98] transition-all text-sm font-medium tracking-wide py-2 px-3 -mx-3 rounded-lg">
 					{item.name}
 				</a>
 			))}

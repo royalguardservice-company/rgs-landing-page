@@ -69,10 +69,18 @@ layer(base);
   &:hover {
     @apply shadow-lg shadow-amber-400/30 transform -translate-y-0.5;
   }
+
+  &:active {
+    @apply transform translate-y-0 shadow-md;
+  }
 }
 
 @utility btn-outline {
   @apply border-2 border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-navy-950 font-bold py-3 px-8 rounded-sm transition-all duration-300;
+
+  &:active {
+    @apply transform scale-95 bg-amber-400/20;
+  }
 }
 
 @utility section-title {

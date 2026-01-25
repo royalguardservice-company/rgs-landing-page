@@ -9,11 +9,7 @@ export default defineConfig({
   integrations: [
     partytown({
       config: {
-        forward: [
-          { "dataLayer.push": "dataLayerPush" },
-          "https://www.googletagmanager.com/gtag/js",
-          "https://www.google-analytics.com/analytics.js",
-        ],
+        forward: ['dataLayer.push'],
       },
     }),
   ],
