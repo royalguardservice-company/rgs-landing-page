@@ -12,7 +12,6 @@
   "dependencies": {
     "@astrojs/check": "^0.9.6",
     "@astrojs/cloudflare": "^12.6.12",
-    "@astrojs/partytown": "^2.1.4",
     "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^25.0.10",
     "astro": "^5.16.11",

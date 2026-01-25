@@ -67,15 +67,15 @@ CookieConsent.run({
     },
     onConsent: () => {
         if (CookieConsent.acceptedCategory('analytics')) {
-            if (typeof window.updateConsents === 'function') {
-                window.updateConsents();
+            if (typeof window.loadGoogleAnalytics === 'function') {
+                window.loadGoogleAnalytics();
             }
         }
     },
     onFirstConsent: () => {
         if (CookieConsent.acceptedCategory('analytics')) {
-            if (typeof window.updateConsents === 'function') {
-                window.updateConsents();
+            if (typeof window.loadGoogleAnalytics === 'function') {
+                window.loadGoogleAnalytics();
             }
         }
     }
