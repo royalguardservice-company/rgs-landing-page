@@ -59,7 +59,11 @@ const {
 				// Function to load Google Analytics scripts dynamically
 				window.loadGoogleAnalytics = function() {
 					// Prevent duplicate loading
-					if (window.gaLoaded) return;
+					console.log("GA load function called");
+					if (window.gaLoaded) {
+					  console.log("GA already loaded, skipping");
+							return;
+					}
 					window.gaLoaded = true;
 
 					// Create and inject gtag.js script
