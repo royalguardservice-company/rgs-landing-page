@@ -45,53 +45,14 @@ const {
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 
-		<!-- Google Analytics - loaded dynamically via CookieConsent -->
-
-			<script is:inline type="application/javascript">
-				// Initialize dataLayer for Google Analytics
-				window.dataLayer = window.dataLayer || [];
-
-				// Set default consent state (all denied until user accepts)
-				window.gtag = window.gtag || function() {
-					window.dataLayer.push(arguments);
-				};
-
-				// Function to load Google Analytics scripts dynamically
-				window.loadGoogleAnalytics = function() {
-					// Prevent duplicate loading
-					console.log("GA load function called");
-					if (window.gaLoaded) {
-					  console.log("GA already loaded, skipping");
-							return;
-					}
-					window.gaLoaded = true;
-
-					// Create and inject gtag.js script
-					const script = document.createElement('script');
-					script.async = true;
-					script.src = 'https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21';
-					script.onload = function() {
-						// After gtag.js loads, initialize with granted consent
-						window.gtag('consent', 'update', {
-							ad_storage: 'granted',
-							ad_user_data: 'granted',
-							ad_personalization: 'granted',
-							analytics_storage: 'granted',
-						});
-						window.gtag('js', new Date());
-						window.gtag('config', 'G-YYL97TTE21');
-					};
-					document.head.appendChild(script);
-				};
-
-				// Set default consent (all denied)
-				window.gtag('consent', 'default', {
-					ad_storage: 'denied',
-					ad_user_data: 'denied',
-					ad_personalization: 'denied',
-					analytics_storage: 'denied',
-				});
-			</script>
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-YYL97TTE21"></script>
+		<script is:inline type="application/javascript">
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-YYL97TTE21');
+		</script>
 
 
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orestbida/cookieconsent@3.1.0/dist/cookieconsent.css">
