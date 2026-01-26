@@ -6,6 +6,14 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   integrations: [],
   output: "static",
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+      config: {
+        limitInputPixels: false,
+      },
+    },
+  },
 
   vite: {
     plugins: [tailwindcss()],
