@@ -66,17 +66,29 @@ CookieConsent.run({
         }
     },
     onConsent: () => {
-        if (CookieConsent.acceptedCategory('analytics')) {
-            if (typeof window.loadGoogleAnalytics === 'function') {
-                window.loadGoogleAnalytics();
-            }
+        // Update Zaraz consent based on user choices
+        const updateZarazConsent = () => {
+            const analytics = CookieConsent.acceptedCategory('analytics');
+            window.zaraz.consent.set({ analytics });
+        };
+
+        if (window.zaraz?.consent?.APIReady) {
+            updateZarazConsent();
+        } else {
+            document.addEventListener('zarazConsentAPIReady', updateZarazConsent, { once: true });
         }
     },
     onFirstConsent: () => {
-        if (CookieConsent.acceptedCategory('analytics')) {
-            if (typeof window.loadGoogleAnalytics === 'function') {
-                window.loadGoogleAnalytics();
-            }
+        // Update Zaraz consent on first consent
+        const updateZarazConsent = () => {
+            const analytics = CookieConsent.acceptedCategory('analytics');
+            window.zaraz.consent.set({ analytics });
+        };
+
+        if (window.zaraz?.consent?.APIReady) {
+            updateZarazConsent();
+        } else {
+            document.addEventListener('zarazConsentAPIReady', updateZarazConsent, { once: true });
         }
     }
 });
