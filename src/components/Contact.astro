@@ -4,12 +4,10 @@ const contactInfo = {
 	address: '300/44 โครงการพรีเมียมเพลส',
 	street: 'ถนนนวมินทร์ แขวงนวมินทร์ เขตบึงกุ่ม',
 	city: 'กรุงเทพมหานคร 10240',
-	phone: '02-379-1713-4',
 	hotline1: '096-564-5493 (คุณเอก)',
-	hotline2: '065-294-1962 (คุณแคนดี้)',
 	email: 'royalguardservices2016@gmail.com',
 	lineId: '0816968904',
-	license: 'ตภ.2600068'
+	license: 'กท๒๖๐๐๐๖๘'
 };
 
 const { locals } = Astro;
@@ -98,13 +96,10 @@ is:inline
 						<div>
 							<h4 class="font-bold text-lg mb-2">เบอร์โทรศัพท์ติดต่อ</h4>
 							<div class="space-y-1">
-								<p class="text-slate-300 text-sm">Office: <a href={`tel:${contactInfo.phone.replace(/-/g, '')}`} class="hover:text-white transition-colors">{contactInfo.phone}</a></p>
 								<p class="text-slate-300 text-sm">
 									Hotline 1: <a href={`tel:${contactInfo.hotline1.replace(/-/g, '').replace(/\s/g, '')}`} class="text-white font-bold hover:text-amber-400 transition-colors">{contactInfo.hotline1}</a>
 								</p>
-								<p class="text-slate-300 text-sm">
-									Hotline 2: <a href={`tel:${contactInfo.hotline2.replace(/-/g, '').replace(/\s/g, '')}`} class="text-white font-bold hover:text-amber-400 transition-colors">{contactInfo.hotline2}</a>
-								</p>
+
 							</div>
 						</div>
 					</div>
